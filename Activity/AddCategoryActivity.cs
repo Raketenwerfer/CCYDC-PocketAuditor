@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Database.Sqlite;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -23,6 +24,11 @@ namespace PocketAuditor.Activity
         Button AddCategory_Save, Cancel_Category;
         ImageView AQuestion;
 
+        int sequence;
+
+        public DB_Initiator handler;
+        public SQLiteDatabase SQLDB;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,7 +46,10 @@ namespace PocketAuditor.Activity
 
             AddCategory_Save.Click += AddCategory_Save_Click; 
             Cancel_Category.Click += Cancel_Category_Click;
-            AQuestion.Click += AQuestion_Click; 
+            AQuestion.Click += AQuestion_Click;
+            
+            handler = new DB_Initiator(this);
+            SQLDB = handler.WritableDatabase;
         }
 
         private void AQuestion_Click(object sender, EventArgs e)
@@ -53,17 +62,9 @@ namespace PocketAuditor.Activity
         private void AddCategory_Save_Click(object sender, EventArgs e)
         {
             //string categoryID = CateNumber_eT.Text;
-            string categoryTitle = CateName_eT.Text;
 
-            DB_Initiator dbInitiator = new DB_Initiator(this);
-
-            if (dbInitiator == null)
-            {
-                Log.Error("AddCategoryActivity", "DB_Initiator is null.");
-                return;
-            }
-
-            dbInitiator.InsertCategory(categoryTitle);
+            string add_cat_query = "";
+            string get_sequence = "";
 
             Toast.MakeText(Application.Context, "New Category Inserted", ToastLength.Short).Show();
         }
