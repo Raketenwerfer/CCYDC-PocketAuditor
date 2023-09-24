@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">PocketAuditor</string>
+    <string name="action_settings">Settings</string>
+	
+	<!--audit_results.xml-->
+	<string name="au_results">Audit Results</string>
+	<string name="summary">Summary</string>
+	<string name="action_plans">Recommended Action Plans</string>
+	<string name="category">Category</string>
+
+	<!--item_model.xml-->
+	<string name="indicator">Indicator</string>
+	<string name="Insert_Question">Insert Question Here</string>
+	<string name="rbn_Yes">YES</string>
+	<string name="rbn_No">NO</string>
+	<string name="Remarks">Remarks</string>
+
+	<!--activity_main.xml-->
+	<string name="progress">Audit Progress</string>
+	<string name="indi_answered">Indicators Answered:</string>
+	<string name="btn_Next">Finish</string>
+
+	<!--login.xml-->
+	<string name="title">SKORECARD</string>
+	<string name="email">Email Address</string>
+	<string name="Password">Password</string>
+	<string name="btn_login">LOGIN</string>
+	<string name="txt_register">Register</string>
+
+	<!--menu.xml-->
+	<string name="btn_begin_audit">BEGIN AUDIT</string>
+	<string name="btn_manage_audit">MANAGE AUDIT</string>
+
+	<!-- to toggle the open close button of the navigation drawer -->
+	<string name="nav_open">Open</string>
+	<string name="nav_close">Close</string>
+</resources>
