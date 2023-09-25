@@ -29,7 +29,8 @@ namespace PocketAuditor
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
 
-        Button next; 
+        Button next;
+        public ImageView returnMenu;
         public TextView audit_progress;
 
         private int selectedItemsCount = 0;
@@ -49,8 +50,10 @@ namespace PocketAuditor
             recycler.SetLayoutManager(new LinearLayoutManager(this));
 
             next = FindViewById<Button>(Resource.Id.next);
-            next.Click += Next_Click; 
+            next.Click += Next_Click;
 
+            returnMenu = FindViewById<ImageView>(Resource.Id.retMenu);
+            returnMenu.Click += ReturnMenu_Click; 
             audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);
 
             // Initialize the database and establishes a connection string
@@ -77,6 +80,12 @@ namespace PocketAuditor
 
             DataSharingService dss = DataSharingService.GetInstance();
             dss.SetProgress(audit_progress);
+        }
+
+        private void ReturnMenu_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(MenuActivity));
+            StartActivity(intent);
         }
 
         private void DisplayData()
