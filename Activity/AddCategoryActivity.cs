@@ -52,6 +52,15 @@ namespace PocketAuditor.Activity
             
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
+
+            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);    
+            LayoutInflater inflater = LayoutInflater.FromContext(this);
+            View dialogAddCategory  = inflater.Inflate(Resource.Layout.add_category, null);
+            builder.SetView(dialogAddCategory);
+
+            Android.App.AlertDialog alertDialog = builder.Create();
+            alertDialog.Show();
+
         }
 
         private void GetRowSequenceCount()
