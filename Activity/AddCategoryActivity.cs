@@ -22,9 +22,8 @@ namespace PocketAuditor.Activity
     {
         private Android.App.AlertDialog alertDialog;
 
-        EditText CateNumber_eT, CateName_eT, CateQuestion_eT;
+        EditText CateName_eT;
         Button AddCategory_Save, Cancel_Category;
-        ImageView AQuestion;
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -44,17 +43,13 @@ namespace PocketAuditor.Activity
             /// Category Name. Ang Category_ID ug CategoryStatus kay handled na sa
             /// GetRowSequenceCount() ug "ACTIVE" na value sa _db.Execute()
 
-            CateNumber_eT = FindViewById<EditText>(Resource.Id.ACNumber_eT); //4 category ID
             CateName_eT = FindViewById<EditText>(Resource.Id.ACName_eT); //4 category Title
-            CateQuestion_eT = FindViewById<EditText>(Resource.Id.ACQuestion_eT); //editText 4 question
-            AQuestion = FindViewById<ImageView>(Resource.Id.AddQuestion);
 
             AddCategory_Save = FindViewById<Button>(Resource.Id.AddCa_btnSave);
             Cancel_Category = FindViewById<Button>(Resource.Id.btnCancel);
 
             AddCategory_Save.Click += AddCategory_Save_Click; 
             Cancel_Category.Click += Cancel_Category_Click;
-            AQuestion.Click += AQuestion_Click;
             
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
@@ -67,13 +62,7 @@ namespace PocketAuditor.Activity
             sequence = gseq.GetInt(gseq.GetColumnIndex("COLUMN(*)"));
         }
 
-        private void AQuestion_Click(object sender, EventArgs e)
-        {
-            //If mo input ang user sa ACQuestion.EditText inig click sa ImageView nga ADD
-            //the inputted question will save in the database and display
-            //mo display siyag message "Question Added"
-        }
-
+        
         private void AddCategory_Save_Click(object sender, EventArgs e)
         {
             //string categoryID = CateNumber_eT.Text;
