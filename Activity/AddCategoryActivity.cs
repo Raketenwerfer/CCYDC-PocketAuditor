@@ -42,7 +42,6 @@ namespace PocketAuditor.Activity
             /// ug Category Number. Kani nga view kay pang-add rajud ug
             /// Category Name. Ang Category_ID ug CategoryStatus kay handled na sa
             /// GetRowSequenceCount() ug "ACTIVE" na value sa _db.Execute()
-
             CateName_eT = FindViewById<EditText>(Resource.Id.ACName_eT); //4 category Title
 
             AddCategory_Save = FindViewById<Button>(Resource.Id.AddCa_btnSave);

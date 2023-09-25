@@ -16,7 +16,6 @@
             android:textSize="23sp"
             android:layout_gravity="center"/>
 
-        
         <TextView
             android:text="Category Name:"
             android:layout_width="wrap_content"
