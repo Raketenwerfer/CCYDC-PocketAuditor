@@ -40,12 +40,5 @@ namespace PocketAuditor.Class
             this.CategoryID = fk_CID;
             this.CategoryName = categoryName;
         }
-        //public EntryAnswersModel(int pk_AID, int fk_EID, string eat_EA, string eat_ER)
-        //{
-        //    this.AnswerID = pk_AID;
-        //    this.fk_EntryID = fk_EID;
-        //    this.EntryAnswer = eat_EA;
-        //    this.EntryRemark = eat_ER;
-        //}
     }
 }

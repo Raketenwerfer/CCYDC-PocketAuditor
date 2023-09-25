@@ -160,28 +160,6 @@ namespace PocketAuditor
 
         private void InsertData()
         {
-            // Writes the data from ItemModel then stores it to EntryAnswers_tbl
-
-            //string insD_EntryAnswer, insD_EntryRemark;
-            //int insD_EntryID;
-
-            //for (int i = 0; i < itemsList.Count; i++)
-            //{
-            //    insD_EntryID = Convert.ToInt32(itemsList[i].EntryID);
-            //    insD_EntryAnswer = itemsList[i].isTrue;
-            //    insD_EntryRemark = itemsList[i].Remark;
-
-            //    EntryAnswersModel b = new EntryAnswersModel(i, insD_EntryID, insD_EntryAnswer, insD_EntryRemark);
-
-            //    b.AnswerID = i;
-            //    b.fk_EntryID = insD_EntryID;
-            //    b.EntryAnswer = insD_EntryAnswer;
-            //    b.EntryRemark = insD_EntryRemark;
-
-            //    answersList.Add(b);
-
-            //} 
-
             var _db = new SQLiteConnection(handler._ConnPath);
 
             foreach (ItemModel model in itemsList)
