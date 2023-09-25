@@ -20,7 +20,6 @@ namespace PocketAuditor.Fragment
     public class ManageActivity : AppCompatActivity/*, NavigationView.IOnNavigationItemSelectedListener*/
     {
         private DrawerLayout drawerLayout;
-        private AndroidX.AppCompat.Widget.Toolbar toolbar;
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
 
@@ -35,11 +34,8 @@ namespace PocketAuditor.Fragment
             // Create your application here
             SetContentView(Resource.Layout.activity_drawer);
 
-            toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
-            ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, Resource.String.nav_close, Resource.String.nav_open);
+            ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout, Resource.String.nav_close, Resource.String.nav_open);
             drawerLayout.AddDrawerListener(toogle);
             toogle.SyncState();
 
