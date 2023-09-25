@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Database;
 using Android.Database.Sqlite;
 using Android.OS;
 using Android.Runtime;
@@ -8,6 +9,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using PocketAuditor.Database;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,11 @@ namespace PocketAuditor.Activity
         Button AddCategory_Save, Cancel_Category;
         ImageView AQuestion;
 
-        int sequence;
-
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
+
+        string get_sequence = "SELECT COUNT(*) FROM Category_tbl";
+        int sequence;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,6 +38,11 @@ namespace PocketAuditor.Activity
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Create your application here
             SetContentView(Resource.Layout.add_category);
+
+            /// Please lang ko remove sa Category Questions, Action Plans
+            /// ug Category Number. Kani nga view kay pang-add rajud ug
+            /// Category Name. Ang Category_ID ug CategoryStatus kay handled na sa
+            /// GetRowSequenceCount() ug "ACTIVE" na value sa _db.Execute()
 
             CateNumber_eT = FindViewById<EditText>(Resource.Id.ACNumber_eT); //4 category ID
             CateName_eT = FindViewById<EditText>(Resource.Id.ACName_eT); //4 category Title
@@ -52,6 +60,13 @@ namespace PocketAuditor.Activity
             SQLDB = handler.WritableDatabase;
         }
 
+        private void GetRowSequenceCount()
+        {
+            ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
+
+            sequence = gseq.GetInt(gseq.GetColumnIndex("COLUMN(*)"));
+        }
+
         private void AQuestion_Click(object sender, EventArgs e)
         {
             //If mo input ang user sa ACQuestion.EditText inig click sa ImageView nga ADD
@@ -62,9 +77,13 @@ namespace PocketAuditor.Activity
         private void AddCategory_Save_Click(object sender, EventArgs e)
         {
             //string categoryID = CateNumber_eT.Text;
+            GetRowSequenceCount();
+            sequence++;
 
-            string add_cat_query = "";
-            string get_sequence = "";
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("INSERT INTO Category_tbl(Category_ID, CategoryTitle, CategoryStatus)" +
+                            "VALUES (?, ?, ?)", sequence, CateName_eT.Text, "ACTIVE");
 
             Toast.MakeText(Application.Context, "New Category Inserted", ToastLength.Short).Show();
         }
