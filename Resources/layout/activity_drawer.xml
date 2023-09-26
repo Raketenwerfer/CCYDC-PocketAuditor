@@ -7,56 +7,70 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_Layout">
 
-   <RelativeLayout
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?android:attr/colorAccent"
-            android:elevation="4dp"
-            android:layout_gravity="start"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:title="@string/category"/>
+            android:layout_height="70dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
-            android:orientation="vertical">
+            <ImageView
+                android:src="@drawable/ic_menu"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/hamburger"
+                android:clickable="true"/>
 
-            
-            
+            <ImageView
+                android:id="@+id/returnMenu"
+                android:src="@drawable/ic_return"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginRight="25dp"
+                android:layout_alignParentRight="true"
+                android:clickable="true"/>
 
+            <ImageView
+                android:id="@+id/addImage"
+                android:src="@drawable/ic_black_add"
+                android:layout_width="20dp"
+                android:layout_height="33dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="70dp"
+                android:clickable="true"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-   </RelativeLayout>
-
-     <LinearLayout
-            android:id="@+id/linearNav"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:orientation="vertical"
-            tools:ignore="PossiblyUselessParent">
-
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="210dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:fitsSystemWindows="true"
-                app:menu="@menu/nav_drawer_menu">
-
-            </com.google.android.material.navigation.NavigationView>
-
-     </LinearLayout>
+   </LinearLayout>
 
     
-    
+
+    <LinearLayout
+        android:id="@+id/linearNav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        tools:ignore="PossiblyUselessParent">
+
+         <com.google.android.material.navigation.NavigationView
+             android:id="@+id/nav_view"
+             android:layout_width="210dp"
+             android:layout_height="match_parent"
+             android:layout_gravity="start"
+             android:fitsSystemWindows="true"
+             app:menu="@menu/nav_drawer_menu">
+
+         </com.google.android.material.navigation.NavigationView>
+
+    </LinearLayout>
+
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -155,12 +155,6 @@
     <AndroidResource Include="Resources\drawable\ic_menu.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_check.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_cancel.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\add_category.xml">
       <SubType>Designer</SubType>
     </AndroidResource>

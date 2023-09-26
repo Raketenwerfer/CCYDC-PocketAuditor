@@ -13,6 +13,8 @@ using Android.Database;
 using Android.Database.Sqlite;
 using System;
 using System.Collections.Generic;
+using PocketAuditor.Activity;
+using Android.Content;
 
 namespace PocketAuditor.Fragment
 {
@@ -20,6 +22,8 @@ namespace PocketAuditor.Fragment
     public class ManageActivity : AppCompatActivity/*, NavigationView.IOnNavigationItemSelectedListener*/
     {
         private DrawerLayout drawerLayout;
+        private ImageView openham, addCategory, backMenu;
+
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
 
@@ -39,6 +43,15 @@ namespace PocketAuditor.Fragment
             drawerLayout.AddDrawerListener(toogle);
             toogle.SyncState();
 
+            openham = FindViewById<ImageView>(Resource.Id.hamburger);
+            openham.Click += Openham_Click;
+
+            addCategory = FindViewById<ImageView>(Resource.Id.addImage);
+            addCategory.Click += AddCategory_Click;
+
+            backMenu = FindViewById<ImageView>(Resource.Id.returnMenu);
+            backMenu.Click += BackMenu_Click; 
+
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
@@ -50,9 +63,9 @@ namespace PocketAuditor.Fragment
             InitializeNavView(_Categories);
 
             ////Enable the toolbar navigation icon to open the navigation drawer
-            SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
-            SupportActionBar.SetDefaultDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            //SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
+            //SupportActionBar.SetDefaultDisplayHomeAsUpEnabled(true);
+            //SupportActionBar.SetHomeButtonEnabled(true);
 
             navView.NavigationItemSelected += (sender, e) =>
             {
@@ -72,6 +85,26 @@ namespace PocketAuditor.Fragment
                 DrawerLayout dL = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
                 dL.CloseDrawer(GravityCompat.Start);
             };
+        }
+
+        private void BackMenu_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(MenuActivity));
+            StartActivity(intent);
+        }
+
+        private void AddCategory_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(AddCategoryActivity));
+            StartActivity(intent);
+        }
+
+        private void Openham_Click(object sender, EventArgs e)
+        {
+            if (!drawerLayout.IsDrawerOpen(GravityCompat.Start))
+            {
+                drawerLayout.OpenDrawer(GravityCompat.Start);
+            } 
         }
 
         public void PullCategories()
