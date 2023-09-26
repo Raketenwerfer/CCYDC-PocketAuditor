@@ -11002,73 +11002,76 @@ namespace PocketAuditor
 			public const int triangle = 2131231238;
 			
 			// aapt resource value: 0x7F080207
-			public const int @unchecked = 2131231239;
+			public const int txtDC = 2131231239;
 			
 			// aapt resource value: 0x7F080208
-			public const int uniform = 2131231240;
+			public const int @unchecked = 2131231240;
 			
 			// aapt resource value: 0x7F080209
-			public const int unlabeled = 2131231241;
+			public const int uniform = 2131231241;
 			
 			// aapt resource value: 0x7F08020A
-			public const int up = 2131231242;
+			public const int unlabeled = 2131231242;
 			
 			// aapt resource value: 0x7F08020B
-			public const int useLogo = 2131231243;
+			public const int up = 2131231243;
 			
 			// aapt resource value: 0x7F08020C
-			public const int vertical_only = 2131231244;
+			public const int useLogo = 2131231244;
 			
 			// aapt resource value: 0x7F08020D
-			public const int view_offset_helper = 2131231245;
+			public const int vertical_only = 2131231245;
 			
 			// aapt resource value: 0x7F08020E
-			public const int view_transition = 2131231246;
+			public const int view_offset_helper = 2131231246;
 			
 			// aapt resource value: 0x7F08020F
-			public const int view_tree_lifecycle_owner = 2131231247;
+			public const int view_transition = 2131231247;
 			
 			// aapt resource value: 0x7F080210
-			public const int view_tree_on_back_pressed_dispatcher_owner = 2131231248;
+			public const int view_tree_lifecycle_owner = 2131231248;
 			
 			// aapt resource value: 0x7F080211
-			public const int view_tree_saved_state_registry_owner = 2131231249;
+			public const int view_tree_on_back_pressed_dispatcher_owner = 2131231249;
 			
 			// aapt resource value: 0x7F080212
-			public const int view_tree_view_model_store_owner = 2131231250;
+			public const int view_tree_saved_state_registry_owner = 2131231250;
 			
 			// aapt resource value: 0x7F080213
-			public const int visible = 2131231251;
+			public const int view_tree_view_model_store_owner = 2131231251;
 			
 			// aapt resource value: 0x7F080214
-			public const int visible_removing_fragment_view_tag = 2131231252;
+			public const int visible = 2131231252;
 			
 			// aapt resource value: 0x7F080215
-			public const int west = 2131231253;
-			
-			// aapt resource value: 0x7F080218
-			public const int withinBounds = 2131231256;
+			public const int visible_removing_fragment_view_tag = 2131231253;
 			
 			// aapt resource value: 0x7F080216
-			public const int withText = 2131231254;
-			
-			// aapt resource value: 0x7F080217
-			public const int with_icon = 2131231255;
+			public const int west = 2131231254;
 			
 			// aapt resource value: 0x7F080219
-			public const int wrap = 2131231257;
+			public const int withinBounds = 2131231257;
+			
+			// aapt resource value: 0x7F080217
+			public const int withText = 2131231255;
+			
+			// aapt resource value: 0x7F080218
+			public const int with_icon = 2131231256;
 			
 			// aapt resource value: 0x7F08021A
-			public const int wrap_content = 2131231258;
+			public const int wrap = 2131231258;
 			
 			// aapt resource value: 0x7F08021B
-			public const int wrap_content_constrained = 2131231259;
+			public const int wrap_content = 2131231259;
 			
 			// aapt resource value: 0x7F08021C
-			public const int x_left = 2131231260;
+			public const int wrap_content_constrained = 2131231260;
 			
 			// aapt resource value: 0x7F08021D
-			public const int x_right = 2131231261;
+			public const int x_left = 2131231261;
+			
+			// aapt resource value: 0x7F08021E
+			public const int x_right = 2131231262;
 			
 			static Id()
 			{
