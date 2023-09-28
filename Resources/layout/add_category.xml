@@ -7,12 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    
         <TextView
             android:text="ADD NEW CATEGORY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:textSize="23sp"
             android:layout_gravity="center"/>
 
@@ -30,29 +30,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ACName_eT" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:text="save"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="120dp"
-                android:id="@+id/AddCa_btnSave" />
-
-            <Button
-                android:text="cancel"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:id="@+id/btnCancel" />
-
-        </RelativeLayout>
 
 </LinearLayout>

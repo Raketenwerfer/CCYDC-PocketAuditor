@@ -60,7 +60,6 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity\AddCategoryActivity.cs" />
     <Compile Include="Class\CategoryModel.cs" />
     <Compile Include="Class\DataSharingService.cs" />
     <Compile Include="Class\EntryAnswersModel.cs" />

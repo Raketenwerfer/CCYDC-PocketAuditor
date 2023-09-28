@@ -38,7 +38,7 @@
                 android:clickable="true"/>
 
             <ImageView
-                android:id="@+id/addImage"
+                android:id="@+id/addCategory"
                 android:src="@drawable/ic_black_add"
                 android:layout_width="20dp"
                 android:layout_height="33dp"

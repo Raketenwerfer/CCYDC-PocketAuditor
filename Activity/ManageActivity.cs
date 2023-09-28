@@ -13,7 +13,6 @@ using Android.Database;
 using Android.Database.Sqlite;
 using System;
 using System.Collections.Generic;
-using PocketAuditor.Activity;
 using Android.Content;
 
 namespace PocketAuditor.Fragment
@@ -21,6 +20,7 @@ namespace PocketAuditor.Fragment
     [Activity(Label = "ManageActivity")]
     public class ManageActivity : AppCompatActivity/*, NavigationView.IOnNavigationItemSelectedListener*/
     {
+        private readonly EditText CateName_eT;
         private DrawerLayout drawerLayout;
         private ImageView openham, addCategory, backMenu;
 
@@ -30,6 +30,10 @@ namespace PocketAuditor.Fragment
         private NavigationView navView;
 
         private List<CategoryModel> _Categories = new List<CategoryModel>();
+        private readonly object alertdialogBuilder;
+
+        readonly string get_sequence = "SELECT COUNT(*) FROM Category_tbl";
+        int sequence;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,14 +43,14 @@ namespace PocketAuditor.Fragment
             SetContentView(Resource.Layout.activity_drawer);
 
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
-            ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout, Resource.String.nav_close, Resource.String.nav_open);
-            drawerLayout.AddDrawerListener(toogle);
-            toogle.SyncState();
+            //ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout, Resource.String.nav_close, Resource.String.nav_open);
+            //drawerLayout.AddDrawerListener(toogle);
+            //toogle.SyncState();
 
             openham = FindViewById<ImageView>(Resource.Id.hamburger);
             openham.Click += Openham_Click;
 
-            addCategory = FindViewById<ImageView>(Resource.Id.addImage);
+            addCategory = FindViewById<ImageView>(Resource.Id.addCategory);
             addCategory.Click += AddCategory_Click;
 
             backMenu = FindViewById<ImageView>(Resource.Id.returnMenu);
@@ -87,6 +91,17 @@ namespace PocketAuditor.Fragment
             };
         }
 
+        private void GetRowSequenceCount()
+        {
+            ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
+
+            //if (gseq.MoveToFirst())
+            //{
+            //    sequence = gseq.GetInt(0); // Use index 0 to get the count
+            //}
+            sequence = gseq.GetInt(gseq.GetColumnIndex("COLUMN(*)")); //error
+        }
+
         private void BackMenu_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(this, typeof(MenuActivity));
@@ -95,8 +110,40 @@ namespace PocketAuditor.Fragment
 
         private void AddCategory_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(AddCategoryActivity));
-            StartActivity(intent);
+            LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
+            View mView = layoutInflater.Inflate(Resource.Layout.add_category, null);
+
+            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+            builder.SetView(mView);
+
+            var userContent = mView.FindViewById<EditText>(Resource.Id.ACName_eT);
+            builder.SetCancelable(false)
+
+                .SetPositiveButton("Save", delegate
+                {
+                    GetRowSequenceCount();
+                    sequence++;
+
+                    var _db = new SQLiteConnection(handler._ConnPath);
+
+                    _db.Execute("INSERT INTO Category_tbl(Category_ID, CategoryTitle, CategoryStatus)" +
+                                    "VALUES (?, ?, ?)", sequence, userContent.Text, "ACTIVE"); // error
+
+                    Toast.MakeText(Application.Context, "New Category Inserted", ToastLength.Short).Show();
+
+                    _db.Commit();
+                })
+
+                .SetNegativeButton("Cancel", delegate
+                {
+                    builder.Dispose();
+                });
+
+            Android.App.AlertDialog alertAddDialog = builder.Create();
+            alertAddDialog.Show();
+
+            //Intent intent = new Intent(this, typeof(AddCategoryActivity));
+            //StartActivity(intent);
         }
 
         private void Openham_Click(object sender, EventArgs e)
@@ -110,7 +157,6 @@ namespace PocketAuditor.Fragment
         public void PullCategories()
         {
             int q_CatID;
-            string q_CatTitle = null;
             string catQuery = "SELECT * FROM Category_tbl";
 
             ICursor cList = SQLDB.RawQuery(catQuery, new string[] { });
@@ -122,7 +168,7 @@ namespace PocketAuditor.Fragment
                 do
                 {
                     q_CatID = cList.GetInt(cList.GetColumnIndex("Category_ID"));
-                    q_CatTitle = cList.GetString(cList.GetColumnIndex("CategoryTitle"));
+                    string q_CatTitle = cList.GetString(cList.GetColumnIndex("CategoryTitle"));
 
                     CategoryModel a = new CategoryModel(q_CatID, q_CatTitle);
 
