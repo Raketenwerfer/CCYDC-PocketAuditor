@@ -47,6 +47,7 @@
                 android:layout_marginRight="70dp"
                 android:clickable="true"/>
 
+            
         </RelativeLayout>
 
    </LinearLayout>
@@ -80,6 +81,7 @@
 
     </FrameLayout>
 
+    
     <LinearLayout
         android:id="@+id/linearNav"
         android:layout_width="match_parent"
@@ -88,15 +90,15 @@
         android:orientation="vertical"
         tools:ignore="PossiblyUselessParent">
 
-         <com.google.android.material.navigation.NavigationView
-             android:id="@+id/nav_view"
-             android:layout_width="210dp"
-             android:layout_height="match_parent"
-             android:layout_gravity="start"
-             android:fitsSystemWindows="true"
-             app:menu="@menu/nav_drawer_menu">
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="270dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:fitsSystemWindows="true"
+                app:menu="@menu/nav_drawer_menu">
 
-         </com.google.android.material.navigation.NavigationView>
+            </com.google.android.material.navigation.NavigationView>
 
     </LinearLayout>
 

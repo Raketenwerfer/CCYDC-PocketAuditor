@@ -54,22 +54,17 @@ namespace PocketAuditor.Fragment
             addCategory.Click += AddCategory_Click;
 
             backMenu = FindViewById<ImageView>(Resource.Id.returnMenu);
-            backMenu.Click += BackMenu_Click; 
+            backMenu.Click += BackMenu_Click;
 
+           
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
             PullCategories();
 
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            //navView.SetNavigationItemSelectedListener(this);
 
             InitializeNavView(_Categories);
-
-            ////Enable the toolbar navigation icon to open the navigation drawer
-            //SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
-            //SupportActionBar.SetDefaultDisplayHomeAsUpEnabled(true);
-            //SupportActionBar.SetHomeButtonEnabled(true);
 
             navView.NavigationItemSelected += (sender, e) =>
             {
@@ -91,15 +86,21 @@ namespace PocketAuditor.Fragment
             };
         }
 
+        
         private void GetRowSequenceCount()
         {
             ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
 
-            //if (gseq.MoveToFirst())
-            //{
-            //    sequence = gseq.GetInt(0); // Use index 0 to get the count
-            //}
-            sequence = gseq.GetInt(gseq.GetColumnIndex("COLUMN(*)")); //error
+            // Ma save sa application pero dli sa db hahahaha.
+            if (gseq.MoveToFirst())
+            {
+                sequence = gseq.GetInt(0); // Use index 0 to get the count
+            }
+            else
+            {
+                sequence = 0;
+            }
+            //sequence = gseq.GetInt(gseq.GetColumnIndex("COLUMN(*)")); //error
         }
 
         private void BackMenu_Click(object sender, EventArgs e)
@@ -199,7 +200,8 @@ namespace PocketAuditor.Fragment
 
         // This method will refresh the menu items. Call this when we start implementing
         // methods to add new categories
-        void RefreshNavView(List<CategoryModel> x02r)
+
+        private void RefreshNavView(List<CategoryModel> x02r)
         {
             _Categories = x02r;
 
