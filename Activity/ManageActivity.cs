@@ -3,7 +3,6 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using Android.Support.V4.View;
 using Android.Support.Design.Widget;
 using AndroidX.DrawerLayout.Widget;
 using SQLite;
@@ -14,6 +13,7 @@ using Android.Database.Sqlite;
 using System;
 using System.Collections.Generic;
 using Android.Content;
+using AndroidX.Core.View;
 
 namespace PocketAuditor.Fragment
 {
@@ -108,7 +108,6 @@ namespace PocketAuditor.Fragment
             Intent intent = new Intent(this, typeof(MenuActivity));
             StartActivity(intent);
         }
-
         private void AddCategory_Click(object sender, EventArgs e)
         {
             LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
@@ -120,19 +119,31 @@ namespace PocketAuditor.Fragment
             var userContent = mView.FindViewById<EditText>(Resource.Id.ACName_eT);
             builder.SetCancelable(false)
 
-                .SetPositiveButton("Save", delegate
+                .SetPositiveButton("Add", delegate
                 {
-                    GetRowSequenceCount();
-                    sequence++;
+                    string categoryTitle = userContent.Text.Trim();
 
-                    var _db = new SQLiteConnection(handler._ConnPath);
+                    if (!string.IsNullOrEmpty(categoryTitle))
+                    {
+                        GetRowSequenceCount();
+                        sequence++;
 
-                    _db.Execute("INSERT INTO Category_tbl(Category_ID, CategoryTitle, CategoryStatus)" +
-                                    "VALUES (?, ?, ?)", sequence, userContent.Text, "ACTIVE"); // error
+                        var _db = new SQLiteConnection(handler._ConnPath);
 
-                    Toast.MakeText(Application.Context, "New Category Inserted", ToastLength.Short).Show();
+                        _db.Execute("INSERT INTO Category_tbl(Category_ID, CategoryTitle, CategoryStatus)" +
+                                        "VALUES (?, ?, ?)", sequence, categoryTitle, "ACTIVE");
 
-                    _db.Commit();
+                        Toast.MakeText(Application.Context, "New Category Inserted", ToastLength.Short).Show();
+
+                        _db.Commit();
+
+                        // After adding the category, you can refresh the navigation view if needed.
+                        RefreshNavView(_Categories);
+                    }
+                    else
+                    {
+                        Toast.MakeText(Application.Context, "Category title cannot be empty", ToastLength.Short).Show();
+                    }
                 })
 
                 .SetNegativeButton("Cancel", delegate
@@ -142,10 +153,8 @@ namespace PocketAuditor.Fragment
 
             Android.App.AlertDialog alertAddDialog = builder.Create();
             alertAddDialog.Show();
-
-            //Intent intent = new Intent(this, typeof(AddCategoryActivity));
-            //StartActivity(intent);
         }
+
 
         private void Openham_Click(object sender, EventArgs e)
         {

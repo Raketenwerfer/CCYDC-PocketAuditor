@@ -46,7 +46,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="70dp"
                 android:clickable="true"/>
-
             
         </RelativeLayout>
 
@@ -61,21 +60,74 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="70dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="90dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:text="Category Name: "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:text=""
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtDC" />
+                <TextView
+                    android:text="Category Name: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
+                <TextView
+                    android:text="Display Text Here"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="106dp"
+                    android:id="@+id/txtDC" />
 
+                <ImageView
+                    android:id="@+id/editCat"
+                    android:src="@drawable/ic_edit"
+                    android:layout_width="20dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="290dp"/>
+
+                <TextView
+                    android:text="Category Number: "
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Category Questions"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginLeft="90dp"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:src="@drawable/ic_addques"
+                    android:id="@+id/newQuestion"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginLeft="290dp"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="110dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:background="@android:color/darker_gray"
+                            android:id="@+id/recyclerQuestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
