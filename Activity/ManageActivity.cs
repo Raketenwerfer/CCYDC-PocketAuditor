@@ -140,6 +140,8 @@ namespace PocketAuditor.Fragment
                         RefreshNavView(_Categories);
                         InitializeNavView(_Categories);
 
+                        _db.Close();
+
                     }
                     else
                     {
@@ -168,7 +170,7 @@ namespace PocketAuditor.Fragment
         public void PullCategories()
         {
             int q_CatID;
-            string catQuery = "SELECT * FROM Category_tbl";
+            string catQuery = "SELECT * FROM Category_tbl WHERE = 'ACTIVE'";
 
             ICursor cList = SQLDB.RawQuery(catQuery, new string[] { });
 
@@ -190,6 +192,55 @@ namespace PocketAuditor.Fragment
                 cList.Close();
             }
         }
+
+
+        private void EditCategory()
+        {
+            // Pull string from edit category title pop-up here
+            string InsertEditTextHere = null;
+
+
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("UPDATE Category_tbl" +
+                        "SET CategoryTitle = ?" +
+                        "WHERE ? = CategoryTitle", InsertEditTextHere, InsertEditTextHere);
+
+            Toast.MakeText(Application.Context, "Category Renamed!", ToastLength.Short).Show();
+
+            _db.Commit();
+
+            RefreshNavView(_Categories);
+            InitializeNavView(_Categories);
+
+            _db.Close();
+        }
+
+
+        private void DeleteCategory()
+        {
+            // Pull string from edit category title pop-up here
+            string InsertEditTextHere = null;
+
+
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("UPDATE Category_tbl" +
+                        "SET CategoryStatus = INACTIVE" +
+                        "WHERE ? = CategoryTitle", InsertEditTextHere);
+
+            Toast.MakeText(Application.Context, "Category Renamed!", ToastLength.Short).Show();
+
+            _db.Commit();
+
+            RefreshNavView(_Categories);
+            InitializeNavView(_Categories);
+
+            _db.Close();
+        }
+
+
+
 
         private void InitializeNavView(List<CategoryModel> x01i)
         {
