@@ -16,6 +16,8 @@ namespace PocketAuditor.Class
         public int CategoryID { get; set; }
         public string CategoryTitle { get; set; }
 
+        //public string CategoryStatus { get; set; }
+
         public CategoryModel(int cat_id, string cat_title)
         {
             CategoryID = cat_id;

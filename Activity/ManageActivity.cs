@@ -77,9 +77,8 @@ namespace PocketAuditor.Fragment
                 {
                     string __selection = selItem.TitleFormatted.ToString();
 
-                    SelectionEvent(__selection);
+                    Toast.MakeText(ApplicationContext, /*"Selected Item: " +*/ __selection, ToastLength.Short).Show();
                 }
-
 
                 DrawerLayout dL = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
                 dL.CloseDrawer(GravityCompat.Start);
@@ -108,6 +107,7 @@ namespace PocketAuditor.Fragment
             Intent intent = new Intent(this, typeof(MenuActivity));
             StartActivity(intent);
         }
+
         private void AddCategory_Click(object sender, EventArgs e)
         {
             LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
@@ -137,8 +137,9 @@ namespace PocketAuditor.Fragment
 
                         _db.Commit();
 
-                        // After adding the category, you can refresh the navigation view if needed.
                         RefreshNavView(_Categories);
+                        InitializeNavView(_Categories);
+
                     }
                     else
                     {
@@ -190,7 +191,7 @@ namespace PocketAuditor.Fragment
             }
         }
 
-        void InitializeNavView(List<CategoryModel> x01i)
+        private void InitializeNavView(List<CategoryModel> x01i)
         {
             navView.Menu.Clear();
 
@@ -202,13 +203,14 @@ namespace PocketAuditor.Fragment
             }
         }
         
-        void SelectionEvent (string z01)
-        {
-            Toast.MakeText(ApplicationContext, "Selected Item: " + z01, ToastLength.Short).Show();
-        }
+        //void SelectionEvent (string selectedCategory)
+        //{
+        //    Toast.MakeText(ApplicationContext, /*"Selected Item: " +*/ selectedCategory, ToastLength.Short).Show();
+        //}
 
         // This method will refresh the menu items. Call this when we start implementing
         // methods to add new categories
+
 
         private void RefreshNavView(List<CategoryModel> x02r)
         {
