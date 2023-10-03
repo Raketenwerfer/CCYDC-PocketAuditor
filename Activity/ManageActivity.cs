@@ -14,15 +14,17 @@ using System;
 using System.Collections.Generic;
 using Android.Content;
 using AndroidX.Core.View;
+using static Xamarin.Essentials.Platform;
 
 namespace PocketAuditor.Fragment
 {
     [Activity(Label = "ManageActivity")]
-    public class ManageActivity : AppCompatActivity/*, NavigationView.IOnNavigationItemSelectedListener*/
+    public class ManageActivity : AppCompatActivity
     {
         private readonly EditText CateName_eT;
         private DrawerLayout drawerLayout;
-        private ImageView openham, addCategory, backMenu;
+        TextView TxtDisCate;
+        private ImageView openham, addCategory, backMenu, editCategory;
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -47,6 +49,8 @@ namespace PocketAuditor.Fragment
             //drawerLayout.AddDrawerListener(toogle);
             //toogle.SyncState();
 
+            TxtDisCate = FindViewById<TextView>(Resource.Id.txtDC);
+
             openham = FindViewById<ImageView>(Resource.Id.hamburger);
             openham.Click += Openham_Click;
 
@@ -56,6 +60,8 @@ namespace PocketAuditor.Fragment
             backMenu = FindViewById<ImageView>(Resource.Id.returnMenu);
             backMenu.Click += BackMenu_Click;
 
+            editCategory = FindViewById<ImageView>(Resource.Id.editCat);
+            editCategory.Click += EditCategory_Click; 
            
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
@@ -85,7 +91,27 @@ namespace PocketAuditor.Fragment
             };
         }
 
-        
+        private void EditCategory_Click(object sender, EventArgs e)
+        {
+            // get the value which input by user in EditText and convert it to string
+            String str = txtDC.getText().toString();
+            // Create the Intent object of this class Context() to Second_activity class
+            Intent intent = new Intent(getApplicationContext(), Second_activity.class);
+            // now by putExtra method put the value in key, value pair key is
+            // message_key by this key we will receive the value, and put the string
+            intent.putExtra("message_key", str);
+            // start the Intent
+            startActivity(intent);
+        //LayoutInflater inflater = LayoutInflater.FromContext(this);
+        //View mView = inflater.Inflate(Resource.Layout.edit_category, null);
+
+        //Android.App.AlertDialog.Builder editBuilder = new Android.App.AlertDialog.Builder(this);
+        //editBuilder.SetView(mView);
+
+        //var userContent = mView.FindViewById<EditText>(Resource.Id.ECName_eT);
+        //editBuilder.SetCancelable(false);
+    }
+
         private void GetRowSequenceCount()
         {
             ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
