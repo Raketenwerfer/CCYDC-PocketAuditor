@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activity\EditCategoryActivity.cs" />
+    <Compile Include="Activity\ManageMenu.cs" />
     <Compile Include="Class\CategoryModel.cs" />
     <Compile Include="Class\DataSharingService.cs" />
     <Compile Include="Class\EntryAnswersModel.cs" />
@@ -69,8 +70,8 @@
     <Compile Include="Database\DB_Initiator.cs" />
     <Compile Include="Activity\AuditResults.cs" />
     <Compile Include="Activity\LoginActivity.cs" />
-    <Compile Include="Activity\MainActivity.cs" />
-    <Compile Include="Activity\ManageActivity.cs" />
+    <Compile Include="Activity\AuditActivity.cs" />
+    <Compile Include="Activity\ManageCQ.cs" />
     <Compile Include="Activity\MenuActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -190,6 +191,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\edit_category.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\manage_audit_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\edit_action_plans.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

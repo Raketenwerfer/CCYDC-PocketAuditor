@@ -18,8 +18,8 @@ using static Xamarin.Essentials.Platform;
 
 namespace PocketAuditor.Fragment
 {
-    [Activity(Label = "ManageActivity")]
-    public class ManageActivity : AppCompatActivity
+    [Activity(Label = "ManageCQ")]
+    public class ManageCQ : AppCompatActivity
     {
         private readonly EditText CateName_eT;
         private DrawerLayout drawerLayout;

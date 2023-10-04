@@ -1,0 +1,44 @@
+﻿using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using AndroidX.AppCompat.App;
+using PocketAuditor.Fragment;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace PocketAuditor
+{
+    [Activity(Label = "ManageMenu")]
+    public class ManageMenu : AppCompatActivity
+    {
+        Button EditAP, EditCQ;
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            // Create your application here
+            SetContentView(Resource.Layout.manage_audit_menu);
+
+            EditAP = FindViewById<Button>(Resource.Id.editAP);
+            EditCQ = FindViewById<Button>(Resource.Id.editCQ);
+
+            EditAP.Click += StartEditAP;
+            EditCQ.Click += StartEditCQ;
+        }
+
+        private void StartEditAP(object sender, EventArgs e)
+        {
+            Toast.MakeText(Application.Context, "Open Action Plans Here", ToastLength.Short).Show();
+        }
+
+        private void StartEditCQ(object sender, EventArgs e)
+        {
+            StartActivity(typeof(ManageCQ));
+        }
+    }
+}

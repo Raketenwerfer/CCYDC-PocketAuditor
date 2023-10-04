@@ -6,7 +6,7 @@ using System;
 
 namespace PocketAuditor.Fragment
 {
-    [Activity(Label = "LoginActivity", MainLauncher = true)] 
+    [Activity(Label = "Pocket Auditor", MainLauncher = true)] 
     public class LoginActivity : AppCompatActivity
     {
         Button login;

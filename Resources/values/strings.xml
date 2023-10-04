@@ -31,6 +31,10 @@
 	<string name="btn_begin_audit">BEGIN AUDIT</string>
 	<string name="btn_manage_audit">MANAGE AUDIT</string>
 
+	<!--manage_audit_menu.xml-->
+	<string name="editQuesCat">EDIT QUESTIONS/CATEGORIES</string>
+	<string name="editAP">EDIT ACTION PLANS</string>
+
 	<!-- to toggle the open close button of the navigation drawer -->
 	<string name="nav_open">Open</string>
 	<string name="nav_close">Close</string>

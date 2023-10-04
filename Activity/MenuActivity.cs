@@ -28,12 +28,12 @@ namespace PocketAuditor.Fragment
 
         private void ManageAudit_Click(object sender, EventArgs e)
         {
-            StartActivity(typeof(ManageActivity));
+            StartActivity(typeof(ManageMenu));
         }
 
         private void BeginAudit_Click(object sender, EventArgs e)
         {
-            StartActivity(typeof(MainActivity));
+            StartActivity(typeof(AuditActivity));
         }
     }
 }

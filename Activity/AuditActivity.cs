@@ -18,7 +18,7 @@ using System.Linq;
 namespace PocketAuditor
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
-    public class MainActivity : AppCompatActivity
+    public class AuditActivity : AppCompatActivity
     {
         private RecyclerView recycler;
         private ItemAdapter adapter;
