@@ -16,7 +16,9 @@ namespace PocketAuditor
     [Activity(Label = "ManageMenu")]
     public class ManageMenu : AppCompatActivity
     {
+        ImageView ToMainMenu;
         Button EditAP, EditCQ;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -26,9 +28,17 @@ namespace PocketAuditor
 
             EditAP = FindViewById<Button>(Resource.Id.editAP);
             EditCQ = FindViewById<Button>(Resource.Id.editCQ);
+            ToMainMenu = FindViewById<ImageView>(Resource.Id.toMenu);
 
             EditAP.Click += StartEditAP;
             EditCQ.Click += StartEditCQ;
+            ToMainMenu.Click += ToMainMenu_Click; 
+        }
+
+        private void ToMainMenu_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(this, typeof(MenuActivity));
+            StartActivity(intent);
         }
 
         private void StartEditAP(object sender, EventArgs e)

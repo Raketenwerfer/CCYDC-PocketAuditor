@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_Layout">
 
-
    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,8 +58,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="90dp"
             android:orientation="vertical">
 
@@ -77,15 +76,15 @@
                     android:text="Display Text Here"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="106dp"
+                    android:layout_marginLeft="101dp"
                     android:id="@+id/txtDC" />
 
                 <ImageView
                     android:id="@+id/editCat"
                     android:src="@drawable/ic_edit"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="270dp"/>
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"/>
 
                 <TextView
                     android:text="Category Number: "

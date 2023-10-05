@@ -28,6 +28,7 @@
 	<string name="txt_register">Register</string>
 
 	<!--menu.xml-->
+	<string name="titleMenu">MAIN MENU</string>
 	<string name="btn_begin_audit">BEGIN AUDIT</string>
 	<string name="btn_manage_audit">MANAGE AUDIT</string>
 

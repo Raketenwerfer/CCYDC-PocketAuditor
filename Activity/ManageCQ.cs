@@ -14,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using Android.Content;
 using AndroidX.Core.View;
-using static Xamarin.Essentials.Platform;
-using PocketAuditor.Activity;
 
 namespace PocketAuditor.Fragment
 {
@@ -25,6 +23,7 @@ namespace PocketAuditor.Fragment
         private readonly EditText CateName_eT;
         private DrawerLayout drawerLayout;
         TextView TxtDisCate;
+
         private ImageView openham, addCategory, backMenu, editCategory;
 
         public DB_Initiator handler;
@@ -38,6 +37,8 @@ namespace PocketAuditor.Fragment
         readonly string get_sequence = "SELECT COUNT(*) FROM Category_tbl";
         int sequence;
 
+        private string selectedCategoryName;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -46,10 +47,7 @@ namespace PocketAuditor.Fragment
             SetContentView(Resource.Layout.activity_drawer);
 
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
-            //ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawerLayout, Resource.String.nav_close, Resource.String.nav_open);
-            //drawerLayout.AddDrawerListener(toogle);
-            //toogle.SyncState();
-
+            
             TxtDisCate = FindViewById<TextView>(Resource.Id.txtDC);
 
             openham = FindViewById<ImageView>(Resource.Id.hamburger);
@@ -62,8 +60,8 @@ namespace PocketAuditor.Fragment
             backMenu.Click += BackMenu_Click;
 
             editCategory = FindViewById<ImageView>(Resource.Id.editCat);
-            editCategory.Click += EditCategoryName; 
-           
+            editCategory.Click += EditCategoryName;
+
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
@@ -71,7 +69,7 @@ namespace PocketAuditor.Fragment
 
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
-            InitializeNavView(_Categories);
+            InitializeNavView(_Categories); 
 
             navView.NavigationItemSelected += (sender, e) =>
             {
@@ -82,9 +80,11 @@ namespace PocketAuditor.Fragment
 
                 if (selItem != null)
                 {
-                    string __selection = selItem.TitleFormatted.ToString();
+                    /*string __selection*/ 
+                    selectedCategoryName = selItem.TitleFormatted.ToString(); //new
+                    TxtDisCate.Text = selectedCategoryName;
 
-                    Toast.MakeText(ApplicationContext, /*"Selected Item: " +*/ __selection, ToastLength.Short).Show();
+                    Toast.MakeText(ApplicationContext,  selectedCategoryName, ToastLength.Short).Show();
                 }
 
                 DrawerLayout dL = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
@@ -92,18 +92,35 @@ namespace PocketAuditor.Fragment
             };
         }
 
-
         private void EditCategoryName(object sender, EventArgs e)
         {
             LayoutInflater inflater = LayoutInflater.FromContext(this);
-            View mView = inflater.Inflate(Resource.Layout.add_category, null);
+            View mView = inflater.Inflate(Resource.Layout.edit_category, null);
 
             Android.App.AlertDialog.Builder build = new Android.App.AlertDialog.Builder(this);
             build.SetView(mView);
 
             var content = mView.FindViewById<EditText>(Resource.Id.ECName_eT);
-            build.SetCancelable(false);
+            content.Text = selectedCategoryName; //Set the editText text to the selected category name 4 editing
 
+            build.SetCancelable(false)
+
+                .SetPositiveButton("Update", delegate
+                {
+                    //Retrieve the edited category Name from the EditText
+                    string updatedCategoryName = content.Text;
+
+                    // Perform the update operation with updatedCategoryName
+                    // Update the category in your database or wherever it's stored
+
+                })
+                .SetNegativeButton("Discard", delegate
+                {
+                    build.Dispose();
+                });
+
+            Android.App.AlertDialog alertEditDialog = build.Create();
+            alertEditDialog.Show();
         }
 
         private void GetRowSequenceCount()
@@ -126,7 +143,7 @@ namespace PocketAuditor.Fragment
 
         private void BackMenu_Click(object sender, EventArgs e)
         {
-            Android.Content.Intent intent = new Android.Content.Intent(this, typeof(MenuActivity));
+            Intent intent = new Intent(this, typeof(ManageMenu));
             StartActivity(intent);
         }
 
@@ -180,7 +197,6 @@ namespace PocketAuditor.Fragment
             alertAddDialog.Show();
         }
 
-
         private void Openham_Click(object sender, EventArgs e)
         {
             if (!drawerLayout.IsDrawerOpen(GravityCompat.Start))
@@ -215,12 +231,10 @@ namespace PocketAuditor.Fragment
             }
         }
 
-
         private void EditCategory()
         {
             // Pull string from edit category title pop-up here
             string InsertEditTextHere = null;
-
 
             var _db = new SQLiteConnection(handler._ConnPath);
 
@@ -261,9 +275,6 @@ namespace PocketAuditor.Fragment
             _db.Close();
         }
 
-
-
-
         private void InitializeNavView(List<CategoryModel> x01i)
         {
             navView.Menu.Clear();
@@ -276,15 +287,6 @@ namespace PocketAuditor.Fragment
             }
         }
         
-        //void SelectionEvent (string selectedCategory)
-        //{
-        //    Toast.MakeText(ApplicationContext, /*"Selected Item: " +*/ selectedCategory, ToastLength.Short).Show();
-        //}
-
-        // This method will refresh the menu items. Call this when we start implementing
-        // methods to add new categories
-
-
         private void RefreshNavView(List<CategoryModel> x02r)
         {
             _Categories = x02r;
