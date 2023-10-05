@@ -20,6 +20,8 @@ namespace PocketAuditor.Activity
             base.OnCreate(savedInstanceState);
 
             // Create your application here
+
+            SetContentView(Resource.Layout.edit_category);
         }
     }
 }

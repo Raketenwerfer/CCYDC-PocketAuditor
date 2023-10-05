@@ -95,7 +95,15 @@ namespace PocketAuditor.Fragment
 
         private void EditCategoryName(object sender, EventArgs e)
         {
-            
+            LayoutInflater inflater = LayoutInflater.FromContext(this);
+            View mView = inflater.Inflate(Resource.Layout.add_category, null);
+
+            Android.App.AlertDialog.Builder build = new Android.App.AlertDialog.Builder(this);
+            build.SetView(mView);
+
+            var content = mView.FindViewById<EditText>(Resource.Id.ECName_eT);
+            build.SetCancelable(false);
+
         }
 
         private void GetRowSequenceCount()
@@ -184,7 +192,7 @@ namespace PocketAuditor.Fragment
         public void PullCategories()
         {
             int q_CatID;
-            string catQuery = "SELECT * FROM Category_tbl WHERE = 'ACTIVE'";
+            string catQuery = "SELECT * FROM Category_tbl WHERE CategoryStatus = 'ACTIVE'";
 
             ICursor cList = SQLDB.RawQuery(catQuery, new string[] { });
 
