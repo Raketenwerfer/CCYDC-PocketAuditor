@@ -42,19 +42,4 @@ namespace PocketAuditor.Class
             IsYesBtnSelected = false;
         }
     }
-
-    public class QuestionModel
-    {
-        public QuestionModel(string catID, string entryID, string indicator)
-        {
-            CatID = catID;
-            EntryID = entryID;
-            Indicator = indicator;
-        }
-
-        // this model is used for calling the values from th db. and displaying it to the activity_drawer in the Questions
-        public string CatID { get; set; }
-        public string EntryID { get; set; }
-        public string Indicator { get; set; }
-    }
 }

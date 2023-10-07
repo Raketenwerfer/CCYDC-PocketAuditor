@@ -22,9 +22,10 @@ namespace PocketAuditor.Fragment
     {
         private readonly EditText CateName_eT;
         private DrawerLayout drawerLayout;
+
         TextView TxtDisCate;
 
-        private ImageView openham, addCategory, backMenu, editCategory;
+        private ImageView openham, addCategory, backMenu, editCategory, addNewQuestion;
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -62,6 +63,9 @@ namespace PocketAuditor.Fragment
             editCategory = FindViewById<ImageView>(Resource.Id.editCat);
             editCategory.Click += EditCategoryName;
 
+            addNewQuestion = FindViewById<ImageView>(Resource.Id.newQuestion);
+            addNewQuestion.Click += AddNewQuestion_Click; 
+
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
@@ -75,12 +79,29 @@ namespace PocketAuditor.Fragment
             {
                 IMenuItem selItem = e.MenuItem;
 
+                // Check for long press on a menu item
+                //selItem.ActionView.LongClick += (view, args) =>
+                //{
+                //    Android.App.AlertDialog.Builder delBuilder = new Android.App.AlertDialog.Builder(this);
+                //    delBuilder.SetTitle("Delete Category");
+                //    delBuilder.SetMessage("Are you sure you want to delete this category?");
+                //    delBuilder.SetPositiveButton("Yes", (s, a) =>
+                //    {
+
+                //    });
+                //    delBuilder.SetNegativeButton("No", (s, a) =>
+                //    {
+                //        delBuilder.Dispose();
+                //    });
+                //    delBuilder.Show();
+                //};
+
+
                 // This section handles click events. It will read the item title
                 // then passes the title name to another method to work off with it
 
                 if (selItem != null)
                 {
-                    /*string __selection*/ 
                     selectedCategoryName = selItem.TitleFormatted.ToString(); //new
                     TxtDisCate.Text = selectedCategoryName;
 
@@ -90,6 +111,102 @@ namespace PocketAuditor.Fragment
                 DrawerLayout dL = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
                 dL.CloseDrawer(GravityCompat.Start);
             };
+        }
+
+        private void AddNewQuestion_Click(object sender, EventArgs e)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
+            View mView = layoutInflater.Inflate(Resource.Layout.add_new_question, null);
+
+            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+            builder.SetView(mView);
+
+            var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
+            var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
+
+            // Populate the spinner with category IDs fetched from the database
+            List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, categoryIds);
+
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
+
+            builder.SetCancelable(false)
+                .SetPositiveButton("Add", delegate
+                {
+                    // Retrieve the selected category and new question
+                    string selectedCategoryId = spinner.SelectedItem.ToString();
+                    string newQuestion = userContent.Text;
+
+                    // Add the new question to the database with the selected category ID
+                    AddQuestionToDatabase(selectedCategoryId, newQuestion); // Implement this method
+
+                })
+                .SetNegativeButton("Cancel", delegate
+                {
+                    builder.Dispose();
+                });
+            builder.Create().Show();
+        }
+
+        private void AddQuestionToDatabase(string selectedCategoryId, string newQuestion)
+        {
+            using var handler = new DB_Initiator(this);
+            SQLiteDatabase db = handler.WritableDatabase;
+
+            ContentValues values = new ContentValues();
+            values.Put("CategoryID", selectedCategoryId);
+            values.Put("Indicator", newQuestion);
+
+            try
+            {
+                // Insert the new question into the database
+                long newRowId = db.Insert("Question", null, values);
+
+                if (newRowId != -1)
+                {
+                    // The insertion was successful
+                    Toast.MakeText(Application.Context, "New Question is Added in the Selected Category", ToastLength.Long).Show();
+                    // You can perform any necessary actions here
+                }
+                else
+                {
+                    // The insertion failed
+                    Toast.MakeText(Application.Context, "Failed to add question", ToastLength.Short).Show();
+                    // Handle the error as needed
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
+        private List<string> GetCategoryIdsFromDatabase() //new
+        {
+            List<string> categoryIds = new List<string>();
+
+            using (var handler = new DB_Initiator(this))
+            {
+                // Assuming you have a Category table with a column "CategoryID"
+                SQLiteDatabase db = handler.ReadableDatabase;
+                string[] projection = { "CategoryID" };
+
+                using (ICursor cursor = db.Query("Category", projection, null, null, null, null, null))
+                {
+                    if (cursor != null)
+                    {
+                        while (cursor.MoveToNext())
+                        {
+                            int columnIndex = cursor.GetColumnIndex("CategoryID");
+                            string categoryId = cursor.GetString(columnIndex);
+                            categoryIds.Add(categoryId);
+                        }
+                        cursor.Close();
+                    }
+                }
+            }
+            return categoryIds;
         }
 
         private void EditCategoryName(object sender, EventArgs e)
@@ -111,7 +228,7 @@ namespace PocketAuditor.Fragment
                     string updatedCategoryName = content.Text;
 
                     // Perform the update operation with updatedCategoryName
-                    // Update the category in your database or wherever it's stored
+                    EditCategory(updatedCategoryName);
 
                 })
                 .SetNegativeButton("Discard", delegate
@@ -231,16 +348,14 @@ namespace PocketAuditor.Fragment
             }
         }
 
-        private void EditCategory()
+        private void EditCategory(string updatedCategoryName)
         {
-            // Pull string from edit category title pop-up here
-            string InsertEditTextHere = null;
-
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("UPDATE Category_tbl" +
-                        "SET CategoryTitle = ?" +
-                        "WHERE ? = CategoryTitle", InsertEditTextHere, InsertEditTextHere);
+            // Use placeholders and parameters in your SQL query
+            _db.Execute("UPDATE Category_tbl " +
+                        "SET CategoryTitle = ? " +
+                        "WHERE CategoryTitle = ?", updatedCategoryName, selectedCategoryName);
 
             Toast.MakeText(Application.Context, "Category Renamed!", ToastLength.Short).Show();
 
@@ -251,7 +366,6 @@ namespace PocketAuditor.Fragment
 
             _db.Close();
         }
-
 
         private void DeleteCategory()
         {
@@ -265,7 +379,7 @@ namespace PocketAuditor.Fragment
                         "SET CategoryStatus = INACTIVE" +
                         "WHERE ? = CategoryTitle", InsertEditTextHere);
 
-            Toast.MakeText(Application.Context, "Category Renamed!", ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Category Deleted", ToastLength.Short).Show();
 
             _db.Commit();
 

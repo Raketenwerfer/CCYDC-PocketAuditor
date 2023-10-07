@@ -1,16 +1,13 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Preferences;
 using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using PocketAuditor.Database;
-using PocketAuditor;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using PocketAuditor.Class;
 
-namespace PocketAuditor.Class
+namespace PocketAuditor.Adapter
 {
     public class ItemAdapter : RecyclerView.Adapter
     {
@@ -19,7 +16,7 @@ namespace PocketAuditor.Class
         private readonly DB_Initiator dbInitiator;
         private readonly Context context;
 
-        private DataSharingService dss = DataSharingService.GetInstance();
+        private readonly DataSharingService dss = DataSharingService.GetInstance();
 
         public int c01;
 

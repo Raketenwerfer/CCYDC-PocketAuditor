@@ -7,6 +7,7 @@ using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
+using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
 using PocketAuditor.Fragment;
@@ -60,11 +61,7 @@ namespace PocketAuditor
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
-
             DisplayData();
-            //UpdateItemSelectedText();
-
-
 
             // Create adapter and set it to RecyclerView
             adapter = new ItemAdapter(itemsList, handler);
@@ -93,17 +90,18 @@ namespace PocketAuditor
             // Queries the questions to display as cardviews. Cell values are stored in ItemModel
 
             string q_EntryID = null, q_CatID = null, q_Question = null, q_Remarks, qC_Title = null;
-            string query = "SELECT E.Indicator, E.EntryID, C.Category_ID, C.CategoryTitle " +
-                "FROM Entry_tbl E INNER JOIN Category_tbl C ON E.CategoryID = C.Category_ID ORDER BY QuesNo ASC";
+            string query = "SELECT E.Indicator, E.EntryID, " +
+                                  "C.Category_ID, C.CategoryTitle " +
+                            "FROM Entry_tbl E INNER JOIN Category_tbl C " +
+                            "ON E.CategoryID = C.Category_ID ORDER BY QuesNo ASC";
 
             ICursor showItems = SQLDB.RawQuery(query, new string[] { });
 
             if (showItems.Count > 0)
             {
-
                 showItems.MoveToFirst();
 
-                do
+                do 
                 {
                     q_CatID = showItems.GetString(showItems.GetColumnIndex("Category_ID"));
                     qC_Title = showItems.GetString(showItems.GetColumnIndex("CategoryTitle"));
@@ -111,12 +109,13 @@ namespace PocketAuditor
                     q_Question = showItems.GetString(showItems.GetColumnIndex("Indicator"));
                     q_Remarks = null;
 
-                    ItemModel a = new ItemModel(q_CatID, qC_Title, q_EntryID, q_Question, null, "no", "empty");
-
-                    a.EntryID = q_EntryID;
-                    a.CategoryTitle = qC_Title;
-                    a.EntryQuestion = q_Question;
-                    a.Remark = q_Remarks;
+                    ItemModel a = new ItemModel(q_CatID, qC_Title, q_EntryID, q_Question, null, "no", "empty")
+                    {
+                        EntryID = q_EntryID,
+                        CategoryTitle = qC_Title,
+                        EntryQuestion = q_Question,
+                        Remark = q_Remarks
+                    };
 
                     itemsList.Add(a);
                 }
