@@ -111,6 +111,8 @@ namespace PocketAuditor.Fragment
             };
         }
 
+        #region Methods for Categories Display and CRUD
+
         private void AddNewQuestion_Click(object sender, EventArgs e)
         {
             LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
@@ -404,6 +406,16 @@ namespace PocketAuditor.Fragment
                 menuItem.SetChecked(false);
             }
         }
-       
+
+        #endregion
+
+
+        #region Methods for Questions Display and CRUD
+
+
+
+
+        #endregion
+
     }
 }
