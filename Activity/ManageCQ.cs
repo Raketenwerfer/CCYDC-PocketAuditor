@@ -69,8 +69,6 @@ namespace PocketAuditor.Fragment
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
-            PullCategories();
-
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
             InitializeNavView(_Categories); 
@@ -293,8 +291,9 @@ namespace PocketAuditor.Fragment
 
                         _db.Commit();
 
-                        RefreshNavView(_Categories);
                         InitializeNavView(_Categories);
+
+                        navView.Invalidate(); //This is supposed to refresh the NavView
 
                         _db.Close();
 
@@ -324,6 +323,8 @@ namespace PocketAuditor.Fragment
 
         public void PullCategories()
         {
+            _Categories.Clear();
+
             int q_CatID;
             string catQuery = "SELECT * FROM Category_tbl WHERE CategoryStatus = 'ACTIVE'";
 
@@ -361,8 +362,9 @@ namespace PocketAuditor.Fragment
 
             _db.Commit();
 
-            RefreshNavView(_Categories);
             InitializeNavView(_Categories);
+
+            navView.Invalidate(); //This is supposed to refresh the NavView
 
             _db.Close();
         }
@@ -383,7 +385,6 @@ namespace PocketAuditor.Fragment
 
             _db.Commit();
 
-            RefreshNavView(_Categories);
             InitializeNavView(_Categories);
 
             _db.Close();
@@ -391,6 +392,9 @@ namespace PocketAuditor.Fragment
 
         private void InitializeNavView(List<CategoryModel> x01i)
         {
+
+            PullCategories();
+
             navView.Menu.Clear();
 
             foreach (CategoryModel catSets in x01i)
@@ -400,12 +404,6 @@ namespace PocketAuditor.Fragment
                 menuItem.SetChecked(false);
             }
         }
-        
-        private void RefreshNavView(List<CategoryModel> x02r)
-        {
-            _Categories = x02r;
-
-            InitializeNavView(x02r);
-        }
+       
     }
 }
