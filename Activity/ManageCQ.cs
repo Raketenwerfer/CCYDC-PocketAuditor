@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using Android.Content;
 using AndroidX.Core.View;
+using System.Linq;
 
 namespace PocketAuditor.Fragment
 {
@@ -33,12 +34,15 @@ namespace PocketAuditor.Fragment
         private NavigationView navView;
 
         private List<CategoryModel> _Categories = new List<CategoryModel>();
+        private List<QuestionModel> _Entries = new List<QuestionModel>();
         private readonly object alertdialogBuilder;
 
         readonly string get_sequence = "SELECT COUNT(*) FROM Category_tbl";
-        int sequence;
+        readonly string get_question_seq = "SELECT COUNT(*) FROM Entry_tbl";
+        int sequence, q_sequence;
 
         private string selectedCategoryName;
+        private int selectedCategoryID;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -71,6 +75,7 @@ namespace PocketAuditor.Fragment
 
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
+            PullEntries();
             InitializeNavView(_Categories); 
 
             navView.NavigationItemSelected += (sender, e) =>
@@ -112,75 +117,6 @@ namespace PocketAuditor.Fragment
         }
 
         #region Methods for Categories Display and CRUD
-
-        private void AddNewQuestion_Click(object sender, EventArgs e)
-        {
-            LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
-            View mView = layoutInflater.Inflate(Resource.Layout.add_new_question, null);
-
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
-            builder.SetView(mView);
-
-            var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
-            var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
-
-            // Populate the spinner with category IDs fetched from the database
-            List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, categoryIds);
-
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinner.Adapter = adapter;
-
-            builder.SetCancelable(false)
-                .SetPositiveButton("Add", delegate
-                {
-                    // Retrieve the selected category and new question
-                    string selectedCategoryId = spinner.SelectedItem.ToString();
-                    string newQuestion = userContent.Text;
-
-                    // Add the new question to the database with the selected category ID
-                    AddQuestionToDatabase(selectedCategoryId, newQuestion); // Implement this method
-
-                })
-                .SetNegativeButton("Cancel", delegate
-                {
-                    builder.Dispose();
-                });
-            builder.Create().Show();
-        }
-
-        private void AddQuestionToDatabase(string selectedCategoryId, string newQuestion)
-        {
-            using var handler = new DB_Initiator(this);
-            SQLiteDatabase db = handler.WritableDatabase;
-
-            ContentValues values = new ContentValues();
-            values.Put("CategoryID", selectedCategoryId);
-            values.Put("Indicator", newQuestion);
-
-            try
-            {
-                // Insert the new question into the database
-                long newRowId = db.Insert("Question", null, values);
-
-                if (newRowId != -1)
-                {
-                    // The insertion was successful
-                    Toast.MakeText(Application.Context, "New Question is Added in the Selected Category", ToastLength.Long).Show();
-                    // You can perform any necessary actions here
-                }
-                else
-                {
-                    // The insertion failed
-                    Toast.MakeText(Application.Context, "Failed to add question", ToastLength.Short).Show();
-                    // Handle the error as needed
-                }
-            }
-            catch (Exception ex)
-            {
-                Toast.MakeText(Application.Context, "An error occurred: " + ex.Message, ToastLength.Short).Show();
-            }
-        }
 
         private List<string> GetCategoryIdsFromDatabase() //new
         {
@@ -413,7 +349,160 @@ namespace PocketAuditor.Fragment
         #region Methods for Questions Display and CRUD
 
 
+        private void AddNewQuestion_Click(object sender, EventArgs e)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
+            View mView = layoutInflater.Inflate(Resource.Layout.add_new_question, null);
 
+            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
+            builder.SetView(mView);
+
+            var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
+            var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
+
+            // Populate the spinner with category IDs fetched from the database
+            List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, categoryIds);
+
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
+
+            builder.SetCancelable(false)
+                .SetPositiveButton("Add", delegate
+                {
+                    // Retrieve the selected category and new question
+                    string selectedCategoryId = spinner.SelectedItem.ToString();
+                    string newQuestion = userContent.Text;
+
+                    // Add the new question to the database with the selected category ID
+                    AddQuestionToDatabase(selectedCategoryId, newQuestion); // Implement this method
+
+                })
+                .SetNegativeButton("Cancel", delegate
+                {
+                    builder.Dispose();
+                });
+            builder.Create().Show();
+        }
+
+        private void AddQuestionToDatabase(string selectedCategoryId, string newQuestion)
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+            GetQuestionSequence();
+            q_sequence++;
+
+            ContentValues values = new ContentValues();
+            values.Put("CategoryID", selectedCategoryId);
+            values.Put("Indicator", newQuestion);
+
+            try
+            {
+                // Insert the new question into the database
+                _db.Execute("INSERT INTO Entry_tbl(EntryID, CategoryID, QuesNo, Indicator, ScoreValue, EntryStatus)" +
+                    "VALUES (?, ?, ?, ?, ? ,?)", q_sequence, selectedCategoryId, q_sequence, newQuestion, 1, "ACTIVE");
+
+                if (q_sequence != -1)
+                {
+                    // The insertion was successful
+                    Toast.MakeText(Application.Context, "New Question is Added in the Selected Category", ToastLength.Long).Show();
+                    // You can perform any necessary actions here
+                }
+                else
+                {
+                    // The insertion failed
+                    Toast.MakeText(Application.Context, "Failed to add question", ToastLength.Short).Show();
+                    // Handle the error as needed
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+
+            PullEntries();
+        }
+
+        private void GetQuestionSequence()
+        {
+            ICursor gseq = SQLDB.RawQuery(get_question_seq, new string[] { });
+
+            // Ma save sa application pero dli sa db hahahaha.
+            if (gseq.MoveToFirst())
+            {
+                q_sequence = gseq.GetInt(0); // Use index 0 to get the count
+            }
+            else
+            {
+                q_sequence = 0;
+            }
+
+            gseq.Close();
+        }
+
+        private void PullEntries()
+        {
+            _Entries.Clear();
+
+            int q_EntryID, q_CatID, q_QuesNo, q_ScoreValue;
+            string q_Indicator, q_Status;
+            string entryQuery = "SELECT * FROM Entry_tbl WHERE EntryStatus = 'ACTIVE'";
+
+            ICursor cList = SQLDB.RawQuery(entryQuery, new string[] { });
+
+            if (cList.Count > 0)
+            {
+                cList.MoveToFirst();
+
+                do
+                {
+                    q_EntryID = cList.GetInt(cList.GetColumnIndex("EntryID"));
+                    q_CatID = cList.GetInt(cList.GetColumnIndex("CategotyID"));
+                    q_QuesNo = cList.GetInt(cList.GetColumnIndex("QuesNo"));
+                    q_Indicator = cList.GetString(cList.GetColumnIndex("Indicator"));
+                    q_ScoreValue = cList.GetInt(cList.GetColumnIndex("ScoreValue"));
+                    q_Status = cList.GetString(cList.GetColumnIndex("EntryStatus"));
+
+                    QuestionModel a = new QuestionModel(q_EntryID, q_CatID, q_QuesNo, q_Indicator, q_ScoreValue, q_Status);
+
+                    _Entries.Add(a);
+                }
+                while (cList.MoveToNext());
+
+                cList.Close();
+            }
+        }
+
+        // Testing a singular method that handles both edit and delete functions
+        private void EditEntry(int updatedQuesNo, string updatedQuesName, int updatedScoreValue, string updatedEntryStatus)
+        {
+            // reads through every item in _Categories, searches for a match
+            // in selectedCategoryModel, then takes that entry's CategoryID
+            foreach (CategoryModel cm in _Categories)
+            {
+                if (selectedCategoryName == cm.CategoryTitle)
+                {
+                    selectedCategoryID = cm.CategoryID;
+                }
+            }
+            
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            // Use placeholders and parameters in your SQL query
+            _db.Execute("UPDATE Entry_tbl " +
+                        "SET QuesNo = ?, " +
+                            "Indicator = ?, " +
+                            "ScoreValue = ?, " +
+                            "EntryStatus = ?" +
+                        "WHERE CategoryID = ?", updatedQuesNo, updatedQuesName, updatedScoreValue, updatedEntryStatus, selectedCategoryID);
+
+            Toast.MakeText(Application.Context, "Indicator Entry Updated!", ToastLength.Short).Show();
+
+            _db.Commit();
+
+            _db.Close();
+
+            PullEntries();
+        }
 
         #endregion
 
