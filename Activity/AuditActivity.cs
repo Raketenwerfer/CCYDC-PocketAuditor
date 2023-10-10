@@ -177,13 +177,6 @@ namespace PocketAuditor
             }
 
             _db.Close();
-
-
-            //Toast.MakeText
-            //(Application.Context,
-            //"List of Items: " + itemsList.Count.ToString() + "\n" +
-            //"YesIsSelected Items: " + itemsList.Where(a => a.isTrue.Equals("true")).Count().ToString(),
-            //ToastLength.Short).Show();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
