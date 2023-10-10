@@ -63,7 +63,6 @@
     <Compile Include="Activity\EditCategoryActivity.cs" />
     <Compile Include="Activity\ManageMenu.cs" />
     <Compile Include="Activity\QuestionActivity.cs" />
-    <Compile Include="Adapter\QuestionAdapter.cs" />
     <Compile Include="Class\CategoryModel.cs" />
     <Compile Include="Class\QuestionModel.cs" />
     <Compile Include="Class\DataSharingService.cs" />

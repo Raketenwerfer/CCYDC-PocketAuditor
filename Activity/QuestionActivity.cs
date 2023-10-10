@@ -22,7 +22,7 @@ namespace PocketAuditor.Activity
     public class QuestionActivity : AppCompatActivity
     {
         private RecyclerView mQ_Recycler;
-        private QuestionAdapter ques_Adapter;
+        //private QuestionAdapter ques_Adapter;
 
         public List<QuestionModel> ques_List = new List<QuestionModel>();
 
@@ -42,8 +42,8 @@ namespace PocketAuditor.Activity
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
-            ques_Adapter = new QuestionAdapter(ques_List, handler);
-            mQ_Recycler.SetAdapter(ques_Adapter);
+            //ques_Adapter = new QuestionAdapter(ques_List, handler);
+            //mQ_Recycler.SetAdapter(ques_Adapter);
 
             //DisplayQuestionByCategoryClicked();
         }
