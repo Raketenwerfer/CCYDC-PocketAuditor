@@ -180,7 +180,7 @@ namespace PocketAuditor.Fragment
         {
             ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
 
-            // Ma save sa application pero dli sa db hahahaha.
+            // Ma save sa application pero dli sa db server hahahaha.
             if (gseq.MoveToFirst())
             {
                 sequence = gseq.GetInt(0); // Use index 0 to get the count
