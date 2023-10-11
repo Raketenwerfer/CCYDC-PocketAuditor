@@ -477,13 +477,16 @@ namespace PocketAuditor.Fragment
         {
             // reads through every item in _Categories, searches for a match
             // in selectedCategoryModel, then takes that entry's CategoryID
-            foreach (CategoryModel cm in _Categories)
-            {
-                if (selectedCategoryName == cm.CategoryTitle)
-                {
-                    selectedCategoryID = cm.CategoryID;
-                }
-            }
+
+            // ICursor error, cannot find index
+
+            //foreach (CategoryModel cm in _Categories)
+            //{
+            //    if (selectedCategoryName == cm.CategoryTitle)
+            //    {
+            //        selectedCategoryID = cm.CategoryID;
+            //    }
+            //}
             
             var _db = new SQLiteConnection(handler._ConnPath);
 

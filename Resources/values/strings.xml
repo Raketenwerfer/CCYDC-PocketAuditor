@@ -18,7 +18,7 @@
 	<!--activity_main.xml-->
 	<string name="progress">Audit Progress</string>
 	<string name="indi_answered">Indicators Answered:</string>
-	<string name="btn_Next">Finish</string>
+	<string name="btn_Next">Next</string>
 
 	<!--login.xml-->
 	<string name="title">SKORECARD</string>

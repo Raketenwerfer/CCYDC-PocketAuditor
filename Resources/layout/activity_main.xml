@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:background="@android:color/darker_gray">
+        android:background="#239023">
          
         <ImageView
             android:id="@+id/retMenu"
@@ -23,7 +23,7 @@
             android:layout_height="30dp"/>
 
         <LinearLayout
-            android:layout_width="250dp"
+            android:layout_width="230dp"
             android:layout_height="70dp"
             android:orientation="vertical">
 
@@ -39,10 +39,10 @@
 
             <TextView
                 android:text="@string/indi_answered"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="15dp"
                 android:textColor="@android:color/white"
                 android:id="@+id/audit_progress" />
 
@@ -53,8 +53,8 @@
             android:text="@string/btn_Next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="2dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/next"/>
 
     </LinearLayout>
