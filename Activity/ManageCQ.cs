@@ -387,9 +387,10 @@ namespace PocketAuditor.Fragment
 
         private void AddQuestionToDatabase(string selectedCategoryId, string newQuestion)
         {
-            var _db = new SQLiteConnection(handler._ConnPath);
             GetQuestionSequence();
             q_sequence++;
+
+            var _db = new SQLiteConnection(handler._ConnPath);
 
             ContentValues values = new ContentValues();
             values.Put("CategoryID", selectedCategoryId);
@@ -456,7 +457,7 @@ namespace PocketAuditor.Fragment
                 do
                 {
                     q_EntryID = cList.GetInt(cList.GetColumnIndex("EntryID"));
-                    q_CatID = cList.GetInt(cList.GetColumnIndex("CategotyID"));
+                    q_CatID = cList.GetInt(cList.GetColumnIndex("CategoryID"));
                     q_QuesNo = cList.GetInt(cList.GetColumnIndex("QuesNo"));
                     q_Indicator = cList.GetString(cList.GetColumnIndex("Indicator"));
                     q_ScoreValue = cList.GetInt(cList.GetColumnIndex("ScoreValue"));
@@ -480,14 +481,22 @@ namespace PocketAuditor.Fragment
 
             // ICursor error, cannot find index
 
-            //foreach (CategoryModel cm in _Categories)
-            //{
-            //    if (selectedCategoryName == cm.CategoryTitle)
-            //    {
-            //        selectedCategoryID = cm.CategoryID;
-            //    }
-            //}
-            
+            foreach (CategoryModel cm in _Categories)
+            {
+                try
+                {
+                    if (selectedCategoryName == cm.CategoryTitle)
+                    {
+                        selectedCategoryID = cm.CategoryID;
+                    }
+                }
+                catch
+                {
+                    Toast.MakeText(Application.Context, "No valid category found", ToastLength.Short).Show();
+                }
+                
+            }
+
             var _db = new SQLiteConnection(handler._ConnPath);
 
             // Use placeholders and parameters in your SQL query
