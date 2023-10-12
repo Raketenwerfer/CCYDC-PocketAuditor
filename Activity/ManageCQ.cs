@@ -44,6 +44,10 @@ namespace PocketAuditor.Fragment
         private string selectedCategoryName;
         private int selectedCategoryID;
 
+        // Establish Database Connection: var _db = new SQLiteConnection(handler._ConnPath);
+        // Do Queries: _db.Execute(query_here);
+        // Close Connection: _db.Close();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -117,33 +121,6 @@ namespace PocketAuditor.Fragment
         }
 
         #region Methods for Categories Display and CRUD
-
-        private List<string> GetCategoryIdsFromDatabase() //new
-        {
-            List<string> categoryIds = new List<string>();
-
-            using (var handler = new DB_Initiator(this))
-            {
-                // Assuming you have a Category table with a column "CategoryID"
-                SQLiteDatabase db = handler.ReadableDatabase;
-                string[] projection = { "CategoryID" };
-
-                using (ICursor cursor = db.Query("Category", projection, null, null, null, null, null))
-                {
-                    if (cursor != null)
-                    {
-                        while (cursor.MoveToNext())
-                        {
-                            int columnIndex = cursor.GetColumnIndex("CategoryID");
-                            string categoryId = cursor.GetString(columnIndex);
-                            categoryIds.Add(categoryId);
-                        }
-                        cursor.Close();
-                    }
-                }
-            }
-            return categoryIds;
-        }
 
         private void EditCategoryName(object sender, EventArgs e)
         {
@@ -348,6 +325,34 @@ namespace PocketAuditor.Fragment
 
         #region Methods for Questions Display and CRUD
 
+        // Acquire ID Method, in-case for future use
+        //
+        //private List<string> GetCategoryIdsFromDatabase() //new
+        //{
+        //    List<string> categoryIds = new List<string>();
+
+        //    using (var handler = new DB_Initiator(this))
+        //    {
+        //        // Assuming you have a Category table with a column "CategoryID"
+        //        SQLiteDatabase db = handler.ReadableDatabase;
+        //        string[] projection = { "CategoryID" };
+
+        //        using (ICursor cursor = db.Query("Category", projection, null, null, null, null, null))
+        //        {
+        //            if (cursor != null)
+        //            {
+        //                while (cursor.MoveToNext())
+        //                {
+        //                    int columnIndex = cursor.GetColumnIndex("CategoryID");
+        //                    string categoryId = cursor.GetString(columnIndex);
+        //                    categoryIds.Add(categoryId);
+        //                }
+        //                cursor.Close();
+        //            }
+        //        }
+        //    }
+        //    return categoryIds;
+        //}
 
         private void AddNewQuestion_Click(object sender, EventArgs e)
         {
@@ -361,11 +366,11 @@ namespace PocketAuditor.Fragment
             var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
 
             // Populate the spinner with category IDs fetched from the database
-            List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, categoryIds);
+            //List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
+            //ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, categoryIds);
 
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinner.Adapter = adapter;
+            //adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            //spinner.Adapter = adapter;
 
             builder.SetCancelable(false)
                 .SetPositiveButton("Add", delegate
@@ -387,17 +392,17 @@ namespace PocketAuditor.Fragment
 
         private void AddQuestionToDatabase(string selectedCategoryId, string newQuestion)
         {
-            GetQuestionSequence();
-            q_sequence++;
-
-            var _db = new SQLiteConnection(handler._ConnPath);
-
             ContentValues values = new ContentValues();
             values.Put("CategoryID", selectedCategoryId);
             values.Put("Indicator", newQuestion);
 
             try
             {
+                GetQuestionSequence();
+                q_sequence++;
+
+                var _db = new SQLiteConnection(handler._ConnPath);
+
                 // Insert the new question into the database
                 _db.Execute("INSERT INTO Entry_tbl(EntryID, CategoryID, QuesNo, Indicator, ScoreValue, EntryStatus)" +
                     "VALUES (?, ?, ?, ?, ? ,?)", q_sequence, selectedCategoryId, q_sequence, newQuestion, 1, "ACTIVE");
@@ -414,6 +419,8 @@ namespace PocketAuditor.Fragment
                     Toast.MakeText(Application.Context, "Failed to add question", ToastLength.Short).Show();
                     // Handle the error as needed
                 }
+
+                _db.Close();
             }
             catch (Exception ex)
             {
