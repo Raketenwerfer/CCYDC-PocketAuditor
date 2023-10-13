@@ -363,7 +363,7 @@ namespace PocketAuditor.Fragment
             builder.SetView(mView);
 
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
-            var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
+            //var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
 
             // Populate the spinner with category IDs fetched from the database
             //List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
@@ -376,11 +376,11 @@ namespace PocketAuditor.Fragment
                 .SetPositiveButton("Add", delegate
                 {
                     // Retrieve the selected category and new question
-                    string selectedCategoryId = spinner.SelectedItem.ToString();
+                    //string selectedCategoryId = spinner.SelectedItem.ToString();
                     string newQuestion = userContent.Text;
 
                     // Add the new question to the database with the selected category ID
-                    AddQuestionToDatabase(selectedCategoryId, newQuestion); // Implement this method
+                    AddQuestionToDatabase(/*selectedCategoryId,*/ newQuestion); // Implement this method
 
                 })
                 .SetNegativeButton("Cancel", delegate
@@ -390,10 +390,10 @@ namespace PocketAuditor.Fragment
             builder.Create().Show();
         }
 
-        private void AddQuestionToDatabase(string selectedCategoryId, string newQuestion)
+        private void AddQuestionToDatabase(/*string selectedCategoryId,*/ string newQuestion)
         {
             ContentValues values = new ContentValues();
-            values.Put("CategoryID", selectedCategoryId);
+            //values.Put("CategoryID", selectedCategoryId);
             values.Put("Indicator", newQuestion);
 
             try
@@ -404,8 +404,8 @@ namespace PocketAuditor.Fragment
                 var _db = new SQLiteConnection(handler._ConnPath);
 
                 // Insert the new question into the database
-                _db.Execute("INSERT INTO Entry_tbl(EntryID, CategoryID, QuesNo, Indicator, ScoreValue, EntryStatus)" +
-                    "VALUES (?, ?, ?, ?, ? ,?)", q_sequence, selectedCategoryId, q_sequence, newQuestion, 1, "ACTIVE");
+                _db.Execute("INSERT INTO Entry_tbl(EntryID,  QuesNo, Indicator, ScoreValue, EntryStatus)" +
+                    "VALUES (?, ?, ?, ? ,?)", q_sequence,  q_sequence, newQuestion, 1, "ACTIVE");
 
                 if (q_sequence != -1)
                 {
