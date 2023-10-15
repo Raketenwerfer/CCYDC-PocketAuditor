@@ -23,7 +23,6 @@ namespace PocketAuditor.Class
         public string Remark { get; set; }
         public string btnIsInteracted { get; set; }
         public string isTrue { get; set; }
-
         public bool IsNoBtnSelected { get; set; }
         public bool IsYesBtnSelected {  get; set; }
 

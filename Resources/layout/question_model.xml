@@ -4,32 +4,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#93b8a2"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true">
 
-        <TextView
-            android:text="Display Category ID"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="17dp"
-            android:id="@+id/Display_catID"/>
+            android:padding="5dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:text="Display Category Question"
-            android:layout_width="295dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="15dp"
-            android:id="@+id/Display_cateQues" />
+            <TextView
+                android:text="Number."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:id="@+id/Pull_CID" />
 
-    </LinearLayout>
+            <TextView
+                android:text="Question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                android:id="@+id/Display_CatIndi" />
+
+            <ImageView
+                android:id="@+id/Delquestion"
+                android:src="@drawable/ic_edit"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="170dp"
+                android:clickable="true"/>
+
+            <ImageView
+                android:src="@drawable/ic_delete"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginRight="200dp"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
