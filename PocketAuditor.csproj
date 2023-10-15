@@ -63,6 +63,7 @@
     <Compile Include="Activity\EditCategoryActivity.cs" />
     <Compile Include="Activity\ManageMenu.cs" />
     <Compile Include="Activity\QuestionActivity.cs" />
+    <Compile Include="Adapter\QuestionAdapter.cs" />
     <Compile Include="Class\CategoryModel.cs" />
     <Compile Include="Class\QuestionModel.cs" />
     <Compile Include="Class\DataSharingService.cs" />
@@ -118,10 +119,10 @@
       <Version>28.0.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v4">
-      <Version>23.4.0.1</Version>
+      <Version>28.0.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
-      <Version>23.4.0.1</Version>
+      <Version>28.0.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.4" />
     <PackageReference Include="Xamarin.AndroidX.CardView">

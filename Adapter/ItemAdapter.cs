@@ -13,17 +13,15 @@ namespace PocketAuditor.Adapter
     {
         private readonly List<ItemModel> itemList;
 
-        private readonly DB_Initiator dbInitiator;
         private readonly Context context;
 
         private readonly DataSharingService dss = DataSharingService.GetInstance();
 
         public int c01;
 
-        public ItemAdapter(List<ItemModel> itemList, DB_Initiator dbInitiator)
+        public ItemAdapter(List<ItemModel> itemList)
         {
             this.itemList = itemList;
-            this.dbInitiator = dbInitiator;
             this.context = Application.Context;
         }
 

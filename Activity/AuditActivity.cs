@@ -64,7 +64,7 @@ namespace PocketAuditor
             DisplayData();
 
             // Create adapter and set it to RecyclerView
-            adapter = new ItemAdapter(itemsList, handler);
+            adapter = new ItemAdapter(itemsList);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table

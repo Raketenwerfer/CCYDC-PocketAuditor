@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using Android.Content;
 using AndroidX.Core.View;
 using System.Linq;
+using AndroidX.RecyclerView.Widget;
+using PocketAuditor.Adapter;
 
 namespace PocketAuditor.Fragment
 {
@@ -23,6 +25,8 @@ namespace PocketAuditor.Fragment
     {
         private readonly EditText CateName_eT;
         private DrawerLayout drawerLayout;
+        private RecyclerView question_recycler;
+        private QuestionAdapter adapter;
 
         TextView TxtDisCate;
 
@@ -56,6 +60,7 @@ namespace PocketAuditor.Fragment
             SetContentView(Resource.Layout.activity_drawer);
 
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
+            question_recycler = FindViewById<RecyclerView>(Resource.Id.Questionrecycler);
             
             TxtDisCate = FindViewById<TextView>(Resource.Id.txtDC);
 
@@ -78,6 +83,10 @@ namespace PocketAuditor.Fragment
             SQLDB = handler.WritableDatabase;
 
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
+
+            adapter = new QuestionAdapter(_Entries);
+            question_recycler.SetAdapter(adapter);
+
 
             PullEntries();
             InitializeNavView(_Categories); 
@@ -112,6 +121,7 @@ namespace PocketAuditor.Fragment
                     selectedCategoryName = selItem.TitleFormatted.ToString(); //new
                     TxtDisCate.Text = selectedCategoryName;
 
+                    PullEntries();
                     Toast.MakeText(ApplicationContext,  selectedCategoryName, ToastLength.Short).Show();
                 }
 
