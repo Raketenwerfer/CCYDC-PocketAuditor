@@ -363,24 +363,13 @@ namespace PocketAuditor.Fragment
             builder.SetView(mView);
 
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
-            //var spinner = mView.FindViewById<Spinner>(Resource.Id.listCateNum);
-
-            // Populate the spinner with category IDs fetched from the database
-            //List<string> categoryIds = GetCategoryIdsFromDatabase(); // Implement this method
-            //ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, categoryIds);
-
-            //adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            //spinner.Adapter = adapter;
 
             builder.SetCancelable(false)
                 .SetPositiveButton("Add", delegate
                 {
-                    // Retrieve the selected category and new question
-                    //string selectedCategoryId = spinner.SelectedItem.ToString();
                     string newQuestion = userContent.Text;
 
-                    // Add the new question to the database with the selected category ID
-                    AddQuestionToDatabase(/*selectedCategoryId,*/ newQuestion); // Implement this method
+                    AddQuestionToDatabase(newQuestion);
 
                 })
                 .SetNegativeButton("Cancel", delegate
