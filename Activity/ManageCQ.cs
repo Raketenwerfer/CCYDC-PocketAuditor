@@ -391,9 +391,9 @@ namespace PocketAuditor.Fragment
 
         private void AddQuestionToDatabase(/*string selectedCategoryId,*/ string newQuestion)
         {
-            ContentValues values = new ContentValues();
-            //values.Put("CategoryID", selectedCategoryId);
-            values.Put("Indicator", newQuestion);
+            //ContentValues values = new ContentValues();
+            ////values.Put("CategoryID", selectedCategoryId);
+            //values.Put("Indicator", newQuestion);
 
             try
             {
