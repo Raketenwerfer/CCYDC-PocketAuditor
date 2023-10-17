@@ -95,34 +95,35 @@ namespace PocketAuditor.Fragment
             {
                 IMenuItem selItem = e.MenuItem;
 
-                // Check for long press on a menu item
-                //selItem.ActionView.LongClick += (view, args) =>
-                //{
-                //    Android.App.AlertDialog.Builder delBuilder = new Android.App.AlertDialog.Builder(this);
-                //    delBuilder.SetTitle("Delete Category");
-                //    delBuilder.SetMessage("Are you sure you want to delete this category?");
-                //    delBuilder.SetPositiveButton("Yes", (s, a) =>
-                //    {
-
-                //    });
-                //    delBuilder.SetNegativeButton("No", (s, a) =>
-                //    {
-                //        delBuilder.Dispose();
-                //    });
-                //    delBuilder.Show();
-                //};
-
+                
 
                 // This section handles click events. It will read the item title
                 // then passes the title name to another method to work off with it
 
                 if (selItem != null)
                 {
-                    selectedCategoryName = selItem.TitleFormatted.ToString(); //new
+                    selectedCategoryName = selItem.TitleFormatted.ToString(); 
                     TxtDisCate.Text = selectedCategoryName;
 
                     PullEntries();
                     Toast.MakeText(ApplicationContext,  selectedCategoryName, ToastLength.Short).Show();
+
+                    //Check for long press on a menu item -------------------------------------------------------------ERROR ni dapita
+                    //selItem.ActionView.LongClick += (view, args) =>
+                    //{
+                    //    Android.App.AlertDialog.Builder delBuilder = new Android.App.AlertDialog.Builder(this);
+                    //    delBuilder.SetTitle("Delete Category");
+                    //    delBuilder.SetMessage("Are you sure you want to delete this category?");
+                    //    delBuilder.SetPositiveButton("Yes", (s, a) =>
+                    //    {
+                    //        DeleteCategory();
+                    //    });
+                    //    delBuilder.SetNegativeButton("No", (s, a) =>
+                    //    {
+                    //        delBuilder.Dispose();
+                    //    });
+                    //    delBuilder.Show();
+                    //};
                 }
 
                 DrawerLayout dL = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
@@ -248,7 +249,7 @@ namespace PocketAuditor.Fragment
 
         public void PullCategories()
         {
-            _Categories.Clear();
+            //_Categories.Clear(); ge comment nako ni kay every time mag run tas app, ang katong mga newly added category kay dili ma view sa drawer
 
             int q_CatID;
             string catQuery = "SELECT * FROM Category_tbl WHERE CategoryStatus = 'ACTIVE'";
@@ -283,7 +284,7 @@ namespace PocketAuditor.Fragment
                         "SET CategoryTitle = ? " +
                         "WHERE CategoryTitle = ?", updatedCategoryName, selectedCategoryName);
 
-            Toast.MakeText(Application.Context, "Category Renamed!", ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Category is Renamed!", ToastLength.Short).Show();
 
             _db.Commit();
 
