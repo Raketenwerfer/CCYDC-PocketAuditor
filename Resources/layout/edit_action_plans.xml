@@ -18,7 +18,7 @@
             android:id="@+id/textView1" />
 
          <ImageView
-                android:id="@+id/"
+                android:id="@+id/test"
                 android:src="@drawable/ic_black_add"
                 android:layout_width="20dp"
                 android:layout_height="33dp"
