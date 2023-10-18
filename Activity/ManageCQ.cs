@@ -37,8 +37,8 @@ namespace PocketAuditor.Fragment
 
         private NavigationView navView;
 
-        private List<CategoryModel> _Categories = new List<CategoryModel>();
-        private List<QuestionModel> _Entries = new List<QuestionModel>();
+        public List<CategoryModel> _Categories = new List<CategoryModel>();
+        public List<QuestionModel> _Entries = new List<QuestionModel>();
         private readonly object alertdialogBuilder;
 
         readonly string get_sequence = "SELECT COUNT(*) FROM Category_tbl";
@@ -84,12 +84,9 @@ namespace PocketAuditor.Fragment
 
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
-            adapter = new QuestionAdapter(_Entries);
-            question_recycler.SetAdapter(adapter);
-
-
+            GetQuestionSequence();
             PullEntries();
-            InitializeNavView(_Categories); 
+            InitializeNavView(_Categories);
 
             navView.NavigationItemSelected += (sender, e) =>
             {
@@ -118,16 +115,30 @@ namespace PocketAuditor.Fragment
 
                 if (selItem != null)
                 {
+
                     selectedCategoryName = selItem.TitleFormatted.ToString(); //new
                     TxtDisCate.Text = selectedCategoryName;
 
-                    PullEntries();
-                    Toast.MakeText(ApplicationContext,  selectedCategoryName, ToastLength.Short).Show();
+                    foreach (CategoryModel cm in _Categories)
+                    {
+                        if (cm.CategoryTitle == selectedCategoryName)
+                        {
+                            selectedCategoryID = cm.CategoryID;
+                        }
+                    }
+
+
+                    Toast.MakeText(ApplicationContext,  selectedCategoryName + selectedCategoryID.ToString(), ToastLength.Short).Show();
+                }
+                else
+                {
+                   
                 }
 
                 DrawerLayout dL = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
                 dL.CloseDrawer(GravityCompat.Start);
             };
+
         }
 
         #region Methods for Categories Display and CRUD
@@ -183,8 +194,11 @@ namespace PocketAuditor.Fragment
 
         private void BackMenu_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(ManageMenu));
-            StartActivity(intent);
+            // Uncomment this after testing
+            //Intent intent = new Intent(this, typeof(ManageMenu));
+            //StartActivity(intent);
+
+            Toast.MakeText(ApplicationContext, q_sequence.ToString(), ToastLength.Short).Show();
         }
 
         private void AddCategory_Click(object sender, EventArgs e)
@@ -403,8 +417,8 @@ namespace PocketAuditor.Fragment
                 var _db = new SQLiteConnection(handler._ConnPath);
 
                 // Insert the new question into the database
-                _db.Execute("INSERT INTO Entry_tbl(EntryID,  QuesNo, Indicator, ScoreValue, EntryStatus)" +
-                    "VALUES (?, ?, ?, ? ,?)", q_sequence,  q_sequence, newQuestion, 1, "ACTIVE");
+                _db.Execute("INSERT INTO Entry_tbl(EntryID, Category_ID,  QuesNo, Indicator, ScoreValue, EntryStatus)" +
+                    "VALUES (?, ?, ?, ?, ? ,?)", q_sequence, selectedCategoryID, q_sequence, newQuestion, 1, "ACTIVE");
 
                 if (q_sequence != -1)
                 {
@@ -477,6 +491,10 @@ namespace PocketAuditor.Fragment
 
                 cList.Close();
             }
+
+            adapter = new QuestionAdapter(_Entries);
+            question_recycler.SetAdapter(adapter);
+
         }
 
         // Testing a singular method that handles both edit and delete functions

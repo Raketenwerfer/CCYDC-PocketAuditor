@@ -90,10 +90,12 @@ namespace PocketAuditor
             // Queries the questions to display as cardviews. Cell values are stored in ItemModel
 
             string q_EntryID = null, q_CatID = null, q_Question = null, q_Remarks, qC_Title = null;
-            string query = "SELECT E.Indicator, E.EntryID, " +
+            string query = "SELECT E.Indicator, E.EntryID, E.EntryStatus, " +
                                   "C.Category_ID, C.CategoryTitle " +
                             "FROM Entry_tbl E INNER JOIN Category_tbl C " +
-                            "ON E.CategoryID = C.Category_ID ORDER BY QuesNo ASC";
+                            "ON E.CategoryID = C.Category_ID " +
+                            "WHERE EntryStatus = 'ACTIVE' " +
+                            "ORDER BY QuesNo ASC";
 
             ICursor showItems = SQLDB.RawQuery(query, new string[] { });
 
