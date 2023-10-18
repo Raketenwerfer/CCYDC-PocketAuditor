@@ -92,6 +92,7 @@ namespace PocketAuditor.Fragment
             {
                 IMenuItem selItem = e.MenuItem;
 
+                // This section has been merged with another commit. This takes the IDs of selected categories 
 
                 if (selItem != null)
                 {
