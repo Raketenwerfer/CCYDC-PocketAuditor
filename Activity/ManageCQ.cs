@@ -238,8 +238,10 @@ namespace PocketAuditor.Fragment
 
         public void PullCategories()
         {
-            //_Categories.Clear(); ge comment nako ni kay every time mag run tas app, ang katong mga newly added category kay dili ma view sa drawer
-
+            _Categories.Clear(); //ge comment nako ni kay every time mag run tas app, ang katong mga newly added category kay dili ma view sa drawer
+                                 
+                                 // Re-added, new categories are viewable on my end with this code. Gibutang nako ni para tabang refresh sa category
+                                 // list
             int q_CatID;
             string catQuery = "SELECT * FROM Category_tbl WHERE CategoryStatus = 'ACTIVE'";
 
