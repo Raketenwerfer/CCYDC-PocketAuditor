@@ -60,7 +60,7 @@ namespace PocketAuditor.Fragment
             SetContentView(Resource.Layout.activity_drawer);
 
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
-            question_recycler = FindViewById<RecyclerView>(Resource.Id.Questionrecycler);
+            question_recycler = FindViewById<RecyclerView>(Resource.Id.questionRecycler);
             
             TxtDisCate = FindViewById<TextView>(Resource.Id.txtDC);
 

@@ -36,7 +36,7 @@ namespace PocketAuditor.Activity
             // Create your application here
             SetContentView(Resource.Layout.question_model);
 
-            mQ_Recycler = FindViewById<RecyclerView>(Resource.Id.Questionrecycler);
+            mQ_Recycler = FindViewById<RecyclerView>(Resource.Id.questionRecycler);
             mQ_Recycler.SetLayoutManager(new LinearLayoutManager(this));
 
             handler = new DB_Initiator(this);
