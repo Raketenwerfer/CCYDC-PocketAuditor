@@ -61,6 +61,7 @@ namespace PocketAuditor.Fragment
 
             drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_Layout);
             question_recycler = FindViewById<RecyclerView>(Resource.Id.questionRecycler);
+            question_recycler.SetLayoutManager(new LinearLayoutManager(this));
             
             TxtDisCate = FindViewById<TextView>(Resource.Id.txtDC);
 
@@ -85,8 +86,11 @@ namespace PocketAuditor.Fragment
             navView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
             GetQuestionSequence();
-            PullEntries();
             InitializeNavView(_Categories);
+            InitSelectedCategory();
+            PullEntries();
+            
+            navView.SetCheckedItem(0);
 
             navView.NavigationItemSelected += (sender, e) =>
             {
@@ -115,10 +119,17 @@ namespace PocketAuditor.Fragment
                 dL.CloseDrawer(GravityCompat.Start);
             };
 
+
+
         }
 
         #region Methods for Categories Display and CRUD
 
+        public void InitSelectedCategory()
+        {
+            selectedCategoryID = _Categories.ElementAt<CategoryModel>(0).CategoryID;
+            TxtDisCate.Text = _Categories.ElementAt<CategoryModel>(0).CategoryTitle;
+        }
         private void EditCategoryName(object sender, EventArgs e)
         {
             LayoutInflater inflater = LayoutInflater.FromContext(this);
@@ -327,35 +338,6 @@ namespace PocketAuditor.Fragment
 
         #region Methods for Questions Display and CRUD
 
-        // Acquire ID Method, in-case for future use
-        //
-        //private List<string> GetCategoryIdsFromDatabase() //new
-        //{
-        //    List<string> categoryIds = new List<string>();
-
-        //    using (var handler = new DB_Initiator(this))
-        //    {
-        //        // Assuming you have a Category table with a column "CategoryID"
-        //        SQLiteDatabase db = handler.ReadableDatabase;
-        //        string[] projection = { "CategoryID" };
-
-        //        using (ICursor cursor = db.Query("Category", projection, null, null, null, null, null))
-        //        {
-        //            if (cursor != null)
-        //            {
-        //                while (cursor.MoveToNext())
-        //                {
-        //                    int columnIndex = cursor.GetColumnIndex("CategoryID");
-        //                    string categoryId = cursor.GetString(columnIndex);
-        //                    categoryIds.Add(categoryId);
-        //                }
-        //                cursor.Close();
-        //            }
-        //        }
-        //    }
-        //    return categoryIds;
-        //}
-
         private void AddNewQuestion_Click(object sender, EventArgs e)
         {
             LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
@@ -381,11 +363,8 @@ namespace PocketAuditor.Fragment
             builder.Create().Show();
         }
 
-        private void AddQuestionToDatabase(/*string selectedCategoryId,*/ string newQuestion)
+        private void AddQuestionToDatabase(string newQuestion)
         {
-            //ContentValues values = new ContentValues();
-            ////values.Put("CategoryID", selectedCategoryId);
-            //values.Put("Indicator", newQuestion);
 
             try
             {
@@ -395,7 +374,7 @@ namespace PocketAuditor.Fragment
                 var _db = new SQLiteConnection(handler._ConnPath);
 
                 // Insert the new question into the database
-                _db.Execute("INSERT INTO Entry_tbl(EntryID, Category_ID,  QuesNo, Indicator, ScoreValue, EntryStatus)" +
+                _db.Execute("INSERT INTO Entry_tbl(EntryID, CategoryID,  QuesNo, Indicator, ScoreValue, EntryStatus)" +
                     "VALUES (?, ?, ?, ?, ? ,?)", q_sequence, selectedCategoryID, q_sequence, newQuestion, 1, "ACTIVE");
 
                 if (q_sequence != -1)
@@ -444,7 +423,7 @@ namespace PocketAuditor.Fragment
 
             int q_EntryID, q_CatID, q_QuesNo, q_ScoreValue;
             string q_Indicator, q_Status;
-            string entryQuery = "SELECT * FROM Entry_tbl WHERE EntryStatus = 'ACTIVE'";
+            string entryQuery = "SELECT * FROM Entry_tbl WHERE (EntryStatus = 'ACTIVE' AND CategoryID = " + selectedCategoryID + ")";
 
             ICursor cList = SQLDB.RawQuery(entryQuery, new string[] { });
 
