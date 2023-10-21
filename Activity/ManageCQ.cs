@@ -182,10 +182,10 @@ namespace PocketAuditor.Fragment
         private void BackMenu_Click(object sender, EventArgs e)
         {
             // Uncomment this after testing
-            //Intent intent = new Intent(this, typeof(ManageMenu));
-            //StartActivity(intent);
+            Intent intent = new Intent(this, typeof(ManageMenu));
+            StartActivity(intent);
 
-            Toast.MakeText(ApplicationContext, q_sequence.ToString(), ToastLength.Short).Show();
+            //Toast.MakeText(ApplicationContext, q_sequence.ToString(), ToastLength.Short).Show();
         }
 
         private void AddCategory_Click(object sender, EventArgs e)
@@ -219,7 +219,7 @@ namespace PocketAuditor.Fragment
 
                         InitializeNavView(_Categories);
 
-                        navView.Invalidate(); //This is supposed to refresh the NavView
+                        navView.Invalidate(); 
 
                         _db.Close();
 
@@ -249,7 +249,7 @@ namespace PocketAuditor.Fragment
 
         public void PullCategories()
         {
-            _Categories.Clear(); //ge comment nako ni kay every time mag run tas app, ang katong mga newly added category kay dili ma view sa drawer
+            _Categories.Clear(); 
                                  
                                  // Re-added, new categories are viewable on my end with this code. Gibutang nako ni para tabang refresh sa category
                                  // list

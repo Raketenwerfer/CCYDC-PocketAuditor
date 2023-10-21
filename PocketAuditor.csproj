@@ -60,10 +60,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\ActionPlanActivity.cs" />
+    <Compile Include="Activity\AddActionPlanActivity.cs" />
     <Compile Include="Activity\EditCategoryActivity.cs" />
     <Compile Include="Activity\ManageMenu.cs" />
     <Compile Include="Activity\QuestionActivity.cs" />
+    <Compile Include="Adapter\ActionPlanAdapter.cs" />
     <Compile Include="Adapter\QuestionAdapter.cs" />
+    <Compile Include="Class\ActionPlanModel.cs" />
     <Compile Include="Class\CategoryModel.cs" />
     <Compile Include="Class\QuestionModel.cs" />
     <Compile Include="Class\DataSharingService.cs" />
@@ -198,11 +202,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\edit_action_plans.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_back_mnage_audit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +214,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\add_new_question.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\action_plans.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_addPlan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\add_action_plans.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\action_plans_model.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

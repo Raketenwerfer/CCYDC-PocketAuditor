@@ -42,52 +42,6 @@ namespace PocketAuditor.Activity
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
-            //ques_Adapter = new QuestionAdapter(ques_List, handler);
-            //mQ_Recycler.SetAdapter(ques_Adapter);
-
-            //DisplayQuestionByCategoryClicked();
         }
-
-
-        //private void DisplayQuestionByCategoryClicked()
-        //{
-        //    string selectedCategoryName = "Category Title"; // Replace with the actual selected category name
-
-        //    // Clear the ques_List before populating it with the new data
-        //    ques_List.Clear();
-
-        //    string query = "SELECT E.Indicator, E.EntryID, C.Category_ID, C.CategoryTitle " +
-        //        "FROM Entry_tbl E INNER JOIN Category_tbl C ON E.CategoryID = C.Category_ID " +
-        //        "WHERE C.CategoryTitle = ? ORDER BY QuesNo ASC";
-
-        //    ICursor showItems = SQLDB.RawQuery(query, new string[] { selectedCategoryName });
-
-        //    if (showItems.Count > 0)
-        //    {
-        //        showItems.MoveToFirst();
-
-        //        do
-        //        {
-        //            string q_EntryID = showItems.GetString(showItems.GetColumnIndex("EntryID"));
-        //            string q_Question = showItems.GetString(showItems.GetColumnIndex("Indicator"));
-
-        //            // Create a QuestionModel without q_Remarks
-        //            QuestionModel question = new QuestionModel(q_EntryID, selectedCategoryName, q_Question)
-        //            {
-        //                EntryID = q_EntryID,
-        //                Indicator = q_Question
-        //            };
-
-        //            ques_List.Add(question);
-        //        }
-        //        while (showItems.MoveToNext());
-
-        //        showItems.Close();
-        //    }
-
-        //    // Notify the adapter that the data has changed
-        //    ques_Adapter.NotifyDataSetChanged();
-        //}
-
     }
 }

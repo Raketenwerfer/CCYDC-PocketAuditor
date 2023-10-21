@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using PocketAuditor.Activity;
 using PocketAuditor.Fragment;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,8 @@ namespace PocketAuditor
 
         private void StartEditAP(object sender, EventArgs e)
         {
+            StartActivity(typeof (ActionPlanActivity));
+
             Toast.MakeText(Application.Context, "Open Action Plans Here", ToastLength.Short).Show();
         }
 
