@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
         android:textSize="19sp"
-        android:layout_marginLeft="30dp"
-        android:id="@+id/textView1" />
+        android:layout_marginLeft="30dp"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -41,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:id="@+id/editText2"
+            android:id="@+id/plan_CatName"
             android:inputType="text" />
 
         <TextView
@@ -57,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:id="@+id/editText3"
+            android:id="@+id/plan_CatDescription"
             android:inputType="text" />
 
         <TextView
@@ -73,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:id="@+id/editText4"
+            android:id="@+id/plan_PasteLink"
+            android:layout_marginBottom="50dp"
             android:inputType="text" />
 
     </LinearLayout>
