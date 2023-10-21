@@ -22,7 +22,27 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
-             
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end">
+
+                <ImageView
+                    android:src="@drawable/ic_deleteplan"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/editPlans" />
+
+                <ImageView
+                    android:src="@drawable/ic_editplan"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="50dp"
+                    android:id="@+id/editPlans" />
+
+            </RelativeLayout>
+            
             <TextView
                 android:text="Action Plan"
                 android:textSize="20dp"
@@ -36,6 +56,7 @@
                 android:clickable="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtPlanName" />

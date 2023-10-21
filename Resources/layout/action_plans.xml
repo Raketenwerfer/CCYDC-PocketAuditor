@@ -11,18 +11,27 @@
         android:padding="20dp"
         android:gravity="center">
 
+        <ImageView
+            android:src="@drawable/ic_returnmanage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_toStartOf="@id/textView1"
+            android:id="@+id/returnManageAudit" />
+
         <TextView
             android:text="Action Plan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"
+            android:layout_marginStart="20dp"
             android:id="@+id/textView1" />
 
         <ImageView
             android:src="@drawable/ic_addplan"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/textView1"
             android:id="@+id/addnewPlan" />
 
@@ -33,9 +42,10 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:id="@+id/R_displayPlan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    </FrameLayout>
+    </FrameLayout> 
 
 </LinearLayout>
