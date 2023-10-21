@@ -89,15 +89,15 @@
 
                 <ImageView
                     android:id="@+id/editCat"
-                    android:src="@drawable/ic_edit"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="25dp"
+                    android:src="@drawable/ic_editcat"
+                    android:layout_width="22dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="35dp"
                     android:layout_alignParentRight="true"/>
 
                  <ImageView
                     android:id="@+id/deleteCat"
-                    android:src="@drawable/ic_delete"
+                    android:src="@drawable/ic_deletecat"
                     android:layout_width="22dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"/>

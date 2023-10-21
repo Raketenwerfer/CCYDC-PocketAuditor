@@ -32,7 +32,7 @@
                     android:src="@drawable/ic_deleteplan"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:id="@+id/editPlans" />
+                    android:id="@+id/deletePlans" />
 
                 <ImageView
                     android:src="@drawable/ic_editplan"

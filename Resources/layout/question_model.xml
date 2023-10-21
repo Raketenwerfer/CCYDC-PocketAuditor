@@ -50,21 +50,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                            <ImageView
-                android:id="@+id/Delquestion"
-                android:src="@drawable/ic_edit"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:clickable="true"
+                <ImageView
+                    android:id="@+id/Delquestion"
+                    android:src="@drawable/ic_editcat"
+                    android:layout_width="20dp"
+                    android:layout_height="28dp"
+                    android:clickable="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="30dp"/>
+                    android:layout_marginRight="35dp"/>
 
-            <ImageView
-                android:src="@drawable/ic_delete"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
+                <ImageView
+                    android:src="@drawable/ic_deletecat"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                android:clickable="true"/>
+                    android:clickable="true"/>
 
             </RelativeLayout>
 

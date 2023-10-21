@@ -22,7 +22,6 @@ namespace PocketAuditor.Activity
     public class QuestionActivity : AppCompatActivity
     {
         private RecyclerView mQ_Recycler;
-        //private QuestionAdapter ques_Adapter;
 
         public List<QuestionModel> ques_List = new List<QuestionModel>();
 
