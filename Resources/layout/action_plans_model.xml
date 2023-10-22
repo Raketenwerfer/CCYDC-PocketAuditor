@@ -29,17 +29,17 @@
                 android:layout_gravity="end">
 
                 <ImageView
-                    android:src="@drawable/ic_deleteplan"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/deletePlans" />
-
-                <ImageView
                     android:src="@drawable/ic_editplan"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="50dp"
                     android:id="@+id/editPlans" />
+
+                <ImageView
+                    android:src="@drawable/ic_deleteplan"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="50dp"
+                    android:id="@id/deletePlans" />
 
             </RelativeLayout>
             
