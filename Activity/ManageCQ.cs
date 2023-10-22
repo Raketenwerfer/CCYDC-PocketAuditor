@@ -445,7 +445,7 @@ namespace PocketAuditor.Fragment
             gseq.Close();
         }
 
-        private void PullEntries()
+        public void PullEntries()
         {
             _Entries.Clear();
 
@@ -477,7 +477,7 @@ namespace PocketAuditor.Fragment
                 cList.Close();
             }
 
-            adapter = new QuestionAdapter(_Entries, this);
+            adapter = new QuestionAdapter(_Entries, this, selectedCategoryID);
             question_recycler.SetAdapter(adapter);
 
         }

@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PocketAuditor.Fragment;
+using Android.Webkit;
+using SQLite;
 
 namespace PocketAuditor.Adapter
 {
@@ -29,10 +31,16 @@ namespace PocketAuditor.Adapter
 
         private readonly ManageCQ _activity;
 
-        public QuestionAdapter(List<QuestionModel> questions, ManageCQ activity)
+        int _selectedCategory;
+
+        public QuestionAdapter(List<QuestionModel> questions, ManageCQ activity, int selectedCategory)
         {
             _questions = questions;
             _activity = activity;
+            _selectedCategory = selectedCategory;
+
+            handler = new DB_Initiator(_activity);
+            SQLDB = handler.WritableDatabase;
         }
 
         public override int ItemCount => _questions.Count();
@@ -53,6 +61,7 @@ namespace PocketAuditor.Adapter
         {
             View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.question_model, parent, false);
             return new ItemViewHolder(itemView);
+
         }
 
         public void _RenameQuestion(RecyclerView.ViewHolder holder, int position)
@@ -90,7 +99,18 @@ namespace PocketAuditor.Adapter
             builder.SetCancelable(false)
                 .SetPositiveButton("Rename", delegate
                 {
-                    string newQuestion = userContent.Text;
+                    var _db = new SQLiteConnection(handler._ConnPath);
+
+                    // Use placeholders and parameters in your SQL query
+                    _db.Execute("UPDATE Entry_tbl " +
+                                "SET Indicator = ? " +
+                                "WHERE CategoryID = ?", userContent.Text, _selectedCategory);
+
+                    Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
+                    _db.Commit();
+                    _db.Close();
+
+                    _activity.PullEntries();
 
                 })
                 .SetNegativeButton("Cancel", delegate
@@ -119,8 +139,18 @@ namespace PocketAuditor.Adapter
             builder.SetCancelable(false)
                 .SetPositiveButton("Delete", delegate
                 {
-                    string newQuestion = userContent.Text;
+                    var _db = new SQLiteConnection(handler._ConnPath);
 
+                    // Use placeholders and parameters in your SQL query
+                    _db.Execute("UPDATE Entry_tbl " +
+                                "SET EntryStatus = 'INACTIVE' " +
+                                "WHERE CategoryID = ?", _selectedCategory);
+
+                    Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
+                    _db.Commit();
+                    _db.Close();
+
+                    _activity.PullEntries();
                 })
                 .SetNegativeButton("Cancel", delegate
                 {
