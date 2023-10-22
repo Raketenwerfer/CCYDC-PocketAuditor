@@ -165,10 +165,9 @@ namespace PocketAuditor.Fragment
         {
             ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
 
-            // Ma save sa application pero dli sa db server hahahaha.
             if (gseq.MoveToFirst())
             {
-                sequence = gseq.GetInt(0); // Use index 0 to get the count
+                sequence = gseq.GetInt(0);
             }
             else
             {
@@ -176,7 +175,6 @@ namespace PocketAuditor.Fragment
             }
 
             gseq.Close();
-            //sequence = gseq.GetInt(gseq.GetColumnIndex("COLUMN(*)")); //error
         }
 
         private void BackMenu_Click(object sender, EventArgs e)
@@ -404,10 +402,9 @@ namespace PocketAuditor.Fragment
         {
             ICursor gseq = SQLDB.RawQuery(get_question_seq, new string[] { });
 
-            // Ma save sa application pero dli sa db hahahaha.
             if (gseq.MoveToFirst())
             {
-                q_sequence = gseq.GetInt(0); // Use index 0 to get the count
+                q_sequence = gseq.GetInt(0); 
             }
             else
             {
