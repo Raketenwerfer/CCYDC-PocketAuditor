@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/Delquestion"
+                    android:id="@+id/btnEditQuestion"
                     android:src="@drawable/ic_editcat"
                     android:layout_width="20dp"
                     android:layout_height="28dp"
@@ -60,6 +60,7 @@
                     android:layout_marginRight="35dp"/>
 
                 <ImageView
+                    android:id="@+id/btnDelQuestion"
                     android:src="@drawable/ic_deletecat"
                     android:layout_width="20dp"
                     android:layout_height="30dp"

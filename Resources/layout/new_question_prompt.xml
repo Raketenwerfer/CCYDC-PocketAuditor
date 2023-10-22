@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/qm_title"
         android:text="ADD NEW QUESTION"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,6 +14,7 @@
         android:layout_gravity="center"/>
 
     <TextView
+        android:id="@+id/qm_desc"
         android:text="Enter your question:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

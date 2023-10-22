@@ -30,7 +30,7 @@ namespace PocketAuditor.Fragment
 
         TextView TxtDisCate;
 
-        private ImageView openham, addCategory, backMenu, editCategory, addNewQuestion;
+        private ImageView openham, addCategory, backMenu, editCategory, deleteCategory, addNewQuestion;
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -75,7 +75,10 @@ namespace PocketAuditor.Fragment
             backMenu.Click += BackMenu_Click;
 
             editCategory = FindViewById<ImageView>(Resource.Id.editCat);
-            editCategory.Click += EditCategoryName;
+            editCategory.Click += _EditCategoryName;
+
+            deleteCategory = FindViewById<ImageView>(Resource.Id.deleteCat);
+            deleteCategory.Click += _DeleteCategory;
 
             addNewQuestion = FindViewById<ImageView>(Resource.Id.newQuestion);
             addNewQuestion.Click += AddNewQuestion_Click; 
@@ -130,7 +133,7 @@ namespace PocketAuditor.Fragment
             selectedCategoryID = _Categories.ElementAt<CategoryModel>(0).CategoryID;
             TxtDisCate.Text = _Categories.ElementAt<CategoryModel>(0).CategoryTitle;
         }
-        private void EditCategoryName(object sender, EventArgs e)
+        private void _EditCategoryName(object sender, EventArgs e)
         {
             LayoutInflater inflater = LayoutInflater.FromContext(this);
             View mView = inflater.Inflate(Resource.Layout.edit_category, null);
@@ -159,6 +162,32 @@ namespace PocketAuditor.Fragment
 
             Android.App.AlertDialog alertEditDialog = build.Create();
             alertEditDialog.Show();
+        }
+
+        private void _DeleteCategory(object sender, EventArgs e)
+        {
+            LayoutInflater inflater = LayoutInflater.FromContext(this);
+            View mView = inflater.Inflate(Resource.Layout.delete_prompt, null);
+
+            Android.App.AlertDialog.Builder build = new Android.App.AlertDialog.Builder(this);
+            build.SetView(mView);
+
+            var content = mView.FindViewById<TextView>(Resource.Id.dcPromptText);
+            content.Text = "Do you wish to delete \"" + selectedCategoryName + "\" from the list?";
+
+            build.SetCancelable(false)
+
+                .SetPositiveButton("Yes", delegate
+                {
+                    DeleteCategory();
+                })
+                .SetNegativeButton("No", delegate
+                {
+                    build.Dispose();
+                });
+
+            Android.App.AlertDialog alertDeleteDialog = build.Create();
+            alertDeleteDialog.Show();
         }
 
         private void GetRowSequenceCount()
@@ -298,14 +327,12 @@ namespace PocketAuditor.Fragment
         private void DeleteCategory()
         {
             // Pull string from edit category title pop-up here
-            string InsertEditTextHere = null;
-
 
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("UPDATE Category_tbl" +
-                        "SET CategoryStatus = INACTIVE" +
-                        "WHERE ? = CategoryTitle", InsertEditTextHere);
+            _db.Execute("UPDATE Category_tbl " +
+                        "SET CategoryStatus = 'INACTIVE' " +
+                        "WHERE CategoryTitle = ?", selectedCategoryName);
 
             Toast.MakeText(Application.Context, "Category Deleted", ToastLength.Short).Show();
 
@@ -314,6 +341,9 @@ namespace PocketAuditor.Fragment
             InitializeNavView(_Categories);
 
             _db.Close();
+
+            InitSelectedCategory();
+            PullEntries();
         }
 
         private void InitializeNavView(List<CategoryModel> x01i)
@@ -329,6 +359,7 @@ namespace PocketAuditor.Fragment
                 menuItem.SetCheckable(true);
                 menuItem.SetChecked(false);
             }
+
         }
 
         #endregion
@@ -339,7 +370,7 @@ namespace PocketAuditor.Fragment
         private void AddNewQuestion_Click(object sender, EventArgs e)
         {
             LayoutInflater layoutInflater = LayoutInflater.FromContext(this);
-            View mView = layoutInflater.Inflate(Resource.Layout.add_new_question, null);
+            View mView = layoutInflater.Inflate(Resource.Layout.new_question_prompt, null);
 
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
             builder.SetView(mView);
@@ -446,7 +477,7 @@ namespace PocketAuditor.Fragment
                 cList.Close();
             }
 
-            adapter = new QuestionAdapter(_Entries);
+            adapter = new QuestionAdapter(_Entries, this);
             question_recycler.SetAdapter(adapter);
 
         }
