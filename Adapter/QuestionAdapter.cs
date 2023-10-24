@@ -31,13 +31,13 @@ namespace PocketAuditor.Adapter
 
         private readonly ManageCQ _activity;
 
-        int _selectedCategory;
+        int /*_selectedCategory,*/ _selectedQuestion;
 
-        public QuestionAdapter(List<QuestionModel> questions, ManageCQ activity, int selectedCategory)
+        public QuestionAdapter(List<QuestionModel> questions, ManageCQ activity/*, int selectedCategory*/)
         {
             _questions = questions;
             _activity = activity;
-            _selectedCategory = selectedCategory;
+            //_selectedCategory = selectedCategory;
 
             handler = new DB_Initiator(_activity);
             SQLDB = handler.WritableDatabase;
@@ -80,6 +80,25 @@ namespace PocketAuditor.Adapter
             Toast.MakeText(Application.Context, "Deleting " + view.Display_CatQues.Text, ToastLength.Short).Show();
         }
 
+        public void GetQuestionEntryID(string i1)
+        {
+            ICursor cList = SQLDB.RawQuery("SELECT EntryID FROM Entry_tbl WHERE Indicator = '" + i1 + "'", new string[] { });
+
+            if (cList.Count > 0)
+            {
+                cList.MoveToFirst();
+
+                do
+                {
+                    _selectedQuestion = cList.GetInt(cList.GetColumnIndex("EntryID"));
+
+                }
+                while (cList.MoveToNext());
+
+                cList.Close();
+            }
+        }
+
         public void _handleRename()
         {
             LayoutInflater layoutInflater = LayoutInflater.FromContext(_activity);
@@ -91,6 +110,8 @@ namespace PocketAuditor.Adapter
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
             var promptTitle = mView.FindViewById<TextView>(Resource.Id.qm_title);
             var promptDesc = mView.FindViewById<TextView>(Resource.Id.qm_desc);
+
+            GetQuestionEntryID(userContent.Text);
 
             promptTitle.Text = "RENAME QUESTION";
             promptDesc.Text = "Enter your new question name:";
@@ -104,7 +125,7 @@ namespace PocketAuditor.Adapter
                     // Use placeholders and parameters in your SQL query
                     _db.Execute("UPDATE Entry_tbl " +
                                 "SET Indicator = ? " +
-                                "WHERE CategoryID = ?", userContent.Text, _selectedCategory);
+                                "WHERE EntryID = ?", userContent.Text, _selectedQuestion);
 
                     Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
                     _db.Commit();
@@ -132,6 +153,8 @@ namespace PocketAuditor.Adapter
             var promptTitle = mView.FindViewById<TextView>(Resource.Id.qm_title);
             var promptDesc = mView.FindViewById<TextView>(Resource.Id.qm_desc);
 
+            GetQuestionEntryID(userContent.Text);
+
             promptTitle.Text = "DELETE QUESTION";
             promptDesc.Text = "Are you sure you want to delete this question?";
             userContent.Visibility = ViewStates.Invisible;
@@ -144,7 +167,7 @@ namespace PocketAuditor.Adapter
                     // Use placeholders and parameters in your SQL query
                     _db.Execute("UPDATE Entry_tbl " +
                                 "SET EntryStatus = 'INACTIVE' " +
-                                "WHERE CategoryID = ?", _selectedCategory);
+                                "WHERE EntryID = ?", _selectedQuestion);
 
                     Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
                     _db.Commit();

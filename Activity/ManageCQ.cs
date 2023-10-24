@@ -477,7 +477,7 @@ namespace PocketAuditor.Fragment
                 cList.Close();
             }
 
-            adapter = new QuestionAdapter(_Entries, this, selectedCategoryID);
+            adapter = new QuestionAdapter(_Entries, this/*, selectedCategoryID*/);
             question_recycler.SetAdapter(adapter);
 
         }
