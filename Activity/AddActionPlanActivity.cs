@@ -68,6 +68,8 @@ namespace PocketAuditor.Activity
             else
             {
                 _AddPlan();
+                Intent intent = new Intent(this, typeof(ActionPlanActivity));
+                StartActivity(intent);
             }
         }
 
