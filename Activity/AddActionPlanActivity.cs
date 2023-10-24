@@ -1,10 +1,14 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Database.Sqlite;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Webkit;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using PocketAuditor.Database;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +21,9 @@ namespace PocketAuditor.Activity
     {
         EditText planName, planCateName, planCateDesc, planPasteLink;
         Button addPlan, cancelPlan;
+
+        public DB_Initiator handler;
+        public SQLiteDatabase SQLDB;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,7 +41,12 @@ namespace PocketAuditor.Activity
             cancelPlan = FindViewById<Button>(Resource.Id.cancelPlanBtn);
              
             addPlan.Click += AddPlan_Click;
-            cancelPlan.Click += CancelPlan_Click; 
+            cancelPlan.Click += CancelPlan_Click;
+
+            handler = new DB_Initiator(this);
+            SQLDB = handler.WritableDatabase;
+
+
         }
 
         private void AddPlan_Click(object sender, EventArgs e)
@@ -55,6 +67,64 @@ namespace PocketAuditor.Activity
         {
             Intent intent = new Intent(this, typeof(ActionPlanActivity));
             StartActivity(intent);
+        }
+
+
+        public void _AddPlan()
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("");
+
+            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+            _db.Commit();
+
+
+
+            _db.Close();
+        }
+
+
+        public void _AttachPlanToCategory()
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("");
+
+            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+            _db.Commit();
+
+
+
+            _db.Close();
+        }
+
+        public void _EditPlan()
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("");
+
+            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+            _db.Commit();
+
+
+
+            _db.Close();
+        }
+
+        public void _DeletePlan()
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("");
+
+            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+            _db.Commit();
+
+
+
+            _db.Close();
         }
     }
 }
