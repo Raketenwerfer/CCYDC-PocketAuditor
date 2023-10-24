@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Webkit;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using PocketAuditor.Class;
 using PocketAuditor.Database;
 using SQLite;
 using System;
@@ -19,7 +20,8 @@ namespace PocketAuditor.Activity
     [Activity(Label = "AddActionPlanActivity")]
     public class AddActionPlanActivity : AppCompatActivity
     {
-        EditText planName, planCateName, planCateDesc, planPasteLink;
+        EditText planName, planCateDesc, planPasteLink;
+        Spinner categorySpin;
         Button addPlan, cancelPlan;
 
         public DB_Initiator handler;
@@ -33,9 +35,9 @@ namespace PocketAuditor.Activity
             SetContentView(Resource.Layout.action_plans_prompt);
 
             planName = FindViewById<EditText>(Resource.Id.planName);
-            planCateName = FindViewById<EditText>(Resource.Id.plan_CatName);
             planCateDesc = FindViewById<EditText>(Resource.Id.plan_CatDescription);
             planPasteLink = FindViewById<EditText>(Resource.Id.plan_PasteLink);
+            categorySpin = FindViewById<Spinner>(Resource.Id.cateSpin);
 
             addPlan = FindViewById<Button>(Resource.Id.addPlanBtn);
             cancelPlan = FindViewById<Button>(Resource.Id.cancelPlanBtn);
@@ -49,19 +51,36 @@ namespace PocketAuditor.Activity
 
         }
 
+        //private void PopulateCategoriesSpinner()
+        //{
+        //    foreach (EntryAnswersModel EAM in answersList)
+        //    {
+        //        if (!ar_Category.Exists(i => i == EAM.CategoryName))
+        //        {
+        //            ar_Category.Add(EAM.CategoryName);
+        //        }
+        //    }
+
+        //    ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, ar_Category.Select(a => a).ToList());
+        //    cateDisplay.Adapter = adapter;
+        //}
+
         private void AddPlan_Click(object sender, EventArgs e)
         {
             string Name = planName.Text; 
-            string cateName = planCateName.Text;
             string cateDisc = planCateDesc.Text;
             string pasteLink = planPasteLink.Text;
 
-            if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(cateName) ||
+            if (string.IsNullOrWhiteSpace(Name) || 
                 string.IsNullOrWhiteSpace(cateDisc) || string.IsNullOrWhiteSpace(pasteLink))
             {
                 Toast.MakeText(this, "Fields must be Filled", ToastLength.Short).Show();
             }
 
+            else
+            {
+                _AddPlan();
+            }
         }
 
         private void CancelPlan_Click(object sender, EventArgs e)
@@ -75,7 +94,7 @@ namespace PocketAuditor.Activity
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("");
+            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanID, ActionPlanDetail, ExternalLink)" + "VALUES(?, ?, ?, ?)");
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();

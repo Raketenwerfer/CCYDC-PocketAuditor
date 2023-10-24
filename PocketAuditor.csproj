@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Activity\ActionPlanActivity.cs" />
     <Compile Include="Activity\AddActionPlanActivity.cs" />
-    <Compile Include="Activity\EditCategoryActivity.cs" />
     <Compile Include="Activity\ManageMenu.cs" />
     <Compile Include="Activity\QuestionActivity.cs" />
     <Compile Include="Adapter\ActionPlanAdapter.cs" />
