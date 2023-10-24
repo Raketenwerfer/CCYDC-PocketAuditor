@@ -68,7 +68,7 @@ namespace PocketAuditor.Adapter
         {
             ItemViewHolder view = holder as ItemViewHolder;
 
-            _handleRename();
+            _handleRename(holder, position);
             Toast.MakeText(Application.Context, "Renaming " + view.Display_CatQues.Text, ToastLength.Short).Show();
         }
 
@@ -76,7 +76,7 @@ namespace PocketAuditor.Adapter
         {
             ItemViewHolder view = holder as ItemViewHolder;
 
-            _handleDelete();
+            _handleDelete(holder, position);
             Toast.MakeText(Application.Context, "Deleting " + view.Display_CatQues.Text, ToastLength.Short).Show();
         }
 
@@ -99,8 +99,11 @@ namespace PocketAuditor.Adapter
             }
         }
 
-        public void _handleRename()
+        public void _handleRename(RecyclerView.ViewHolder holder, int position)
         {
+            ItemViewHolder view = holder as ItemViewHolder;
+
+
             LayoutInflater layoutInflater = LayoutInflater.FromContext(_activity);
             View mView = layoutInflater.Inflate(Resource.Layout.new_question_prompt, null);
 
@@ -110,6 +113,8 @@ namespace PocketAuditor.Adapter
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
             var promptTitle = mView.FindViewById<TextView>(Resource.Id.qm_title);
             var promptDesc = mView.FindViewById<TextView>(Resource.Id.qm_desc);
+
+            userContent.Text = view.Display_CatQues.Text;
 
             GetQuestionEntryID(userContent.Text);
 
@@ -125,7 +130,7 @@ namespace PocketAuditor.Adapter
                     // Use placeholders and parameters in your SQL query
                     _db.Execute("UPDATE Entry_tbl " +
                                 "SET Indicator = ? " +
-                                "WHERE EntryID = ?", userContent.Text, _selectedQuestion);
+                                "WHERE EntryID = ?", userContent.Text.ToString(), _selectedQuestion);
 
                     Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
                     _db.Commit();
@@ -141,8 +146,11 @@ namespace PocketAuditor.Adapter
             builder.Create().Show();
         }
 
-        private void _handleDelete()
+        private void _handleDelete(RecyclerView.ViewHolder holder, int position)
         {
+            ItemViewHolder view = holder as ItemViewHolder;
+
+
             LayoutInflater layoutInflater = LayoutInflater.FromContext(_activity);
             View mView = layoutInflater.Inflate(Resource.Layout.new_question_prompt, null);
 
@@ -152,6 +160,8 @@ namespace PocketAuditor.Adapter
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
             var promptTitle = mView.FindViewById<TextView>(Resource.Id.qm_title);
             var promptDesc = mView.FindViewById<TextView>(Resource.Id.qm_desc);
+
+            userContent.Text = view.Display_CatQues.Text;
 
             GetQuestionEntryID(userContent.Text);
 
@@ -169,7 +179,7 @@ namespace PocketAuditor.Adapter
                                 "SET EntryStatus = 'INACTIVE' " +
                                 "WHERE EntryID = ?", _selectedQuestion);
 
-                    Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
+                    Toast.MakeText(Application.Context, "Deletion successful!", ToastLength.Short).Show();
                     _db.Commit();
                     _db.Close();
 
