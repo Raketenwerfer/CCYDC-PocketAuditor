@@ -220,7 +220,7 @@
     <AndroidResource Include="Resources\drawable\ic_addPlan.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\add_action_plans.xml">
+    <AndroidResource Include="Resources\layout\action_plans_prompt.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

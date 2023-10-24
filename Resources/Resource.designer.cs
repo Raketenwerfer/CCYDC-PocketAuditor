@@ -14,7 +14,7 @@ namespace PocketAuditor
 {
 	
 	
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "13.2.1.111")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "13.2.0.99")]
 	public partial class Resource
 	{
 		
@@ -11599,13 +11599,13 @@ namespace PocketAuditor
 			public const int action_plans_model = 2131427357;
 			
 			// aapt resource value: 0x7F0B001E
-			public const int activity_drawer = 2131427358;
+			public const int action_plans_prompt = 2131427358;
 			
 			// aapt resource value: 0x7F0B001F
-			public const int activity_main = 2131427359;
+			public const int activity_drawer = 2131427359;
 			
 			// aapt resource value: 0x7F0B0020
-			public const int add_action_plans = 2131427360;
+			public const int activity_main = 2131427360;
 			
 			// aapt resource value: 0x7F0B0021
 			public const int add_category = 2131427361;

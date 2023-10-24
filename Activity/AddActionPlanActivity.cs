@@ -30,7 +30,7 @@ namespace PocketAuditor.Activity
             base.OnCreate(savedInstanceState);
 
             // Create your application here
-            SetContentView(Resource.Layout.add_action_plans);
+            SetContentView(Resource.Layout.action_plans_prompt);
 
             planName = FindViewById<EditText>(Resource.Id.planName);
             planCateName = FindViewById<EditText>(Resource.Id.plan_CatName);
@@ -61,6 +61,7 @@ namespace PocketAuditor.Activity
             {
                 Toast.MakeText(this, "Fields must be Filled", ToastLength.Short).Show();
             }
+
         }
 
         private void CancelPlan_Click(object sender, EventArgs e)
