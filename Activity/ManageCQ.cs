@@ -122,8 +122,6 @@ namespace PocketAuditor.Fragment
                 dL.CloseDrawer(GravityCompat.Start);
             };
 
-
-
         }
 
         #region Methods for Categories Display and CRUD
@@ -320,7 +318,7 @@ namespace PocketAuditor.Fragment
 
             InitializeNavView(_Categories);
 
-            navView.Invalidate(); //This is supposed to refresh the NavView
+            navView.Invalidate(); //refresh drawer
 
             _db.Close();
         }

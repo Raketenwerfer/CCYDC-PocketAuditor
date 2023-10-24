@@ -24,6 +24,8 @@ namespace PocketAuditor.Activity
         Spinner categorySpin;
         Button addPlan, cancelPlan;
 
+        public List<CategoryModel> APlan_Categories = new List<CategoryModel>();
+
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
 
@@ -50,20 +52,6 @@ namespace PocketAuditor.Activity
 
 
         }
-
-        //private void PopulateCategoriesSpinner()
-        //{
-        //    foreach (EntryAnswersModel EAM in answersList)
-        //    {
-        //        if (!ar_Category.Exists(i => i == EAM.CategoryName))
-        //        {
-        //            ar_Category.Add(EAM.CategoryName);
-        //        }
-        //    }
-
-        //    ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, ar_Category.Select(a => a).ToList());
-        //    cateDisplay.Adapter = adapter;
-        //}
 
         private void AddPlan_Click(object sender, EventArgs e)
         {
