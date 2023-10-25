@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
+using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
 using System;
@@ -30,7 +31,7 @@ namespace PocketAuditor.Activity
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Create your application here
             SetContentView(Resource.Layout.action_plans);
 
@@ -45,6 +46,8 @@ namespace PocketAuditor.Activity
 
             AddNewPlan.Click += AddNewPlan_Click; 
             ReturnMA.Click += ReturnMA_Click;
+
+            
         }
 
         private void ReturnMA_Click(object sender, EventArgs e)

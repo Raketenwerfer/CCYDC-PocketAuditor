@@ -84,7 +84,8 @@ namespace PocketAuditor.Activity
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanID, ActionPlanDetail, ExternalLink)" + "VALUES(?, ?, ?, ?)");
+            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanDetail, ExternalLink) " + 
+                "VALUES(?, ?, ?)", planName.Text, planCateDesc.Text, planPasteLink.Text);
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
