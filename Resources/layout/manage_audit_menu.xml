@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorPrimary">
 
-    <ImageView
-        android:id="@+id/toMenu"
-        android:src="@drawable/ic_back_mnage_audit"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginLeft="300dp"
-        android:clickable="true"/>
-
     <TextView
         android:text="@string/btn_manage_audit"
         android:textSize="30sp"

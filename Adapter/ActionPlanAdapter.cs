@@ -54,7 +54,7 @@ namespace PocketAuditor.Adapter
 
             _db.Execute("");
 
-            Toast.MakeText(activity, "New Action Plan created!", ToastLength.Short).Show();
+            Toast.MakeText(activity, "Plan Successfully Renamed!", ToastLength.Short).Show();
             _db.Commit();
 
 
@@ -68,7 +68,7 @@ namespace PocketAuditor.Adapter
 
             _db.Execute("");
 
-            Toast.MakeText(activity, "New Action Plan created!", ToastLength.Short).Show();
+            Toast.MakeText(activity, "Plan Successfully Deleted!", ToastLength.Short).Show();
             _db.Commit();
 
 

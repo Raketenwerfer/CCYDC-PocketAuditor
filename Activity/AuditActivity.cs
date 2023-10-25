@@ -81,8 +81,9 @@ namespace PocketAuditor
 
         private void ReturnMenu_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(MenuActivity));
-            StartActivity(intent);
+            Finish();
+            //Intent intent = new Intent(this, typeof(MenuActivity));
+            //StartActivity(intent);
         }
 
         private void DisplayData()
