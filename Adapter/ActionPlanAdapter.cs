@@ -8,6 +8,7 @@ using PocketAuditor.Database;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using Android.App;
 
 namespace PocketAuditor.Adapter
 {
