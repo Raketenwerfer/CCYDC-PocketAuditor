@@ -42,6 +42,8 @@ namespace PocketAuditor.Adapter
 
             viewActionPlan.APName.Text = model.APName;
             viewActionPlan.APDetail.Text = model.AP_Detail;
+            viewActionPlan.APType.Text = model.AP_Type;
+            viewActionPlan.APLink.Text = model.AP_ExtLink;
         }
 
         public override int ItemCount => actionPlans.Count;
@@ -80,11 +82,17 @@ namespace PocketAuditor.Adapter
     {
         public TextView APName;
         public TextView APDetail;
+        public TextView APCatDesignation;
+        public TextView APType;
+        public TextView APLink;
 
         public ActionPlanAdapterViewHolder(View itemView) : base(itemView)
         {
             APName = itemView.FindViewById<TextView>(Resource.Id.txtAPName);
             APDetail = itemView.FindViewById<TextView>(Resource.Id.txtAPDetail);
+            APCatDesignation = itemView.FindViewById<TextView>(Resource.Id.txtCategoryDesignation);
+            APType = itemView.FindViewById<TextView>(Resource.Id.txtAPType);
+            APLink = itemView.FindViewById<TextView>(Resource.Id.txtAPlink);
         }
     }
 }

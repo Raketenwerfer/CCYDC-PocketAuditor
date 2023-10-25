@@ -16,16 +16,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SQLitePCL;
 
 namespace PocketAuditor.Activity
 {
-    [Activity(Label = "AddActionPlanActivity")]
+    [Activity(Label = "AddActionPlanActivity", NoHistory = true)]
     public class AddActionPlanActivity : AppCompatActivity
     {
         EditText planName, planCateDesc, planPasteLink;
         Spinner categorySpin;
         Button addPlan, cancelPlan;
-        RecyclerView recylerAP;
+        CheckBox typeToggle;
+
+        int selectedCategoryID, selectedActionPlanID;
 
         public List<CategoryModel> _Category = new List<CategoryModel>();
         public readonly List<string> ap_category = new List<string>();
@@ -41,12 +44,14 @@ namespace PocketAuditor.Activity
             SetContentView(Resource.Layout.action_plans_prompt);
 
             planName = FindViewById<EditText>(Resource.Id.planName);
-            planCateDesc = FindViewById<EditText>(Resource.Id.plan_CatDescription);
+            planCateDesc = FindViewById<EditText>(Resource.Id.plan_Details);
             planPasteLink = FindViewById<EditText>(Resource.Id.plan_PasteLink);
-            categorySpin = FindViewById<Spinner>(Resource.Id.cateSpin);
+            categorySpin = FindViewById<Spinner>(Resource.Id.plan_cateDesignation);
 
             addPlan = FindViewById<Button>(Resource.Id.addPlanBtn);
             cancelPlan = FindViewById<Button>(Resource.Id.cancelPlanBtn);
+
+            typeToggle = FindViewById<CheckBox>(Resource.Id.cxbox_APtypeToggle);
              
             addPlan.Click += AddPlan_Click;
             cancelPlan.Click += CancelPlan_Click;
@@ -54,9 +59,10 @@ namespace PocketAuditor.Activity
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
 
+            categorySpin.ItemSelected += (sender, args) => GetCategoryID();
+
 
             PullCategories();
-
 
         }
 
@@ -74,25 +80,23 @@ namespace PocketAuditor.Activity
 
             else
             {
-                _AddPlan();
-                Intent intent = new Intent(this, typeof(ActionPlanActivity));
-                StartActivity(intent);
+                _AddPlan("GENERAL");
+                Finish();
             }
         }
 
         private void CancelPlan_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(ActionPlanActivity));
-            StartActivity(intent);
+            Finish();
         }
 
 
-        public void _AddPlan()
+        public void _AddPlan(string aptype)
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanDetail, ExternalLink, ActionPlanStatus) " + 
-                "VALUES(?, ?, ?)", planName.Text, planCateDesc.Text, planPasteLink.Text, "ACTIVE");
+            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanDetail, ExternalLink, ActionPlanStatus, ActionPlanType) " + 
+                "VALUES(?, ?, ?, ?)", planName.Text, planCateDesc.Text, planPasteLink.Text, "ACTIVE", aptype);
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
@@ -102,6 +106,20 @@ namespace PocketAuditor.Activity
             _db.Close();
         }
 
+        public void GetCategoryID()
+        {
+
+            foreach (CategoryModel cm in _Category)
+            {
+                if (cm.CategoryTitle == categorySpin.SelectedItem.ToString())
+                {
+                    selectedCategoryID = cm.CategoryID;
+                }
+            }
+
+            Toast.MakeText(Application.Context, "Selected ID number " + selectedCategoryID, ToastLength.Short).Show();
+        }
+
 
         public void _AttachPlanToCategory()
         {
@@ -109,6 +127,8 @@ namespace PocketAuditor.Activity
 
             _db.Execute("");
 
+            _db.Execute("INSERT INTO Associate_APtoC(ActionPlanID, CategoryID) " +
+                "VALUES(?,?)", selectedCategoryID);
 
             _db.Commit();
 

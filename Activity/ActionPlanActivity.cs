@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Activity;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
 using PocketAuditor.Adapter;
@@ -57,8 +58,7 @@ namespace PocketAuditor.Activity
 
         private void ReturnMA_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(this, typeof(ManageMenu));
-            StartActivity(intent);
+            Finish();
         }
 
         private void AddNewPlan_Click(object sender, EventArgs e)
@@ -72,7 +72,7 @@ namespace PocketAuditor.Activity
             PlanList.Clear();
 
             int q_AP_ID;
-            string q_APName, q_APdetail, q_APlink, q_APStatus;
+            string q_APName, q_APdetail, q_APlink, q_APStatus, q_APtype;
             string entryQuery = "SELECT * FROM ActionPlans WHERE ActionPlanStatus = 'ACTIVE'";
 
             ICursor cList = SQLDB.RawQuery(entryQuery, new string[] { });
@@ -88,8 +88,9 @@ namespace PocketAuditor.Activity
                     q_APdetail = cList.GetString(cList.GetColumnIndex("ActionPlanDetail"));
                     q_APlink = cList.GetString(cList.GetColumnIndex("ExternalLink"));
                     q_APStatus = cList.GetString(cList.GetColumnIndex("ActionPlanStatus"));
+                    q_APtype = cList.GetString(cList.GetColumnIndex("ActionPlanType"));
 
-                    ActionPlanModel a = new ActionPlanModel(q_APName,q_AP_ID,q_APdetail,q_APlink,q_APStatus);
+                    ActionPlanModel a = new ActionPlanModel(q_APName,q_AP_ID,q_APdetail,q_APlink,q_APStatus,q_APtype);
 
                     PlanList.Add(a);
                 }

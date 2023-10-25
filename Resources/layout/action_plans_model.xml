@@ -22,33 +22,41 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+            
+
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:src="@drawable/ic_editplan"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/editPlans" />
 
-                <ImageView
-                    android:src="@drawable/ic_deleteplan"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="30dp"
-                    android:id="@+id/deletePlans" />
+                <TextView
+                    android:text="Action Plan"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtAPName" />
+
+                <TextView
+                    android:id="@+id/txtAPType"
+                    android:text="Action Plan Type"
+                    android:textSize="11dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"/>
+
+                <TextView
+                    android:id="@+id/txtCategoryDesignation"
+                    android:text="CategoryDesignation"
+                    android:textSize="11dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtAPName"/>
+
 
             </RelativeLayout>
-            
-            <TextView
-                android:text="Action Plan"
-                android:textSize="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtAPName" />
+
+
 
             <TextView
                 android:text="Insert Details Here"
@@ -63,6 +71,25 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtAPDetail"
                 android:maxLines="3"/>
+
+
+             <TextView
+                android:text="External Resource:"
+                android:textSize="11dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/txtAPlink"
+                android:text="External Resource"
+                android:textSize="11dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
 
         </LinearLayout>
 

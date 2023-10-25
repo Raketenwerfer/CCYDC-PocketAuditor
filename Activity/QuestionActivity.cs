@@ -1,20 +1,11 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.Database;
 using Android.Database.Sqlite;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
-using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PocketAuditor.Activity
 {
