@@ -232,11 +232,6 @@
     <AndroidResource Include="Resources\drawable\ic_returnManage.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\edit_action_plans.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_editPlan.png" />
   </ItemGroup>
   <ItemGroup>
