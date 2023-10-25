@@ -1,8 +1,10 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Database;
 using Android.Database.Sqlite;
 using Android.OS;
 using Android.Runtime;
+using AndroidX.RecyclerView.Widget;
 using Android.Views;
 using Android.Webkit;
 using Android.Widget;
@@ -23,8 +25,10 @@ namespace PocketAuditor.Activity
         EditText planName, planCateDesc, planPasteLink;
         Spinner categorySpin;
         Button addPlan, cancelPlan;
+        RecyclerView recylerAP;
 
-        public List<CategoryModel> APlan_Categories = new List<CategoryModel>();
+        public List<CategoryModel> _Category = new List<CategoryModel>();
+        public readonly List<string> ap_category = new List<string>();
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -49,6 +53,9 @@ namespace PocketAuditor.Activity
 
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
+
+
+            PullCategories();
 
 
         }
@@ -84,8 +91,8 @@ namespace PocketAuditor.Activity
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanDetail, ExternalLink) " + 
-                "VALUES(?, ?, ?)", planName.Text, planCateDesc.Text, planPasteLink.Text);
+            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanDetail, ExternalLink, ActionPlanStatus) " + 
+                "VALUES(?, ?, ?)", planName.Text, planCateDesc.Text, planPasteLink.Text, "ACTIVE");
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
@@ -102,7 +109,7 @@ namespace PocketAuditor.Activity
 
             _db.Execute("");
 
-            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+
             _db.Commit();
 
 
@@ -110,32 +117,50 @@ namespace PocketAuditor.Activity
             _db.Close();
         }
 
-        public void _EditPlan()
+        public void PullCategories()
         {
-            var _db = new SQLiteConnection(handler._ConnPath);
+            _Category.Clear();
 
-            _db.Execute("");
+            // Re-added, new categories are viewable on my end with this code. Gibutang nako ni para tabang refresh sa category
+            // list
+            int q_CatID;
+            string catQuery = "SELECT * FROM Category_tbl WHERE CategoryStatus = 'ACTIVE'";
 
-            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
-            _db.Commit();
+            ICursor cList = SQLDB.RawQuery(catQuery, new string[] { });
 
+            if (cList.Count > 0)
+            {
+                cList.MoveToFirst();
 
+                do
+                {
+                    q_CatID = cList.GetInt(cList.GetColumnIndex("Category_ID"));
+                    string q_CatTitle = cList.GetString(cList.GetColumnIndex("CategoryTitle"));
 
-            _db.Close();
+                    CategoryModel a = new CategoryModel(q_CatID, q_CatTitle);
+
+                    _Category.Add(a);
+                }
+                while (cList.MoveToNext());
+
+                cList.Close();
+
+                PopulateCategoriesSpinner();
+            }
         }
 
-        public void _DeletePlan()
+        private void PopulateCategoriesSpinner()
         {
-            var _db = new SQLiteConnection(handler._ConnPath);
+            foreach (CategoryModel CM in _Category)
+            {
+                if (!ap_category.Exists(i => i == CM.CategoryTitle))
+                {
+                    ap_category.Add(CM.CategoryTitle);
+                }
+            }
 
-            _db.Execute("");
-
-            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
-            _db.Commit();
-
-
-
-            _db.Close();
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, ap_category.Select(a => a).ToList());
+            categorySpin.Adapter = adapter;
         }
     }
 }

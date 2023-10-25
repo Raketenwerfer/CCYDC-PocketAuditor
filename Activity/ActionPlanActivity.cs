@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Database;
 using Android.Database.Sqlite;
 using Android.OS;
 using Android.Runtime;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Android.Security.Identity.CredentialDataResult;
 
 namespace PocketAuditor.Activity
 {
@@ -22,8 +24,9 @@ namespace PocketAuditor.Activity
     {
         ImageView ReturnMA, AddNewPlan;
         RecyclerView DisplayPlans;
+        ActionPlanAdapter adapter;
 
-        public List<ActionPlanModel> planList = new List<ActionPlanModel>();
+        public List<ActionPlanModel> PlanList = new List<ActionPlanModel>();
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -47,6 +50,8 @@ namespace PocketAuditor.Activity
             AddNewPlan.Click += AddNewPlan_Click; 
             ReturnMA.Click += ReturnMA_Click;
 
+
+            PullActionPlans();
             
         }
 
@@ -61,5 +66,40 @@ namespace PocketAuditor.Activity
             Intent intent = new Intent(this, typeof(AddActionPlanActivity));
             StartActivity(intent);
         }
+
+        public void PullActionPlans()
+        {
+            PlanList.Clear();
+
+            int q_AP_ID;
+            string q_APName, q_APdetail, q_APlink, q_APStatus;
+            string entryQuery = "SELECT * FROM ActionPlans WHERE ActionPlanStatus = 'ACTIVE'";
+
+            ICursor cList = SQLDB.RawQuery(entryQuery, new string[] { });
+
+            if (cList.Count > 0)
+            {
+                cList.MoveToFirst();
+
+                do
+                {
+                    q_APName = cList.GetString(cList.GetColumnIndex("ActionPlanName"));
+                    q_AP_ID = cList.GetInt(cList.GetColumnIndex("ActionPlanID"));
+                    q_APdetail = cList.GetString(cList.GetColumnIndex("ActionPlanDetail"));
+                    q_APlink = cList.GetString(cList.GetColumnIndex("ExternalLink"));
+                    q_APStatus = cList.GetString(cList.GetColumnIndex("ActionPlanStatus"));
+
+                    ActionPlanModel a = new ActionPlanModel(q_APName,q_AP_ID,q_APdetail,q_APlink,q_APStatus);
+
+                    PlanList.Add(a);
+                }
+                while (cList.MoveToNext());
+                cList.Close();
+            }
+
+            adapter = new ActionPlanAdapter(PlanList, this);
+            DisplayPlans.SetAdapter(adapter);
+        }
+
     }
 }

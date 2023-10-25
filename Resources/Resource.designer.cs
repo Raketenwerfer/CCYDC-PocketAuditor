@@ -11128,13 +11128,13 @@ namespace PocketAuditor
 			public const int triangle = 2131231272;
 			
 			// aapt resource value: 0x7F080229
-			public const int txtAPs = 2131231273;
+			public const int txtAPDetail = 2131231273;
 			
 			// aapt resource value: 0x7F08022A
-			public const int txtDC = 2131231274;
+			public const int txtAPName = 2131231274;
 			
 			// aapt resource value: 0x7F08022B
-			public const int txtPlanName = 2131231275;
+			public const int txtDC = 2131231275;
 			
 			// aapt resource value: 0x7F08022C
 			public const int txtv_addcatq = 2131231276;
@@ -11143,79 +11143,76 @@ namespace PocketAuditor
 			public const int txtv_catname = 2131231277;
 			
 			// aapt resource value: 0x7F08022E
-			public const int txtv_catno = 2131231278;
+			public const int @unchecked = 2131231278;
 			
 			// aapt resource value: 0x7F08022F
-			public const int @unchecked = 2131231279;
+			public const int uniform = 2131231279;
 			
 			// aapt resource value: 0x7F080230
-			public const int uniform = 2131231280;
+			public const int unlabeled = 2131231280;
 			
 			// aapt resource value: 0x7F080231
-			public const int unlabeled = 2131231281;
+			public const int up = 2131231281;
 			
 			// aapt resource value: 0x7F080232
-			public const int up = 2131231282;
+			public const int updatePlanBtn = 2131231282;
 			
 			// aapt resource value: 0x7F080233
-			public const int updatePlanBtn = 2131231283;
+			public const int useLogo = 2131231283;
 			
 			// aapt resource value: 0x7F080234
-			public const int useLogo = 2131231284;
+			public const int vertical_only = 2131231284;
 			
 			// aapt resource value: 0x7F080235
-			public const int vertical_only = 2131231285;
+			public const int view_offset_helper = 2131231285;
 			
 			// aapt resource value: 0x7F080236
-			public const int view_offset_helper = 2131231286;
+			public const int view_transition = 2131231286;
 			
 			// aapt resource value: 0x7F080237
-			public const int view_transition = 2131231287;
+			public const int view_tree_lifecycle_owner = 2131231287;
 			
 			// aapt resource value: 0x7F080238
-			public const int view_tree_lifecycle_owner = 2131231288;
+			public const int view_tree_on_back_pressed_dispatcher_owner = 2131231288;
 			
 			// aapt resource value: 0x7F080239
-			public const int view_tree_on_back_pressed_dispatcher_owner = 2131231289;
+			public const int view_tree_saved_state_registry_owner = 2131231289;
 			
 			// aapt resource value: 0x7F08023A
-			public const int view_tree_saved_state_registry_owner = 2131231290;
+			public const int view_tree_view_model_store_owner = 2131231290;
 			
 			// aapt resource value: 0x7F08023B
-			public const int view_tree_view_model_store_owner = 2131231291;
+			public const int visible = 2131231291;
 			
 			// aapt resource value: 0x7F08023C
-			public const int visible = 2131231292;
+			public const int visible_removing_fragment_view_tag = 2131231292;
 			
 			// aapt resource value: 0x7F08023D
-			public const int visible_removing_fragment_view_tag = 2131231293;
-			
-			// aapt resource value: 0x7F08023E
-			public const int west = 2131231294;
-			
-			// aapt resource value: 0x7F080241
-			public const int withinBounds = 2131231297;
-			
-			// aapt resource value: 0x7F08023F
-			public const int withText = 2131231295;
+			public const int west = 2131231293;
 			
 			// aapt resource value: 0x7F080240
-			public const int with_icon = 2131231296;
+			public const int withinBounds = 2131231296;
+			
+			// aapt resource value: 0x7F08023E
+			public const int withText = 2131231294;
+			
+			// aapt resource value: 0x7F08023F
+			public const int with_icon = 2131231295;
+			
+			// aapt resource value: 0x7F080241
+			public const int wrap = 2131231297;
 			
 			// aapt resource value: 0x7F080242
-			public const int wrap = 2131231298;
+			public const int wrap_content = 2131231298;
 			
 			// aapt resource value: 0x7F080243
-			public const int wrap_content = 2131231299;
+			public const int wrap_content_constrained = 2131231299;
 			
 			// aapt resource value: 0x7F080244
-			public const int wrap_content_constrained = 2131231300;
+			public const int x_left = 2131231300;
 			
 			// aapt resource value: 0x7F080245
-			public const int x_left = 2131231301;
-			
-			// aapt resource value: 0x7F080246
-			public const int x_right = 2131231302;
+			public const int x_right = 2131231301;
 			
 			static Id()
 			{

@@ -481,49 +481,6 @@ namespace PocketAuditor.Fragment
 
         }
 
-        // Testing a singular method that handles both edit and delete functions
-        private void EditEntry(int updatedQuesNo, string updatedQuesName, int updatedScoreValue, string updatedEntryStatus)
-        {
-            // reads through every item in _Categories, searches for a match
-            // in selectedCategoryModel, then takes that entry's CategoryID
-
-            // ICursor error, cannot find index
-
-            foreach (CategoryModel cm in _Categories)
-            {
-                try
-                {
-                    if (selectedCategoryName == cm.CategoryTitle)
-                    {
-                        selectedCategoryID = cm.CategoryID;
-                    }
-                }
-                catch
-                {
-                    Toast.MakeText(Application.Context, "No valid category found", ToastLength.Short).Show();
-                }
-                
-            }
-
-            var _db = new SQLiteConnection(handler._ConnPath);
-
-            // Use placeholders and parameters in your SQL query
-            _db.Execute("UPDATE Entry_tbl " +
-                        "SET QuesNo = ?, " +
-                            "Indicator = ?, " +
-                            "ScoreValue = ?, " +
-                            "EntryStatus = ?" +
-                        "WHERE CategoryID = ?", updatedQuesNo, updatedQuesName, updatedScoreValue, updatedEntryStatus, selectedCategoryID);
-
-            Toast.MakeText(Application.Context, "Indicator Entry Updated!", ToastLength.Short).Show();
-
-            _db.Commit();
-
-            _db.Close();
-
-            PullEntries();
-        }
-
         #endregion
 
     }

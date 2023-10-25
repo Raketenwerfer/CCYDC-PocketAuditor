@@ -1,7 +1,11 @@
-﻿using Android.Support.V7.Widget;
+﻿using Android.Database.Sqlite;
+using AndroidX.RecyclerView.Widget;
 using Android.Views;
 using Android.Widget;
+using PocketAuditor.Activity;
 using PocketAuditor.Class;
+using PocketAuditor.Database;
+using SQLite;
 using System;
 using System.Collections.Generic;
 
@@ -10,10 +14,17 @@ namespace PocketAuditor.Adapter
     public class ActionPlanAdapter : RecyclerView.Adapter
     {
         private readonly List<ActionPlanModel> actionPlans;
+        public DB_Initiator handler;
+        public SQLiteDatabase SQLDB;
 
-        public ActionPlanAdapter(List<ActionPlanModel> actionPlan)
+        private readonly ActionPlanActivity _APActivity;
+
+        public ActionPlanAdapter(List<ActionPlanModel> actionPlan, ActionPlanActivity activity)
         {
             actionPlans = actionPlan;
+            handler = new DB_Initiator(activity);
+            SQLDB = handler.WritableDatabase;
+            _APActivity = activity;
         }
 
         // Create new views (invoked by the layout manager)
@@ -29,22 +40,51 @@ namespace PocketAuditor.Adapter
             ActionPlanModel model = actionPlans[position];
             ActionPlanAdapterViewHolder viewActionPlan = viewHolder as ActionPlanAdapterViewHolder;
 
-            viewActionPlan.ActionPlan.Text = model.ActionPlan;
-            viewActionPlan.Planname.Text = model.PlanName;
+            viewActionPlan.APName.Text = model.APName;
+            viewActionPlan.APDetail.Text = model.AP_Detail;
         }
 
         public override int ItemCount => actionPlans.Count;
+
+        public void _EditPlan(ActionPlanActivity activity)
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("");
+
+            Toast.MakeText(activity, "New Action Plan created!", ToastLength.Short).Show();
+            _db.Commit();
+
+
+
+            _db.Close();
+        }
+
+        public void _DeletePlan(ActionPlanActivity activity)
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("");
+
+            Toast.MakeText(activity, "New Action Plan created!", ToastLength.Short).Show();
+            _db.Commit();
+
+
+
+            _db.Close();
+        }
+
     }
 
     public class ActionPlanAdapterViewHolder : RecyclerView.ViewHolder
     {
-        public TextView ActionPlan;
-        public TextView Planname;
+        public TextView APName;
+        public TextView APDetail;
 
         public ActionPlanAdapterViewHolder(View itemView) : base(itemView)
         {
-            ActionPlan = itemView.FindViewById<TextView>(Resource.Id.txtAPs);
-            Planname = itemView.FindViewById<TextView>(Resource.Id.txtPlanName);
+            APName = itemView.FindViewById<TextView>(Resource.Id.txtAPName);
+            APDetail = itemView.FindViewById<TextView>(Resource.Id.txtAPDetail);
         }
     }
 }

@@ -66,15 +66,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/editCat_Controls">
 
-                <TextView
-                    android:text="Category Number:   "
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtv_catno"/>
 
                 <TextView
                     android:text="Category Name:   "
-                    android:layout_marginTop="35dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtv_catname"/>
@@ -83,7 +77,6 @@
                     android:text="Display Text Here"
                     android:layout_width="204dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
                     android:layout_toRightOf="@+id/txtv_catname"
                     android:id="@+id/txtDC" />
 
