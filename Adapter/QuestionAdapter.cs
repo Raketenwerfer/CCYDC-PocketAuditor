@@ -31,13 +31,12 @@ namespace PocketAuditor.Adapter
 
         private readonly ManageCQ _activity;
 
-        int /*_selectedCategory,*/ _selectedQuestion;
+        int _selectedQuestion;
 
-        public QuestionAdapter(List<QuestionModel> questions, ManageCQ activity/*, int selectedCategory*/)
+        public QuestionAdapter(List<QuestionModel> questions, ManageCQ activity)
         {
             _questions = questions;
             _activity = activity;
-            //_selectedCategory = selectedCategory;
 
             handler = new DB_Initiator(_activity);
             SQLDB = handler.WritableDatabase;
@@ -103,7 +102,6 @@ namespace PocketAuditor.Adapter
         {
             ItemViewHolder view = holder as ItemViewHolder;
 
-
             LayoutInflater layoutInflater = LayoutInflater.FromContext(_activity);
             View mView = layoutInflater.Inflate(Resource.Layout.new_question_prompt, null);
 
@@ -167,7 +165,7 @@ namespace PocketAuditor.Adapter
 
             promptTitle.Text = "DELETE QUESTION";
             promptDesc.Text = "Are you sure you want to delete this question?";
-            userContent.Visibility = ViewStates.Invisible;
+            userContent.Visibility = ViewStates.Visible;
 
             builder.SetCancelable(false)
                 .SetPositiveButton("Delete", delegate

@@ -65,7 +65,6 @@ namespace PocketAuditor.Fragment
             }
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, ar_Category.Select(a => a).ToList());
-
             cateDisplay.Adapter = adapter;
         }
 

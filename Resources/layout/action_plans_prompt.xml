@@ -34,33 +34,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <EditText
-            android:hint="Category Name"
+        <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:id="@+id/plan_CatName"
-            android:inputType="text" />
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/cateSpin" />
 
         <TextView
-            android:text="Description"
+            android:text="Details"
             android:textSize="19sp"
             android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:hint="Description"
+            android:hint="Action Plan Details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/plan_CatDescription"
             android:inputType="text" />
 
         <TextView
-            android:text="Link"
+            android:text="External Link"
             android:textSize="19sp"
             android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"

@@ -122,8 +122,6 @@ namespace PocketAuditor.Fragment
                 dL.CloseDrawer(GravityCompat.Start);
             };
 
-
-
         }
 
         #region Methods for Categories Display and CRUD
@@ -133,6 +131,7 @@ namespace PocketAuditor.Fragment
             selectedCategoryID = _Categories.ElementAt<CategoryModel>(0).CategoryID;
             TxtDisCate.Text = _Categories.ElementAt<CategoryModel>(0).CategoryTitle;
         }
+
         private void _EditCategoryName(object sender, EventArgs e)
         {
             LayoutInflater inflater = LayoutInflater.FromContext(this);
@@ -142,7 +141,7 @@ namespace PocketAuditor.Fragment
             build.SetView(mView);
 
             var content = mView.FindViewById<EditText>(Resource.Id.ECName_eT);
-            content.Text = selectedCategoryName; //Set the editText text to the selected category name 4 editing
+            content.Text = selectedCategoryName; 
 
             build.SetCancelable(false)
 
@@ -190,7 +189,7 @@ namespace PocketAuditor.Fragment
             alertDeleteDialog.Show();
         }
 
-        private void GetRowSequenceCount()
+        public void GetRowSequenceCount()
         {
             ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
 
@@ -319,7 +318,7 @@ namespace PocketAuditor.Fragment
 
             InitializeNavView(_Categories);
 
-            navView.Invalidate(); //This is supposed to refresh the NavView
+            navView.Invalidate(); //refresh drawer
 
             _db.Close();
         }

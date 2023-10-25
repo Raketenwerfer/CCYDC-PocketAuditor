@@ -29,8 +29,8 @@ namespace PocketAuditor.Adapter
             ActionPlanModel model = actionPlans[position];
             ActionPlanAdapterViewHolder viewActionPlan = viewHolder as ActionPlanAdapterViewHolder;
 
-            viewActionPlan.ActionPlan = (TextView)model.ActionPlan;
-            viewActionPlan.Planname = (TextView)model.PlanName;
+            viewActionPlan.ActionPlan.Text = model.ActionPlan;
+            viewActionPlan.Planname.Text = model.PlanName;
         }
 
         public override int ItemCount => actionPlans.Count;
