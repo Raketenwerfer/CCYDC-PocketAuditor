@@ -20,7 +20,12 @@ namespace PocketAuditor.Class
         public string AP_Status { get; set; }
         public string AP_Type { get; set; }
 
-        public ActionPlanModel(string aPName, int aPid, string aP_Detail, string aP_ExtLink, string aP_Status, string aP_Type)
+        public string AP_CategoryDesignation { get; set; }
+
+        public int AP_CategoryDesignationID { get; set; }
+
+        public ActionPlanModel(string aPName, int aPid, string aP_Detail, string aP_ExtLink, string aP_Status, 
+            string aP_Type, string aP_Designation, int aP_CategoryDesignationID)
         {
             APName = aPName;
             AP_ID = aPid;
@@ -28,6 +33,8 @@ namespace PocketAuditor.Class
             AP_ExtLink = aP_ExtLink;
             AP_Status = aP_Status;
             AP_Type = aP_Type;
+            AP_CategoryDesignation = aP_Designation;
+            AP_CategoryDesignationID = aP_CategoryDesignationID;
         }
     }
 }

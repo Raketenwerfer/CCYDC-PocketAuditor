@@ -80,8 +80,18 @@ namespace PocketAuditor.Activity
 
             else
             {
-                _AddPlan("GENERAL");
-                Finish();
+
+                if (typeToggle.Checked)
+                {
+                    _AddPlan("GENERAL");
+                    Finish();
+                }
+                else
+                {
+                    _AddPlan("SPECIFIC");
+                    Finish();
+                }
+                
             }
         }
 
@@ -100,10 +110,10 @@ namespace PocketAuditor.Activity
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
-
-
-
             _db.Close();
+
+            _PullActionPlanID();
+            _AttachPlanToCategory();
         }
 
         public void GetCategoryID()
@@ -131,9 +141,6 @@ namespace PocketAuditor.Activity
                 "VALUES(?,?)", selectedCategoryID);
 
             _db.Commit();
-
-
-
             _db.Close();
         }
 
@@ -167,6 +174,21 @@ namespace PocketAuditor.Activity
 
                 PopulateCategoriesSpinner();
             }
+        }
+
+        public void _PullActionPlanID()
+        {
+            string ID_quesry = "SELECT ActionPlanID FROM ActionPlans WHERE ActionPlanStatus = 'ACTIVE'";
+            ICursor qAPID = SQLDB.RawQuery(ID_quesry, new string[] {});
+
+            if (qAPID.Count > 0)
+            {
+                qAPID.MoveToLast();
+
+                selectedActionPlanID = qAPID.GetInt(qAPID.GetColumnIndex("ActionPlanID"));
+            }
+            qAPID.Close();
+
         }
 
         private void PopulateCategoriesSpinner()

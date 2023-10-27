@@ -9,6 +9,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using Android.App;
+using AndroidX.CardView.Widget;
 
 namespace PocketAuditor.Adapter
 {
@@ -45,36 +46,24 @@ namespace PocketAuditor.Adapter
             viewActionPlan.APDetail.Text = model.AP_Detail;
             viewActionPlan.APType.Text = model.AP_Type;
             viewActionPlan.APLink.Text = model.AP_ExtLink;
+
+
+            if (model.AP_Type == "SPECIFIC")
+            {
+                viewActionPlan.APCatDesignation.Visibility = ViewStates.Visible;
+                viewActionPlan.APCatDesignation.Text = model.AP_CategoryDesignation;
+            }
+            else
+            {
+                viewActionPlan.APCatDesignation.Visibility = ViewStates.Invisible;
+            }
         }
 
         public override int ItemCount => actionPlans.Count;
 
         public void _EditPlan(ActionPlanActivity activity)
         {
-            var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("");
-
-            Toast.MakeText(activity, "Plan Successfully Renamed!", ToastLength.Short).Show();
-            _db.Commit();
-
-
-
-            _db.Close();
-        }
-
-        public void _DeletePlan(ActionPlanActivity activity)
-        {
-            var _db = new SQLiteConnection(handler._ConnPath);
-
-            _db.Execute("");
-
-            Toast.MakeText(activity, "Plan Successfully Deleted!", ToastLength.Short).Show();
-            _db.Commit();
-
-
-
-            _db.Close();
         }
 
     }
@@ -86,6 +75,7 @@ namespace PocketAuditor.Adapter
         public TextView APCatDesignation;
         public TextView APType;
         public TextView APLink;
+        public CardView CardView;
 
         public ActionPlanAdapterViewHolder(View itemView) : base(itemView)
         {
@@ -94,6 +84,7 @@ namespace PocketAuditor.Adapter
             APCatDesignation = itemView.FindViewById<TextView>(Resource.Id.txtCategoryDesignation);
             APType = itemView.FindViewById<TextView>(Resource.Id.txtAPType);
             APLink = itemView.FindViewById<TextView>(Resource.Id.txtAPlink);
+            CardView = itemView.FindViewById<CardView>(Resource.Id.CV_ActionPlan);
         }
     }
 }
