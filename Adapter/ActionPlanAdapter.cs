@@ -57,6 +57,9 @@ namespace PocketAuditor.Adapter
             {
                 viewActionPlan.APCatDesignation.Visibility = ViewStates.Invisible;
             }
+
+
+            viewActionPlan.CardView.Click += (sender, args) => _EditPlan(_APActivity);
         }
 
         public override int ItemCount => actionPlans.Count;

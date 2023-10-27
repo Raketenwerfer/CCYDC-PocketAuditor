@@ -73,7 +73,7 @@ namespace PocketAuditor.Activity
 
             int q_AP_ID, q_AP_CD_ID;
             string q_APName, q_APdetail, q_APlink, q_APStatus, q_APtype, q_AP_CD;
-            string entryQuery = "SELECT A.ActionPlanName, A.ActionPlanDetail, AtC.ActionPlanID, A.ActionPlanType, " +
+            string entryQuery = "SELECT A.ActionPlanName, A.ActionPlanDetail, AtC.ActionPlanID, A.ActionPlanType, A.ExternalLink, " +
                 "A.ActionPlanStatus, C.CategoryTitle, AtC.CategoryID, C.CategoryStatus " +
                 "FROM Associate_APtoC AtC " +
                 "INNER JOIN ActionPlans A ON AtC.ActionPlanID = A.ActionPlanID " +

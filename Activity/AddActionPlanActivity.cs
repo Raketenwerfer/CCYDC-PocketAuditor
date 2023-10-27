@@ -21,6 +21,7 @@ using SQLitePCL;
 namespace PocketAuditor.Activity
 {
     [Activity(Label = "AddActionPlanActivity", NoHistory = true)]
+
     public class AddActionPlanActivity : AppCompatActivity
     {
         EditText planName, planCateDesc, planPasteLink;
@@ -28,13 +29,16 @@ namespace PocketAuditor.Activity
         Button addPlan, cancelPlan;
         CheckBox typeToggle;
 
-        int selectedCategoryID, selectedActionPlanID;
-
-        public List<CategoryModel> _Category = new List<CategoryModel>();
+        int selectedCategoryID, selectedActionPlanID, sequence;
+        public readonly ActionPlanActivity _AAP;
+        public readonly List<CategoryModel> _Category = new List<CategoryModel>();
         public readonly List<string> ap_category = new List<string>();
+
+        readonly string get_sequence = "SELECT COUNT(*) FROM ActionPlans";
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -60,9 +64,21 @@ namespace PocketAuditor.Activity
             SQLDB = handler.WritableDatabase;
 
             categorySpin.ItemSelected += (sender, args) => GetCategoryID();
+            typeToggle.CheckedChange += (sender, args) =>
+            {
+                if (typeToggle.Checked)
+                {
+                    categorySpin.Enabled = false;
+                }
+                else
+                {
+                    categorySpin.Enabled = true;
+                }
+            };
 
 
             PullCategories();
+            
 
         }
 
@@ -105,8 +121,11 @@ namespace PocketAuditor.Activity
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanDetail, ExternalLink, ActionPlanStatus, ActionPlanType) " + 
-                "VALUES(?, ?, ?, ?)", planName.Text, planCateDesc.Text, planPasteLink.Text, "ACTIVE", aptype);
+            _GetRowSequenceCount();
+            sequence++;
+
+            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanID, ActionPlanDetail, ExternalLink, ActionPlanStatus, ActionPlanType) " + 
+                "VALUES(?, ?, ?, ?, ?, ?)", planName.Text, sequence, planCateDesc.Text, planPasteLink.Text, "ACTIVE", aptype);
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
@@ -130,15 +149,29 @@ namespace PocketAuditor.Activity
             Toast.MakeText(Application.Context, "Selected ID number " + selectedCategoryID, ToastLength.Short).Show();
         }
 
+        public void _GetRowSequenceCount()
+        {
+            ICursor gseq = SQLDB.RawQuery(get_sequence, new string[] { });
+
+            if (gseq.MoveToFirst())
+            {
+                sequence = gseq.GetInt(0);
+            }
+            else
+            {
+                sequence = 0;
+            }
+
+            gseq.Close();
+        }
+
 
         public void _AttachPlanToCategory()
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("");
-
             _db.Execute("INSERT INTO Associate_APtoC(ActionPlanID, CategoryID) " +
-                "VALUES(?,?)", selectedCategoryID);
+                "VALUES(?,?)", selectedActionPlanID, selectedCategoryID);
 
             _db.Commit();
             _db.Close();
