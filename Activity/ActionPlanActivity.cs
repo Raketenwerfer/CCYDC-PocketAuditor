@@ -240,7 +240,7 @@ namespace PocketAuditor.Activity
                 }
             }
 
-            Toast.MakeText(Application.Context, "Selected ID number " + selectedCategoryID, ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Selected " + categorySpin.SelectedItem.ToString(), ToastLength.Short).Show();
         }
 
         public void _GetRowSequenceCount()

@@ -112,7 +112,7 @@
 
         <Button
             android:layout_below="@+id/addPlanBtn"
-            android:text="CANCEL"
+            android:text="DELETE"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:id="@+id/deletePlanBtn" />
