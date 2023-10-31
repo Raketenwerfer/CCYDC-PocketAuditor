@@ -80,15 +80,13 @@ namespace PocketAuditor.Adapter
 
             viewActionPlan.CardView.Click += (sender, args) => _ConfigurePlan(_APActivity);
 
-
         }
 
         public override int ItemCount => actionPlans.Count;
 
         public void _ConfigurePlan(ActionPlanActivity activity)
         {
-
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(activity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
             LayoutInflater layoutInflater = LayoutInflater.From(activity);
             View apView = layoutInflater.Inflate(Resource.Layout.action_plans_prompt, null);
@@ -97,7 +95,7 @@ namespace PocketAuditor.Adapter
 
             builder.Create();
 
-            Android.App.AlertDialog dialog = builder.Create();
+            AlertDialog dialog = builder.Create();
 
             planName = apView.FindViewById<EditText>(Resource.Id.planName);
             planCateDesc = apView.FindViewById<EditText>(Resource.Id.plan_Details);
@@ -119,7 +117,8 @@ namespace PocketAuditor.Adapter
                 string pasteLink = planPasteLink.Text;
 
                 if (string.IsNullOrWhiteSpace(Name) ||
-                    string.IsNullOrWhiteSpace(cateDisc) || string.IsNullOrWhiteSpace(pasteLink))
+                    string.IsNullOrWhiteSpace(cateDisc) || 
+                    string.IsNullOrWhiteSpace(pasteLink))
                 {
                     Toast.MakeText(activity, "Fields must be Filled", ToastLength.Short).Show();
                 }
@@ -144,7 +143,6 @@ namespace PocketAuditor.Adapter
 
 
             };
-
 
             cancelPlan.Click += delegate
             {
@@ -196,7 +194,6 @@ namespace PocketAuditor.Adapter
             _AttachPlanToCategory();
         }
 
-
         public void GetCategoryID(Spinner categorySpin)
         {
             foreach (CategoryModel cm in _Category)
@@ -209,8 +206,6 @@ namespace PocketAuditor.Adapter
 
             Toast.MakeText(Application.Context, "Selected " + categorySpin.SelectedItem.ToString(), ToastLength.Short).Show();
         }
-
-
 
         public void _AttachPlanToCategory()
         {
