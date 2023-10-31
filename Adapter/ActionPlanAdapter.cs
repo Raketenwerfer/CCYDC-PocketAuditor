@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Android.App;
 using AndroidX.CardView.Widget;
 using Android.Database;
+using static Android.Icu.Text.Transliterator;
+using System.Linq;
 
 namespace PocketAuditor.Adapter
 {
@@ -78,17 +80,21 @@ namespace PocketAuditor.Adapter
                 viewActionPlan.APCatDesignation.Visibility = ViewStates.Invisible;
             }
 
-            viewActionPlan.CardView.Click += (sender, args) => _ConfigurePlan(_APActivity);
+            viewActionPlan.CardView.Click += (sender, args) => _ConfigurePlan(_APActivity, viewHolder, position);
 
 
         }
 
         public override int ItemCount => actionPlans.Count;
 
-        public void _ConfigurePlan(ActionPlanActivity activity)
+        public void _ConfigurePlan(ActionPlanActivity activity, RecyclerView.ViewHolder viewHolder, int position)
         {
+            ActionPlanModel model = actionPlans[position];
+            ActionPlanAdapterViewHolder vAP = viewHolder as ActionPlanAdapterViewHolder;
 
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(activity);
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
             LayoutInflater layoutInflater = LayoutInflater.From(activity);
             View apView = layoutInflater.Inflate(Resource.Layout.action_plans_prompt, null);
@@ -97,7 +103,7 @@ namespace PocketAuditor.Adapter
 
             builder.Create();
 
-            Android.App.AlertDialog dialog = builder.Create();
+            AlertDialog dialog = builder.Create();
 
             planName = apView.FindViewById<EditText>(Resource.Id.planName);
             planCateDesc = apView.FindViewById<EditText>(Resource.Id.plan_Details);
@@ -109,6 +115,31 @@ namespace PocketAuditor.Adapter
             deletePlan = apView.FindViewById<Button>(Resource.Id.deletePlanBtn);
 
             typeToggle = apView.FindViewById<CheckBox>(Resource.Id.cxbox_APtypeToggle);
+
+
+            planName.Text = vAP.APName.Text;
+            planCateDesc.Text = vAP.APDetail.Text;
+            planPasteLink.Text = vAP.APLink.Text;
+
+            if (vAP.APType.Text == "GENERAL")
+            {
+                categorySpin.Enabled = false;
+                typeToggle.Checked = true;
+            }
+            else if (vAP.APType.Text == "SPECIFIC")
+            {
+                categorySpin.Enabled = true;
+                typeToggle.Checked = false;
+            }
+
+            foreach (CategoryModel CM in _Category)
+            {
+                if (vAP.APCatDesignation.Text == CM.CategoryTitle)
+                {
+                    categorySpin.SetSelection(CM.CategoryID);
+                }
+            }
+
 
             builder.SetCancelable(false);
 
@@ -166,7 +197,13 @@ namespace PocketAuditor.Adapter
                 }
             };
 
-            deletePlan.Visibility = ViewStates.Gone;
+            deletePlan.Click += delegate
+            {
+                _RemovePlan();
+                _APActivity.PullActionPlans();
+                dialog.Dismiss();
+            };
+
             _APActivity.PullCategories(categorySpin);
 
             dialog.Show();
@@ -185,8 +222,9 @@ namespace PocketAuditor.Adapter
 
             _APActivity._GetRowSequenceCount();
 
-            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanID, ActionPlanDetail, ExternalLink, ActionPlanStatus, ActionPlanType) " +
-                "VALUES(?, ?, ?, ?, ?, ?)", planName.Text, sequence, planCateDesc.Text, planPasteLink.Text, "ACTIVE", aptype);
+            _db.Execute("UPDATE ActionPlans " +
+                "SET ActionPlanName = ?, ActionPlanDetail = ?, ExternalLink = ?, ActionPlanType = ? " +
+                "WHERE ActionPlanID = ?", planName.Text, planCateDesc.Text, planPasteLink.Text, aptype, sequence);
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
@@ -219,6 +257,29 @@ namespace PocketAuditor.Adapter
             _db.Execute("INSERT INTO Associate_APtoC(ActionPlanID, CategoryID) " +
                 "VALUES(?,?)", selectedActionPlanID, selectedCategoryID);
 
+            _db.Commit();
+            _db.Close();
+        }
+
+        public void _RemovePlan()
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("UPDATE ActionPlans " +
+                "SET ActionPlanStatus = ? " +
+                "WHERE ActionPlanID = ?", "UNASSIGNED", selectedActionPlanID);
+            _db.Commit();
+            _db.Close();
+
+            _DetachPlanFromCategroy();
+        }
+
+        private void _DetachPlanFromCategroy()
+        {
+            var _db = new SQLiteConnection(handler._ConnPath);
+
+            _db.Execute("DELETE FROM Associate_APtoC " +
+                "WHERE ActionPlanID = ?", selectedActionPlanID);
             _db.Commit();
             _db.Close();
         }

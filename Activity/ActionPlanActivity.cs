@@ -173,7 +173,8 @@ namespace PocketAuditor.Activity
                 "FROM Associate_APtoC AtC " +
                 "INNER JOIN ActionPlans A ON AtC.ActionPlanID = A.ActionPlanID " +
                 "INNER JOIN Category_tbl C ON AtC.CategoryID = C.Category_ID " +
-                "WHERE (A.ActionPlanStatus == 'ACTIVE' AND C.CategoryStatus == 'ACTIVE')";
+                "WHERE (A.ActionPlanStatus == 'ACTIVE' AND C.CategoryStatus == 'ACTIVE') " +
+                "OR (A.ActionPlanStatus == 'UNASSIGNED' AND C.CategoryStatus == 'ACTIVE')";
 
             ICursor cList = SQLDB.RawQuery(entryQuery, new string[] { });
 
