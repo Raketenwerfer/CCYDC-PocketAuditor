@@ -56,7 +56,7 @@
             app:cardElevation="10dp"
             app:cardCornerRadius="5dp"
             app:cardUseCompatPadding="true"
-            app:cardBackgroundColor="#478C4A"
+            app:cardBackgroundColor="@android:color/white"
             tools:ignore="UselessParentWithBackground">
 
 
@@ -68,14 +68,14 @@
 
 
                 <TextView
-                    android:text="Category Name:   "
+                    android:text="Category:  "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtv_catname"/>
 
                 <TextView
                     android:text="Display Text Here"
-                    android:layout_width="204dp"
+                    android:layout_width="207dp"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/txtv_catname"
                     android:id="@+id/txtDC" />
@@ -124,6 +124,7 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
 
    </LinearLayout>
@@ -138,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
 

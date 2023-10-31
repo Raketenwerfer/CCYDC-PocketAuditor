@@ -75,11 +75,7 @@ namespace PocketAuditor.Activity
                     categorySpin.Enabled = true;
                 }
             };
-
-
             PullCategories();
-            
-
         }
 
         private void AddPlan_Click(object sender, EventArgs e)
@@ -137,7 +133,6 @@ namespace PocketAuditor.Activity
 
         public void GetCategoryID()
         {
-
             foreach (CategoryModel cm in _Category)
             {
                 if (cm.CategoryTitle == categorySpin.SelectedItem.ToString())
