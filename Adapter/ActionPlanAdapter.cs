@@ -6,13 +6,9 @@ using PocketAuditor.Activity;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
 using SQLite;
-using System;
 using System.Collections.Generic;
 using Android.App;
 using AndroidX.CardView.Widget;
-using Android.Database;
-using static Android.Icu.Text.Transliterator;
-using System.Linq;
 
 namespace PocketAuditor.Adapter
 {
@@ -41,13 +37,6 @@ namespace PocketAuditor.Adapter
             handler = new DB_Initiator(activity);
             SQLDB = handler.WritableDatabase;
             _APActivity = activity;
-        }
-
-        public void UpdateData(List<ActionPlanModel> newData)
-        {
-            actionPlans.Clear();
-            actionPlans.AddRange(newData);
-            NotifyDataSetChanged();
         }
 
 
@@ -91,8 +80,6 @@ namespace PocketAuditor.Adapter
             ActionPlanModel model = actionPlans[position];
             ActionPlanAdapterViewHolder vAP = viewHolder as ActionPlanAdapterViewHolder;
 
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
             LayoutInflater layoutInflater = LayoutInflater.From(activity);
@@ -114,7 +101,6 @@ namespace PocketAuditor.Adapter
             deletePlan = apView.FindViewById<Button>(Resource.Id.deletePlanBtn);
 
             typeToggle = apView.FindViewById<CheckBox>(Resource.Id.cxbox_APtypeToggle);
-
 
             planName.Text = vAP.APName.Text;
             planCateDesc.Text = vAP.APDetail.Text;
@@ -139,7 +125,6 @@ namespace PocketAuditor.Adapter
                 }
             }
 
-
             builder.SetCancelable(false);
 
             addPlan.Click += delegate
@@ -161,7 +146,6 @@ namespace PocketAuditor.Adapter
                     if (typeToggle.Checked)
                     {
                         _AddPlan("GENERAL", planName, planCateDesc, planPasteLink);
-                        //actionPlanAdapter.UpdateData();
                         _APActivity.PullActionPlans();
                         dialog.Dismiss();
                     }
@@ -172,7 +156,6 @@ namespace PocketAuditor.Adapter
                         dialog.Dismiss();
                     }
                 }
-
 
             };
 
@@ -198,7 +181,7 @@ namespace PocketAuditor.Adapter
 
             deletePlan.Click += delegate
             {
-                _RemovePlan();
+                _RemovePlan(); 
                 _APActivity.PullActionPlans();
                 dialog.Dismiss();
             };
@@ -208,11 +191,7 @@ namespace PocketAuditor.Adapter
             dialog.Show();
         }
 
-        internal void UpdateData(object newDataList)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         #region Inflated Layout Methods
 
         public void _AddPlan(string aptype, EditText planName, EditText planCateDesc, EditText planPasteLink)
@@ -243,7 +222,7 @@ namespace PocketAuditor.Adapter
                 }
             }
 
-            Toast.MakeText(Application.Context, "Selected " + categorySpin.SelectedItem.ToString(), ToastLength.Short).Show();
+            //Toast.MakeText(Application.Context, "Selected " + categorySpin.SelectedItem.ToString(), ToastLength.Short).Show();
         }
 
         public void _AttachPlanToCategory()
@@ -262,20 +241,24 @@ namespace PocketAuditor.Adapter
             var _db = new SQLiteConnection(handler._ConnPath);
 
             _db.Execute("UPDATE ActionPlans " +
-                "SET ActionPlanStatus = ? " +
-                "WHERE ActionPlanID = ?", "UNASSIGNED", selectedActionPlanID);
+                        "SET ActionPlanStatus = ? " +
+                        "WHERE ActionPlanID = ?", "UNASSIGNED", selectedActionPlanID);
+
+            Toast.MakeText(Application.Context, "Plan Removed successfully!", ToastLength.Short).Show();
             _db.Commit();
             _db.Close();
 
-            _DetachPlanFromCategroy();
+            _DetachPlanFromActionPlans();
         }
 
-        private void _DetachPlanFromCategroy()
+        private void _DetachPlanFromActionPlans()
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
             _db.Execute("DELETE FROM Associate_APtoC " +
-                "WHERE ActionPlanID = ?", selectedActionPlanID);
+                        "WHERE ActionPlanID = ?", selectedActionPlanID);
+
+
             _db.Commit();
             _db.Close();
         }

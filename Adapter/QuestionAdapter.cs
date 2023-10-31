@@ -71,7 +71,8 @@ namespace PocketAuditor.Adapter
 
         public void GetQuestionEntryID(string i1)
         {
-            ICursor cList = SQLDB.RawQuery("SELECT EntryID FROM Entry_tbl WHERE Indicator = '" + i1 + "'", new string[] { });
+            ICursor cList = SQLDB.RawQuery("SELECT EntryID FROM Entry_tbl " +
+                                           "WHERE Indicator = '" + i1 + "'", new string[] { });
 
             if (cList.Count > 0)
             {
