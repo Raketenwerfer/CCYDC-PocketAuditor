@@ -41,7 +41,9 @@ namespace PocketAuditor.Adapter
             view.rbnYes.Checked = itemModel.IsYesBtnSelected;
             view.rbnNo.Checked = itemModel.IsNoBtnSelected;
 
-             // Set Click listeners for the radiobuttons 
+            ResetListeners(holder, position);
+
+            // Set Click listeners for the radiobuttons 
             view.rbnYes.Click += (sender, e) => OnYesButtonClick(holder, position);
             view.rbnNo.Click += (sender, e) => OnNoButtonClick(holder, position);
 
@@ -119,8 +121,19 @@ namespace PocketAuditor.Adapter
             itemModel.Remark = v;
         }
 
+        private void ResetListeners(RecyclerView.ViewHolder holder, int position)
+        {
+            ItemModel itemModel = itemList[position];
+            ItemViewHolder view = holder as ItemViewHolder;
 
-       
+            // Set Click listeners for the radiobuttons 
+            view.rbnYes.Click -= (sender, e) => { }; // Remove previous listeners
+            view.rbnNo.Click -= (sender, e) => { }; // Remove previous listeners
+        }
+
+
+
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             // Inflate the item_model layout and create ViewHolder instance

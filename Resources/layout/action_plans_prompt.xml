@@ -110,6 +110,13 @@
             android:layout_marginStart="100dp"
             android:id="@+id/cancelPlanBtn" />
 
+        <Button
+            android:layout_below="@+id/addPlanBtn"
+            android:text="CANCEL"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/deletePlanBtn" />
+
     </RelativeLayout>
 
 </LinearLayout>
