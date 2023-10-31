@@ -95,7 +95,7 @@ namespace PocketAuditor.Adapter
             LayoutInflater layoutInflater = LayoutInflater.FromContext(_activity);
             View mView = layoutInflater.Inflate(Resource.Layout.new_question_prompt, null);
 
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(_activity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(_activity);
             builder.SetView(mView);
 
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);
@@ -138,11 +138,10 @@ namespace PocketAuditor.Adapter
         {
             ItemViewHolder view = holder as ItemViewHolder;
 
-
             LayoutInflater layoutInflater = LayoutInflater.FromContext(_activity);
             View mView = layoutInflater.Inflate(Resource.Layout.new_question_prompt, null);
 
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(_activity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(_activity);
             builder.SetView(mView);
 
             var userContent = mView.FindViewById<EditText>(Resource.Id.ANQuestion_eT);

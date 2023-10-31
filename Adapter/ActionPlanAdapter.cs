@@ -82,7 +82,6 @@ namespace PocketAuditor.Adapter
 
             viewActionPlan.CardView.Click += (sender, args) => _ConfigurePlan(_APActivity, viewHolder, position);
 
-
         }
 
         public override int ItemCount => actionPlans.Count;
@@ -150,7 +149,8 @@ namespace PocketAuditor.Adapter
                 string pasteLink = planPasteLink.Text;
 
                 if (string.IsNullOrWhiteSpace(Name) ||
-                    string.IsNullOrWhiteSpace(cateDisc) || string.IsNullOrWhiteSpace(pasteLink))
+                    string.IsNullOrWhiteSpace(cateDisc) || 
+                    string.IsNullOrWhiteSpace(pasteLink))
                 {
                     Toast.MakeText(activity, "Fields must be Filled", ToastLength.Short).Show();
                 }
@@ -175,7 +175,6 @@ namespace PocketAuditor.Adapter
 
 
             };
-
 
             cancelPlan.Click += delegate
             {
@@ -234,7 +233,6 @@ namespace PocketAuditor.Adapter
             _AttachPlanToCategory();
         }
 
-
         public void GetCategoryID(Spinner categorySpin)
         {
             foreach (CategoryModel cm in _Category)
@@ -247,8 +245,6 @@ namespace PocketAuditor.Adapter
 
             Toast.MakeText(Application.Context, "Selected " + categorySpin.SelectedItem.ToString(), ToastLength.Short).Show();
         }
-
-
 
         public void _AttachPlanToCategory()
         {
