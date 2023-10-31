@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SQLitePCL;
+using PocketAuditor.Adapter;
 
 namespace PocketAuditor.Activity
 {
@@ -33,6 +34,8 @@ namespace PocketAuditor.Activity
         public readonly ActionPlanActivity _AAP;
         public readonly List<CategoryModel> _Category = new List<CategoryModel>();
         public readonly List<string> ap_category = new List<string>();
+
+        private readonly ActionPlanAdapter actionPlanAdapter;
 
         readonly string get_sequence = "SELECT COUNT(*) FROM ActionPlans";
 
@@ -64,6 +67,7 @@ namespace PocketAuditor.Activity
             SQLDB = handler.WritableDatabase;
 
             categorySpin.ItemSelected += (sender, args) => GetCategoryID();
+
             typeToggle.CheckedChange += (sender, args) =>
             {
                 if (typeToggle.Checked)
@@ -75,6 +79,7 @@ namespace PocketAuditor.Activity
                     categorySpin.Enabled = true;
                 }
             };
+
             PullCategories();
         }
 
@@ -96,6 +101,7 @@ namespace PocketAuditor.Activity
                 if (typeToggle.Checked)
                 {
                     _AddPlan("GENERAL");
+                    //actionPlanAdapter.UpdateData();
                     Finish();
                 }
                 else
@@ -106,6 +112,8 @@ namespace PocketAuditor.Activity
                 
             }
         }
+
+        
 
         private void CancelPlan_Click(object sender, EventArgs e)
         {

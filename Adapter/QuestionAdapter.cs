@@ -1,23 +1,14 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using AndroidX.AppCompat.App;
-using Android.Support.Design.Widget;
-using AndroidX.DrawerLayout.Widget;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using Android.Database;
 using Android.Database.Sqlite;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PocketAuditor.Fragment;
-using Android.Webkit;
 using SQLite;
 
 namespace PocketAuditor.Adapter
@@ -58,9 +49,8 @@ namespace PocketAuditor.Adapter
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.question_model, parent, false);
-            return new ItemViewHolder(itemView);
-
+            View questionView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.question_model, parent, false);
+            return new ItemViewHolder(questionView);
         }
 
         public void _RenameQuestion(RecyclerView.ViewHolder holder, int position)
@@ -119,7 +109,6 @@ namespace PocketAuditor.Adapter
             promptTitle.Text = "RENAME QUESTION";
             promptDesc.Text = "Enter your new question name:";
 
-
             builder.SetCancelable(false)
                 .SetPositiveButton("Rename", delegate
                 {
@@ -141,6 +130,7 @@ namespace PocketAuditor.Adapter
                 {
                     builder.Dispose();
                 });
+
             builder.Create().Show();
         }
 
@@ -187,6 +177,7 @@ namespace PocketAuditor.Adapter
                 {
                     builder.Dispose();
                 });
+
             builder.Create().Show();
         }
 

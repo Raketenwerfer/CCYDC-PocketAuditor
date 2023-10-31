@@ -29,6 +29,14 @@ namespace PocketAuditor.Adapter
             _APActivity = activity;
         }
 
+        public void UpdateData(List<ActionPlanModel> newData)
+        {
+            actionPlans.Clear();
+            actionPlans.AddRange(newData);
+            NotifyDataSetChanged();
+        }
+
+
         // Create new views (invoked by the layout manager)
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
@@ -47,7 +55,6 @@ namespace PocketAuditor.Adapter
             viewActionPlan.APType.Text = model.AP_Type;
             viewActionPlan.APLink.Text = model.AP_ExtLink;
 
-
             if (model.AP_Type == "SPECIFIC")
             {
                 viewActionPlan.APCatDesignation.Visibility = ViewStates.Visible;
@@ -57,7 +64,6 @@ namespace PocketAuditor.Adapter
             {
                 viewActionPlan.APCatDesignation.Visibility = ViewStates.Invisible;
             }
-
 
             viewActionPlan.CardView.Click += (sender, args) => _EditPlan(_APActivity);
         }
@@ -69,6 +75,10 @@ namespace PocketAuditor.Adapter
 
         }
 
+        internal void UpdateData(object newDataList)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ActionPlanAdapterViewHolder : RecyclerView.ViewHolder
