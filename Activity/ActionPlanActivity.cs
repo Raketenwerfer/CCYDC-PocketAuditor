@@ -164,7 +164,7 @@ namespace PocketAuditor.Activity
 
             int q_AP_ID, q_AP_CD_ID;
             string q_APName, q_APdetail, q_APlink, q_APStatus, q_APtype, q_AP_CD;
-            string entryQuery = "SELECT A.ActionPlanName, A.ActionPlanDetail, AtC.ActionPlanID, A.ActionPlanType, A.ExternalLink, " +
+            string entryQuery = "SELECT DISTINCT A.ActionPlanName, A.ActionPlanDetail, AtC.ActionPlanID, A.ActionPlanType, A.ExternalLink, " +
                 "A.ActionPlanStatus, C.CategoryTitle, AtC.CategoryID, C.CategoryStatus " +
                 "FROM Associate_APtoC AtC " +
                 "INNER JOIN ActionPlans A ON AtC.ActionPlanID = A.ActionPlanID " +
@@ -212,15 +212,23 @@ namespace PocketAuditor.Activity
             _GetRowSequenceCount();
             sequence++;
 
-            _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanID, ActionPlanDetail, ExternalLink, ActionPlanStatus, ActionPlanType) " +
-                "VALUES(?, ?, ?, ?, ?, ?)", planName.Text, sequence, planCateDesc.Text, planPasteLink.Text, "ACTIVE", aptype);
+            try
+            {
+                _db.Execute("INSERT INTO ActionPlans(ActionPlanName, ActionPlanID, ActionPlanDetail, ExternalLink, ActionPlanStatus, ActionPlanType) " +
+                    "VALUES(?, ?, ?, ?, ?, ?)", planName.Text, sequence, planCateDesc.Text, planPasteLink.Text, "ACTIVE", aptype);
 
-            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
-            _db.Commit();
-            _db.Close();
+                Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+                _db.Commit();
+                _db.Close();
 
-            _PullActionPlanID();
-            _AttachPlanToCategory();
+                _PullActionPlanID();
+                _AttachPlanToCategory();
+            }
+            catch(Exception ex)
+            {
+                Toast.MakeText(Application.Context, "An error occured! \n\n Error Details: \n\n" + ex.Message, ToastLength.Short).Show();
+            }
+
         }
 
 
@@ -257,9 +265,8 @@ namespace PocketAuditor.Activity
         public void _AttachPlanToCategory()
         {
             var _db = new SQLiteConnection(handler._ConnPath);
-
             _db.Execute("INSERT INTO Associate_APtoC(ActionPlanID, CategoryID) " +
-                "VALUES(?,?)", selectedActionPlanID, selectedCategoryID);
+            "VALUES(?,?)", selectedActionPlanID, selectedCategoryID);
 
             _db.Commit();
             _db.Close();

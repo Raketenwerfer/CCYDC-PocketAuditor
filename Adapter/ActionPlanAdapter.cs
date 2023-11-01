@@ -25,7 +25,7 @@ namespace PocketAuditor.Adapter
         Button addPlan, cancelPlan, deletePlan;
         CheckBox typeToggle;
 
-        int selectedCategoryID, selectedActionPlanID, sequence;
+        int selectedCategoryID, selectedActionPlanID, sequence, del_categoryID;
         public readonly List<CategoryModel> _Category = new List<CategoryModel>();
         public readonly List<string> ap_category = new List<string>();
 
@@ -58,6 +58,8 @@ namespace PocketAuditor.Adapter
             viewActionPlan.APDetail.Text = model.AP_Detail;
             viewActionPlan.APType.Text = model.AP_Type;
             viewActionPlan.APLink.Text = model.AP_ExtLink;
+            selectedActionPlanID = model.AP_ID;
+            del_categoryID = model.AP_CategoryDesignationID;
 
             if (model.AP_Type == "SPECIFIC")
             {
@@ -105,6 +107,7 @@ namespace PocketAuditor.Adapter
             planName.Text = vAP.APName.Text;
             planCateDesc.Text = vAP.APDetail.Text;
             planPasteLink.Text = vAP.APLink.Text;
+            addPlan.Text = "UPDATE";
 
             if (vAP.APType.Text == "GENERAL")
             {
@@ -145,13 +148,13 @@ namespace PocketAuditor.Adapter
 
                     if (typeToggle.Checked)
                     {
-                        _AddPlan("GENERAL", planName, planCateDesc, planPasteLink);
+                        _UpdatePlan("GENERAL", planName, planCateDesc, planPasteLink);
                         _APActivity.PullActionPlans();
                         dialog.Dismiss();
                     }
                     else
                     {
-                        _AddPlan("SPECIFIC", planName, planCateDesc, planPasteLink);
+                        _UpdatePlan("SPECIFIC", planName, planCateDesc, planPasteLink);
                         _APActivity.PullActionPlans();
                         dialog.Dismiss();
                     }
@@ -194,7 +197,7 @@ namespace PocketAuditor.Adapter
         
         #region Inflated Layout Methods
 
-        public void _AddPlan(string aptype, EditText planName, EditText planCateDesc, EditText planPasteLink)
+        public void _UpdatePlan(string aptype, EditText planName, EditText planCateDesc, EditText planPasteLink)
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
@@ -202,14 +205,16 @@ namespace PocketAuditor.Adapter
 
             _db.Execute("UPDATE ActionPlans " +
                 "SET ActionPlanName = ?, ActionPlanDetail = ?, ExternalLink = ?, ActionPlanType = ? " +
-                "WHERE ActionPlanID = ?", planName.Text, planCateDesc.Text, planPasteLink.Text, aptype, sequence);
+                "WHERE ActionPlanID = ?", planName.Text, planCateDesc.Text, planPasteLink.Text, aptype, selectedActionPlanID);
 
             Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
             _db.Commit();
             _db.Close();
 
-            _APActivity._PullActionPlanID();
-            _AttachPlanToCategory();
+            if (!typeToggle.Checked)
+            {
+                _AttachPlanToCategory();
+            }
         }
 
         public void GetCategoryID(Spinner categorySpin)
@@ -229,8 +234,9 @@ namespace PocketAuditor.Adapter
         {
             var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("INSERT INTO Associate_APtoC(ActionPlanID, CategoryID) " +
-                "VALUES(?,?)", selectedActionPlanID, selectedCategoryID);
+            _db.Execute("UPDATE Associate_APtoC " +
+                "SET CategoryID = ? " +
+                "WHERE ActionPlanID = ?", del_categoryID, selectedActionPlanID);
 
             _db.Commit();
             _db.Close();
@@ -242,7 +248,7 @@ namespace PocketAuditor.Adapter
 
             _db.Execute("UPDATE ActionPlans " +
                         "SET ActionPlanStatus = ? " +
-                        "WHERE ActionPlanID = ?", "UNASSIGNED", selectedActionPlanID);
+                        "WHERE ActionPlanID = ?", "INACTIVE", selectedActionPlanID);
 
             Toast.MakeText(Application.Context, "Plan Removed successfully!", ToastLength.Short).Show();
             _db.Commit();
