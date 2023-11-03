@@ -12,7 +12,6 @@ using Android.Database;
 using Android.Database.Sqlite;
 using System;
 using System.Collections.Generic;
-using Android.Content;
 using AndroidX.Core.View;
 using System.Linq;
 using AndroidX.RecyclerView.Widget;
@@ -30,7 +29,7 @@ namespace PocketAuditor.Fragment
 
         TextView TxtDisCate;
 
-        private ImageView openham, addCategory, backMenu, editCategory, deleteCategory, addNewQuestion;
+        private ImageView openham, addCategory, editCategory, deleteCategory, addNewQuestion;
 
         public DB_Initiator handler;
         public SQLiteDatabase SQLDB;
@@ -71,9 +70,6 @@ namespace PocketAuditor.Fragment
 
             addCategory = FindViewById<ImageView>(Resource.Id.addCategory);
             addCategory.Click += AddCategory_Click;
-
-            backMenu = FindViewById<ImageView>(Resource.Id.returnMenu);
-            backMenu.Click += BackMenu_Click;
 
             editCategory = FindViewById<ImageView>(Resource.Id.editCat);
             editCategory.Click += _EditCategoryName;
@@ -206,13 +202,11 @@ namespace PocketAuditor.Fragment
             gseq.Close();
         }
 
-        private void BackMenu_Click(object sender, EventArgs e)
+        public override void OnBackPressed()
         {
-            // Uncomment this after testing
-            Intent intent = new Intent(this, typeof(ManageMenu));
-            StartActivity(intent);
-
-            //Toast.MakeText(ApplicationContext, q_sequence.ToString(), ToastLength.Short).Show();
+            // to Menu.xml
+            StartActivity(typeof(ManageMenu));
+            Finish();
         }
 
         private void AddCategory_Click(object sender, EventArgs e)

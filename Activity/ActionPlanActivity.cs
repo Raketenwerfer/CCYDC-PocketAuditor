@@ -12,6 +12,7 @@ using AndroidX.RecyclerView.Widget;
 using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
+using PocketAuditor.Fragment;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace PocketAuditor.Activity
     [Activity(Label = "ActionPlanActivity")]
     public class ActionPlanActivity : AppCompatActivity 
     {
-        ImageView ReturnMA, AddNewPlan;
+        ImageView AddNewPlan;
         RecyclerView DisplayPlans;
         ActionPlanAdapter adapter;
 
@@ -53,8 +54,6 @@ namespace PocketAuditor.Activity
             SetContentView(Resource.Layout.action_plans);
 
             AddNewPlan = FindViewById<ImageView>(Resource.Id.addnewPlan);
-            ReturnMA = FindViewById<ImageView>(Resource.Id.returnManageAudit);
-
             DisplayPlans = FindViewById<RecyclerView>(Resource.Id.R_displayPlan);
             DisplayPlans.SetLayoutManager(new LinearLayoutManager(this));
 
@@ -62,18 +61,12 @@ namespace PocketAuditor.Activity
             SQLDB = handler.WritableDatabase; 
 
             AddNewPlan.Click += AddNewPlan_Click; 
-            ReturnMA.Click += ReturnMA_Click;
-
+            
             PullActionPlans();
             
         }
 
-        private void ReturnMA_Click(object sender, EventArgs e)
-        {
-            //return to manage audit layout
-            Finish();
-        }
-
+        
         private void AddNewPlan_Click(object sender, EventArgs e)
         {
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
@@ -164,7 +157,8 @@ namespace PocketAuditor.Activity
 
             int q_AP_ID, q_AP_CD_ID;
             string q_APName, q_APdetail, q_APlink, q_APStatus, q_APtype, q_AP_CD;
-            string entryQuery = "SELECT DISTINCT A.ActionPlanName, A.ActionPlanDetail, AtC.ActionPlanID, A.ActionPlanType, A.ExternalLink, " +
+            string entryQuery = "SELECT DISTINCT A.ActionPlanName, A.ActionPlanDetail, " +
+                "AtC.ActionPlanID, A.ActionPlanType, A.ExternalLink, " +
                 "A.ActionPlanStatus, C.CategoryTitle, AtC.CategoryID, C.CategoryStatus " +
                 "FROM Associate_APtoC AtC " +
                 "INNER JOIN ActionPlans A ON AtC.ActionPlanID = A.ActionPlanID " +
@@ -189,7 +183,7 @@ namespace PocketAuditor.Activity
                     q_AP_CD    = cList.GetString(cList.GetColumnIndex("CategoryTitle"));
                     q_AP_CD_ID = cList.GetInt(cList.GetColumnIndex("CategoryID"));
 
-                    ActionPlanModel a = new ActionPlanModel(q_APName,q_AP_ID,q_APdetail,q_APlink,q_APStatus,q_APtype, q_AP_CD, q_AP_CD_ID);
+                    ActionPlanModel a = new ActionPlanModel(q_APName, q_AP_ID, q_APdetail, q_APlink, q_APStatus, q_APtype, q_AP_CD, q_AP_CD_ID);
 
                     PlanList.Add(a);
                 }
@@ -230,7 +224,6 @@ namespace PocketAuditor.Activity
             }
 
         }
-
 
         public void GetCategoryID(Spinner categorySpin)
         {
@@ -331,6 +324,12 @@ namespace PocketAuditor.Activity
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, ap_category.Select(a => a).ToList());
             categorySpin.Adapter = adapter;
+        }
+
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(ManageMenu));
+            Finish();
         }
 
         #endregion

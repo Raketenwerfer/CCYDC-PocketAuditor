@@ -53,8 +53,6 @@ namespace PocketAuditor
             next = FindViewById<Button>(Resource.Id.next);
             next.Click += Next_Click;
 
-            returnMenu = FindViewById<ImageView>(Resource.Id.retMenu);
-            returnMenu.Click += ReturnMenu_Click; 
             audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);
 
             // Initialize the database and establishes a connection string
@@ -79,11 +77,10 @@ namespace PocketAuditor
             dss.SetProgress(audit_progress);
         }
 
-        private void ReturnMenu_Click(object sender, EventArgs e)
+        public override void OnBackPressed()
         {
+            StartActivity(typeof(MenuActivity));
             Finish();
-            //Intent intent = new Intent(this, typeof(MenuActivity));
-            //StartActivity(intent);
         }
 
         private void DisplayData()

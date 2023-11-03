@@ -11,17 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#335A35">
+        android:background="@color/colorPrimary">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="#478C4A">
+            android:background="@color/colorToolbar">
              
             <ImageView
                 android:src="@drawable/ic_menu"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_width="26dp"
+                android:layout_height="24dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
@@ -29,23 +29,13 @@
                 android:clickable="true"/>
 
             <ImageView
-                android:id="@+id/returnMenu"
-                android:src="@drawable/ic_return"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="21dp"
-                android:layout_marginRight="25dp"
-                android:layout_alignParentRight="true"
-                android:clickable="true"/>
-
-            <ImageView
                 android:id="@+id/addCategory"
-                android:src="@drawable/ic_black_add"
-                android:layout_width="20dp"
-                android:layout_height="33dp"
+                android:src="@drawable/ic_addcate"
+                android:layout_width="26dp"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="70dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="30dp"
                 android:clickable="true"/>
             
         </RelativeLayout>
@@ -83,7 +73,7 @@
                 <ImageView
                     android:id="@+id/editCat"
                     android:src="@drawable/ic_editcat"
-                    android:layout_width="22dp"
+                    android:layout_width="26dp"
                     android:layout_height="24dp"
                     android:layout_marginRight="35dp"
                     android:layout_alignParentRight="true"/>
@@ -91,7 +81,7 @@
                  <ImageView
                     android:id="@+id/deleteCat"
                     android:src="@drawable/ic_deletecat"
-                    android:layout_width="22dp"
+                    android:layout_width="26dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"/>
 
@@ -113,10 +103,10 @@
                         android:layout_height="wrap_content"/>
 
                     <ImageView
-                        android:id="@+id/newQuestion"
                         android:src="@drawable/ic_addques"
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
+                        android:id="@+id/newQuestion"
+                        android:layout_width="26dp"
+                        android:layout_height="24dp"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@id/txtv_addcatq"/>
                 
@@ -133,36 +123,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical">
-
-
-        </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="250dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="20dp">
-
+        <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="250dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginBottom="20dp">
                 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/questionRecycler"
-                    android:scrollbars="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/questionRecycler"
+                 android:scrollbars="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
 
-                </androidx.recyclerview.widget.RecyclerView>
+             </androidx.recyclerview.widget.RecyclerView>
 
-            </RelativeLayout>
+        </RelativeLayout>
 
     </FrameLayout>
 
