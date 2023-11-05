@@ -57,7 +57,6 @@ namespace PocketAuditor.Adapter
             viewActionPlan.APDetail.Text = model.AP_Detail;
             viewActionPlan.APType.Text = model.AP_Type;
             viewActionPlan.APLink.Text = model.AP_ExtLink;
-            selectedActionPlanID = model.AP_ID;
             del_categoryID = model.AP_CategoryDesignationID;
 
             if (model.AP_Type == "SPECIFIC")
@@ -107,6 +106,8 @@ namespace PocketAuditor.Adapter
             planCateDesc.Text = vAP.APDetail.Text;
             planPasteLink.Text = vAP.APLink.Text;
             addPlan.Text = "UPDATE";
+
+            GetActionPlanID(planName);
 
             if (vAP.APType.Text == "GENERAL")
             {
@@ -236,6 +237,19 @@ namespace PocketAuditor.Adapter
             }
 
             Toast.MakeText(Application.Context, "Selected ID: " + selectedCategoryID.ToString(), ToastLength.Short).Show();
+        }
+
+        public void GetActionPlanID(TextView planName)
+        {
+            foreach (ActionPlanModel apm in _APActivity.PlanList)
+            {
+                if (apm.APName == planName.Text.ToString())
+                {
+                    selectedActionPlanID = apm.AP_ID;
+                }
+            }
+
+            Toast.MakeText(Application.Context, "Selected ID: " + selectedActionPlanID.ToString(), ToastLength.Short).Show();
         }
 
         public void _AttachPlanToCategory()
