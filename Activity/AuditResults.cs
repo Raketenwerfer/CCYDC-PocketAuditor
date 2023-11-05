@@ -26,8 +26,8 @@ namespace PocketAuditor.Fragment
         private readonly List<EntryAnswersModel> answersList = new List<EntryAnswersModel>();
         private readonly List<string> ar_Category = new List<string>();
 
-        public List<CategoryRemarksModel> remarksList = new List<CategoryRemarksModel>();
-        private ResultsRemarksAdapter resultsAdapter;
+        //public List<CategoryRemarksModel> remarksList = new List<CategoryRemarksModel>();
+        //private ResultsRemarksAdapter resultsAdapter;
 
         SQLiteDatabase SQLDB;
         DB_Initiator handler;

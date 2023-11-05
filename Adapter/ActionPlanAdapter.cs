@@ -9,6 +9,7 @@ using SQLite;
 using System.Collections.Generic;
 using Android.App;
 using AndroidX.CardView.Widget;
+using System;
 
 namespace PocketAuditor.Adapter
 {
@@ -197,27 +198,36 @@ namespace PocketAuditor.Adapter
 
         public void _UpdatePlan(string aptype, EditText planName, EditText planCateDesc, EditText planPasteLink)
         {
-            var _db = new SQLiteConnection(handler._ConnPath);
 
-            _APActivity._GetRowSequenceCount();
-
-            _db.Execute("UPDATE ActionPlans " +
-                "SET ActionPlanName = ?, ActionPlanDetail = ?, ExternalLink = ?, ActionPlanType = ? " +
-                "WHERE ActionPlanID = ?", planName.Text, planCateDesc.Text, planPasteLink.Text, aptype, selectedActionPlanID);
-
-            Toast.MakeText(Application.Context, "Action Plan updated!", ToastLength.Short).Show();
-            _db.Commit();
-            _db.Close();
-
-            if (!typeToggle.Checked)
+            try
             {
-                _AttachPlanToCategory();
+                var _db = new SQLiteConnection(handler._ConnPath);
+
+                _APActivity._GetRowSequenceCount();
+
+                _db.Execute("UPDATE ActionPlans " +
+                    "SET ActionPlanName = ?, ActionPlanDetail = ?, ExternalLink = ?, ActionPlanType = ?, ActionPlanStatus = 'ACTIVE' " +
+                    "WHERE ActionPlanID = ?", planName.Text, planCateDesc.Text, planPasteLink.Text, aptype, selectedActionPlanID);
+
+                Toast.MakeText(Application.Context, "Action Plan updated!", ToastLength.Short).Show();
+                _db.Commit();
+                _db.Close();
+
+                if (!typeToggle.Checked)
+                {
+                    _AttachPlanToCategory();
+                }
             }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, "An error occured! \n\n Error Details: \n\n" + ex.Message, ToastLength.Short).Show();
+            }
+
         }
 
         public void GetCategoryID(Spinner categorySpin)
         {
-            foreach (CategoryModel cm in _Category)
+            foreach (CategoryModel cm in _APActivity._Category)
             {
                 if (cm.CategoryTitle == categorySpin.SelectedItem.ToString())
                 {
@@ -225,7 +235,7 @@ namespace PocketAuditor.Adapter
                 }
             }
 
-            //Toast.MakeText(Application.Context, "Selected " + categorySpin.SelectedItem.ToString(), ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Selected ID: " + selectedCategoryID.ToString(), ToastLength.Short).Show();
         }
 
         public void _AttachPlanToCategory()
