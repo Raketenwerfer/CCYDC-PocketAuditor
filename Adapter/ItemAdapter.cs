@@ -73,7 +73,6 @@ namespace PocketAuditor.Adapter
                 itemModel.btnIsInteracted = "yes";
             }
 
-
             NotifyItemChanged(position);
 
             UpdateTracker();
@@ -81,7 +80,6 @@ namespace PocketAuditor.Adapter
 
         private void OnYesButtonClick(RecyclerView.ViewHolder holder, int position)
         {
-
             ItemViewHolder x = holder as ItemViewHolder;
             ItemModel itemModel = itemList[position];
 
@@ -101,7 +99,6 @@ namespace PocketAuditor.Adapter
                 itemModel.btnIsInteracted = "yes";
             }
 
-
             NotifyItemChanged(position);
 
             UpdateTracker();
@@ -109,7 +106,6 @@ namespace PocketAuditor.Adapter
 
         private void UpdateTracker()
         {
-
             dss.SetInteractions(c01);
             dss.SetItemCount(itemList.Count);
             dss.UpdateProgress();
@@ -130,9 +126,6 @@ namespace PocketAuditor.Adapter
             view.rbnYes.Click -= (sender, e) => { }; // Remove previous listeners
             view.rbnNo.Click -= (sender, e) => { }; // Remove previous listeners
         }
-
-
-
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {

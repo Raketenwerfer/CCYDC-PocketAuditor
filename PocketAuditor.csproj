@@ -65,8 +65,10 @@
     <Compile Include="Activity\QuestionActivity.cs" />
     <Compile Include="Adapter\ActionPlanAdapter.cs" />
     <Compile Include="Adapter\QuestionAdapter.cs" />
+    <Compile Include="Adapter\ResultsRemarksAdapter.cs" />
     <Compile Include="Class\ActionPlanModel.cs" />
     <Compile Include="Class\CategoryModel.cs" />
+    <Compile Include="Class\CategoryRemarksModel.cs" />
     <Compile Include="Class\QuestionModel.cs" />
     <Compile Include="Class\DataSharingService.cs" />
     <Compile Include="Class\EntryAnswersModel.cs" />
@@ -238,6 +240,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_addActionPlans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\display_results_model.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

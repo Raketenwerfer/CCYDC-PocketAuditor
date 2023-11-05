@@ -39,13 +39,11 @@ namespace PocketAuditor.Adapter
             _APActivity = activity;
         }
 
-
         // Create new views (invoked by the layout manager)
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             View viewPlan = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.action_plans_model, parent, false);
             return new ActionPlanAdapterViewHolder(viewPlan);
-
         }
 
         // Replace the contents of a view (invoked by the layout manager)
