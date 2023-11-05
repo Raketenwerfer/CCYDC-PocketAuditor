@@ -338,36 +338,36 @@ namespace PocketAuditor.Fragment
 
             InitSelectedCategory();
             PullEntries();
-            _ReassignActionPlan();
-            _DetachCategoryFromPlan();
+            //_ReassignActionPlan();
+            //_DetachCategoryFromPlan();
         }
 
-        private void _DetachCategoryFromPlan()
-        {
-            var _db = new SQLiteConnection(handler._ConnPath);
+        //private void _DetachCategoryFromPlan()
+        //{
+        //    var _db = new SQLiteConnection(handler._ConnPath);
 
-            _db.Execute("DELETE FROM Associate_APtoC " +
-                "WHERE CategoryID = ?", selectedCategoryID);
-            _db.Commit();
-            _db.Close();
-        }
+        //    _db.Execute("DELETE FROM Associate_APtoC " +
+        //        "WHERE CategoryID = ?", selectedCategoryID);
+        //    _db.Commit();
+        //    _db.Close();
+        //}
 
-        private void _ReassignActionPlan()
-        {
-            foreach (ActionPlanModel ap in _APM)
-            {
-                if (ap.AP_CategoryDesignationID == selectedCategoryID)
-                {
-                    var _db = new SQLiteConnection(handler._ConnPath);
+        //private void _ReassignActionPlan()
+        //{
+        //    foreach (ActionPlanModel ap in _APM)
+        //    {
+        //        if (ap.AP_CategoryDesignationID == selectedCategoryID)
+        //        {
+        //            var _db = new SQLiteConnection(handler._ConnPath);
 
-                    _db.Execute("UPDATE ActionPlans " +
-                        "SET ActionPlanStatus = ? " +
-                        "WHERE ActionPlanID = ?", "UNASSIGNED", ap.AP_ID);
-                    _db.Commit();
-                    _db.Close();
-                }
-            }
-        }
+        //            _db.Execute("UPDATE ActionPlans " +
+        //                "SET ActionPlanStatus = ? " +
+        //                "WHERE ActionPlanID = ?", "UNASSIGNED", ap.AP_ID);
+        //            _db.Commit();
+        //            _db.Close();
+        //        }
+        //    }
+        //}
 
         private void InitializeNavView(List<CategoryModel> x01i)
         {

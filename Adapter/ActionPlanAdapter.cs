@@ -236,7 +236,7 @@ namespace PocketAuditor.Adapter
                 }
             }
 
-            Toast.MakeText(Application.Context, "Selected ID: " + selectedCategoryID.ToString(), ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Selected Category ID: " + selectedCategoryID.ToString(), ToastLength.Short).Show();
         }
 
         public void GetActionPlanID(TextView planName)
@@ -249,7 +249,7 @@ namespace PocketAuditor.Adapter
                 }
             }
 
-            Toast.MakeText(Application.Context, "Selected ID: " + selectedActionPlanID.ToString(), ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Selected Action Plan ID: " + selectedActionPlanID.ToString(), ToastLength.Short).Show();
         }
 
         public void _AttachPlanToCategory()
