@@ -207,7 +207,7 @@ namespace PocketAuditor.Adapter
                 "SET ActionPlanName = ?, ActionPlanDetail = ?, ExternalLink = ?, ActionPlanType = ? " +
                 "WHERE ActionPlanID = ?", planName.Text, planCateDesc.Text, planPasteLink.Text, aptype, selectedActionPlanID);
 
-            Toast.MakeText(Application.Context, "New Action Plan created!", ToastLength.Short).Show();
+            Toast.MakeText(Application.Context, "Action Plan updated!", ToastLength.Short).Show();
             _db.Commit();
             _db.Close();
 
@@ -236,7 +236,7 @@ namespace PocketAuditor.Adapter
 
             _db.Execute("UPDATE Associate_APtoC " +
                 "SET CategoryID = ? " +
-                "WHERE ActionPlanID = ?", del_categoryID, selectedActionPlanID);
+                "WHERE ActionPlanID = ?", selectedCategoryID, selectedActionPlanID);
 
             _db.Commit();
             _db.Close();
