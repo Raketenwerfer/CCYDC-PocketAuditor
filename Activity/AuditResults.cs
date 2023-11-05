@@ -2,10 +2,12 @@
 using Android.Database;
 using Android.Database.Sqlite;
 using Android.OS;
-using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using AndroidX.RecyclerView.Widget;
+using PocketAuditor.Adapter;
 using PocketAuditor.Class;
+using PocketAuditor.Fragment;
 using PocketAuditor.Database;
 using System;
 using System.Collections.Generic;
@@ -19,13 +21,20 @@ namespace PocketAuditor.Fragment
         TextView ScoreDisplay, ActionPlanDisplay, QuestionItemsDisplay;
         Spinner cateDisplay;
 
+        RecyclerView resultsView;
+
         private readonly List<EntryAnswersModel> answersList = new List<EntryAnswersModel>();
         private readonly List<string> ar_Category = new List<string>();
+
+        public List<CategoryRemarksModel> remarksList = new List<CategoryRemarksModel>();
+        private ResultsRemarksAdapter resultsAdapter;
+
         SQLiteDatabase SQLDB;
         DB_Initiator handler;
 
         double totalItems, totalScore;
         double percentage;
+        private string selectedCategory;
         readonly double passing_grade = 60;
 
         readonly private int uniqueCategories;
@@ -42,16 +51,52 @@ namespace PocketAuditor.Fragment
             QuestionItemsDisplay = FindViewById<TextView>(Resource.Id.QI_Display);
             cateDisplay = FindViewById<Spinner>(Resource.Id.categories);
 
+            // for displaying results in each category
+            //resultsView = FindViewById<RecyclerView>(Resource.Id.resultsRecycler);
+            //resultsView.SetLayoutManager(new LinearLayoutManager(this));
+           
             // Initialize the database and establishes a connection string
             handler = new DB_Initiator(this);
             SQLDB = handler.WritableDatabase;
+
+            cateDisplay.ItemSelected += (sender, args) =>
+            {
+                string selectedCategory = cateDisplay.SelectedItem.ToString();
+                DisplayRemarksForCategory(selectedCategory);
+            };
+
 
             RetrieveAnswers();
             CalculateScores();
             SelectActionPlan();
             PullRemarks();
-
             PopulateCategoriesSpinner(); //this line to populate the spinner
+        }
+
+        private void DisplayRemarksForCategory(string selectedCategory)
+        {
+            // Filter the answersList to get remarks for the selected category
+            List<EntryAnswersModel> remarksForCategory = answersList
+                .Where(a => a.CategoryName == selectedCategory)
+                .ToList();
+
+            // Construct the remarks text
+            string remarksText = selectedCategory + "\n\n";
+
+            if (remarksForCategory.Any()) 
+            {
+                foreach (EntryAnswersModel entry in remarksForCategory)
+                {
+                    remarksText += entry.EntryRemark + "\n";
+                } 
+            }
+            else
+            {
+                remarksText += "No remarks found for this category.";
+            }
+
+            // Display the remarks in a TextView or another appropriate view
+            QuestionItemsDisplay.Text = remarksText;
         }
 
         private void PopulateCategoriesSpinner()
@@ -73,7 +118,7 @@ namespace PocketAuditor.Fragment
             PopulateCategoriesSpinner();
 
             //Pull Remarks from the database via queries
-            QuestionItemsDisplay.Text = "Pull Remarks from the Database here!";
+            //QuestionItemsDisplay.Text = "Pull Remarks from the Database here!";
         }
 
         private void SelectActionPlan()

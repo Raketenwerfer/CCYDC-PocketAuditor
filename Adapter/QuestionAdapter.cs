@@ -81,7 +81,6 @@ namespace PocketAuditor.Adapter
                 do
                 {
                     _selectedQuestion = cList.GetInt(cList.GetColumnIndex("EntryID"));
-
                 }
                 while (cList.MoveToNext());
 

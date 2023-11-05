@@ -66,7 +66,6 @@ namespace PocketAuditor.Activity
             
         }
 
-        
         private void AddNewPlan_Click(object sender, EventArgs e)
         {
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(this);
