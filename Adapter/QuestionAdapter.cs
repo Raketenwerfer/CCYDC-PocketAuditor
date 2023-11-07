@@ -40,7 +40,7 @@ namespace PocketAuditor.Adapter
             QuestionModel questionModel = _questions[position];
             ItemViewHolder view = holder as ItemViewHolder;
 
-            view.Display_CatID.Text = questionModel.EntryID.ToString();
+            view.Display_CatID.Text = questionModel.IndicatorID.ToString();
             view.Display_CatQues.Text = questionModel.Indicator;
 
             view.EditQuestion.Click += (sender, e) => _RenameQuestion(holder, position);
@@ -71,7 +71,7 @@ namespace PocketAuditor.Adapter
 
         public void GetQuestionEntryID(string i1)
         {
-            ICursor cList = SQLDB.RawQuery("SELECT EntryID FROM Entry_tbl " +
+            ICursor cList = SQLDB.RawQuery("SELECT IndicatorID FROM Indicators " +
                                            "WHERE Indicator = '" + i1 + "'", new string[] { });
 
             if (cList.Count > 0)
@@ -80,7 +80,7 @@ namespace PocketAuditor.Adapter
 
                 do
                 {
-                    _selectedQuestion = cList.GetInt(cList.GetColumnIndex("EntryID"));
+                    _selectedQuestion = cList.GetInt(cList.GetColumnIndex("IndicatorID"));
                 }
                 while (cList.MoveToNext());
 
@@ -115,9 +115,9 @@ namespace PocketAuditor.Adapter
                     var _db = new SQLiteConnection(handler._ConnPath);
 
                     // Use placeholders and parameters in your SQL query
-                    _db.Execute("UPDATE Entry_tbl " +
+                    _db.Execute("UPDATE Indicators " +
                                 "SET Indicator = ? " +
-                                "WHERE EntryID = ?", userContent.Text.ToString(), _selectedQuestion);
+                                "WHERE IndicatorID = ?", userContent.Text.ToString(), _selectedQuestion);
 
                     Toast.MakeText(Application.Context, "Renaming successful!!", ToastLength.Short).Show();
                     _db.Commit();
@@ -162,9 +162,9 @@ namespace PocketAuditor.Adapter
                     var _db = new SQLiteConnection(handler._ConnPath);
 
                     // Use placeholders and parameters in your SQL query
-                    _db.Execute("UPDATE Entry_tbl " +
-                                "SET EntryStatus = 'INACTIVE' " +
-                                "WHERE EntryID = ?", _selectedQuestion);
+                    _db.Execute("UPDATE Indicators " +
+                                "SET IndicatorStatus = 'INACTIVE' " +
+                                "WHERE IndicatorID = ?", _selectedQuestion);
 
                     Toast.MakeText(Application.Context, "Deletion successful!", ToastLength.Short).Show();
                     _db.Commit();

@@ -14,16 +14,16 @@ namespace PocketAuditor.Class
     public class QuestionModel
     {
         // this model is used for calling the values from th db. and displaying it to the activity_drawer in the Questions
-        public int EntryID { get; set; }
+        public int IndicatorID { get; set; }
         public int CatID { get; set; }
         public int QuesNo { get; set; }
         public string Indicator { get; set; }
         public int ScoreValue { get; set; }
         public string Status { get; set; }
 
-        public QuestionModel(int entryID, int catID, int quesno, string indicator, int scorevalue, string status)
+        public QuestionModel(int indicatorID, int catID, int quesno, string indicator, int scorevalue, string status)
         {
-            EntryID = entryID;
+            IndicatorID = indicatorID;
             CatID = catID;
             QuesNo = quesno;
             Indicator = indicator;

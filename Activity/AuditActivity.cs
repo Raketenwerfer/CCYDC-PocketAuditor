@@ -88,11 +88,11 @@ namespace PocketAuditor
             // Queries the questions to display as cardviews. Cell values are stored in ItemModel
 
             string q_EntryID = null, q_CatID = null, q_Question = null, q_Remarks, qC_Title = null;
-            string query = "SELECT E.Indicator, E.EntryID, E.EntryStatus, " +
+            string query = "SELECT E.Indicator, E.IndicatorID, E.IndicatorStatus, " +
                                   "C.Category_ID, C.CategoryTitle " +
-                            "FROM Entry_tbl E INNER JOIN Category_tbl C " +
+                            "FROM Indicators E INNER JOIN Category_tbl C " +
                             "ON E.CategoryID = C.Category_ID " +
-                            "WHERE EntryStatus = 'ACTIVE' " +
+                            "WHERE IndicatorStatus = 'ACTIVE' " +
                             "ORDER BY QuesNo ASC";
 
             ICursor showItems = SQLDB.RawQuery(query, new string[] { });
@@ -105,13 +105,13 @@ namespace PocketAuditor
                 {
                     q_CatID = showItems.GetString(showItems.GetColumnIndex("Category_ID"));
                     qC_Title = showItems.GetString(showItems.GetColumnIndex("CategoryTitle"));
-                    q_EntryID = showItems.GetString(showItems.GetColumnIndex("EntryID"));
+                    q_EntryID = showItems.GetString(showItems.GetColumnIndex("IndicatorID"));
                     q_Question = showItems.GetString(showItems.GetColumnIndex("Indicator"));
                     q_Remarks = null;
 
                     ItemModel a = new ItemModel(q_CatID, qC_Title, q_EntryID, q_Question, null, "no", "empty")
                     {
-                        EntryID = q_EntryID,
+                        IndicatorID = q_EntryID,
                         CategoryTitle = qC_Title,
                         EntryQuestion = q_Question,
                         Remark = q_Remarks
@@ -173,7 +173,7 @@ namespace PocketAuditor
             foreach (ItemModel model in itemsList)
             {
                 _db.Execute("INSERT INTO EntryAnswers_tbl(fk_CatID, fk_EntryID, EntryAnswer, EntryRemark)" +
-                                "VALUES (?, ?, ?, ?)", model.CatID, model.EntryID, model.isTrue, model.Remark);
+                                "VALUES (?, ?, ?, ?)", model.CatID, model.IndicatorID, model.isTrue, model.Remark);
             }
 
             _db.Close();

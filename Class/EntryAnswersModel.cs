@@ -14,7 +14,7 @@ namespace PocketAuditor.Class
     public class EntryAnswersModel
     {
         public int fk_EntryID { get; set; }
-        // fk_EntryID is a foreign key referencing EntryID from Entry_tbl
+        // fk_EntryID is a foreign key referencing IndicatorID from Indicators
         // IDs for the chosen answers in EntryAnswers_tbl are in the column AnswerID
         //
         // Database Source: CCYDC.db

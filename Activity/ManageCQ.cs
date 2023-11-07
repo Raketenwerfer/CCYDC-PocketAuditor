@@ -42,7 +42,7 @@ namespace PocketAuditor.Fragment
         private readonly object alertdialogBuilder;
 
         readonly string get_sequence = "SELECT COUNT(*) FROM Category_tbl";
-        readonly string get_question_seq = "SELECT COUNT(*) FROM Entry_tbl";
+        readonly string get_question_seq = "SELECT COUNT(*) FROM Indicators";
         int sequence, q_sequence;
 
         private string selectedCategoryName;
@@ -426,7 +426,7 @@ namespace PocketAuditor.Fragment
                 var _db = new SQLiteConnection(handler._ConnPath);
 
                 // Insert the new question into the database
-                _db.Execute("INSERT INTO Entry_tbl(EntryID, CategoryID,  QuesNo, Indicator, ScoreValue, EntryStatus)" +
+                _db.Execute("INSERT INTO Indicators(IndicatorID, CategoryID,  QuesNo, Indicator, ScoreValue, IndicatorStatus)" +
                     "VALUES (?, ?, ?, ?, ? ,?)", q_sequence, selectedCategoryID, q_sequence, newQuestion, 1, "ACTIVE");
 
                 if (q_sequence != -1)
@@ -474,7 +474,7 @@ namespace PocketAuditor.Fragment
 
             int q_EntryID, q_CatID, q_QuesNo, q_ScoreValue;
             string q_Indicator, q_Status;
-            string entryQuery = "SELECT * FROM Entry_tbl WHERE (EntryStatus = 'ACTIVE' AND CategoryID = " + selectedCategoryID + ")";
+            string entryQuery = "SELECT * FROM Indicators WHERE (IndicatorStatus = 'ACTIVE' AND CategoryID = " + selectedCategoryID + ")";
 
             ICursor cList = SQLDB.RawQuery(entryQuery, new string[] { });
 
@@ -484,12 +484,12 @@ namespace PocketAuditor.Fragment
 
                 do
                 {
-                    q_EntryID = cList.GetInt(cList.GetColumnIndex("EntryID"));
+                    q_EntryID = cList.GetInt(cList.GetColumnIndex("IndicatorID"));
                     q_CatID = cList.GetInt(cList.GetColumnIndex("CategoryID"));
                     q_QuesNo = cList.GetInt(cList.GetColumnIndex("QuesNo"));
                     q_Indicator = cList.GetString(cList.GetColumnIndex("Indicator"));
                     q_ScoreValue = cList.GetInt(cList.GetColumnIndex("ScoreValue"));
-                    q_Status = cList.GetString(cList.GetColumnIndex("EntryStatus"));
+                    q_Status = cList.GetString(cList.GetColumnIndex("IndicatorStatus"));
 
                     QuestionModel a = new QuestionModel(q_EntryID, q_CatID, q_QuesNo, q_Indicator, q_ScoreValue, q_Status);
 
