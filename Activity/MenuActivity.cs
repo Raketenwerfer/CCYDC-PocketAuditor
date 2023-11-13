@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using AndroidX.CardView.Widget;
 using System;
 
 namespace PocketAuditor.Fragment
@@ -9,8 +10,7 @@ namespace PocketAuditor.Fragment
     [Activity(Label = "MenuActivity")]
     public class MenuActivity : AppCompatActivity
     {
-        Button beginAudit;
-        Button manageAudit;
+        CardView beginAudit;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -19,11 +19,9 @@ namespace PocketAuditor.Fragment
             // Create your application here
             SetContentView(Resource.Layout.menu);
 
-            beginAudit = FindViewById<Button>(Resource.Id.beginAudit);
-            manageAudit = FindViewById<Button>(Resource.Id.manageAudit);
+            beginAudit = FindViewById<CardView>(Resource.Id.BeginAuditButton);
 
             beginAudit.Click += BeginAudit_Click;
-            manageAudit.Click += ManageAudit_Click;
         } 
 
         private void ManageAudit_Click(object sender, EventArgs e)
