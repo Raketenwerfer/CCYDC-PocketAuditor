@@ -60,9 +60,6 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity\ActionPlanActivity.cs" />
-    <Compile Include="Activity\ManageMenu.cs" />
-    <Compile Include="Activity\QuestionActivity.cs" />
     <Compile Include="Adapter\ActionPlanAdapter.cs" />
     <Compile Include="Adapter\QuestionAdapter.cs" />
     <Compile Include="Adapter\ResultsRemarksAdapter.cs" />
@@ -90,7 +87,6 @@
     <Compile Include="Activity\AuditResults.cs" />
     <Compile Include="Activity\LoginActivity.cs" />
     <Compile Include="Activity\AuditActivity.cs" />
-    <Compile Include="Activity\ManageCQ.cs" />
     <Compile Include="Activity\MenuActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
