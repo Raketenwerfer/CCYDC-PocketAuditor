@@ -32,6 +32,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="15dp"
                     android:maxWidth="320dp"
+                    android:layout_marginLeft="7dp"
                     android:id="@+id/txt_subIndicatorNameDetails"/>
 
             </RelativeLayout>
