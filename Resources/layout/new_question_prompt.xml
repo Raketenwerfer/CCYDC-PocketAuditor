@@ -4,30 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/qm_title"
-        android:text="ADD NEW QUESTION"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="23sp"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/qm_desc"
-        android:text="Enter your question:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"/>
-
-    <EditText
-        android:inputType="textMultiLine"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/ANQuestion_eT" />
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+         <TextView
+            android:id="@+id/ip_indicator"
+            android:text="Insert Indicator Here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:textSize="15dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ipView_SingleView"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="YES"
+                android:id="@+id/btn_iYes"
+                android:layout_gravity="left"
+                android:layout_marginRight="10dp"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="NO"
+                android:id="@+id/btn_iNo"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
 
 </LinearLayout>
