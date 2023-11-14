@@ -99,10 +99,6 @@
     <AndroidResource Include="Resources\layout\activity_main.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\display_results_model.xml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
@@ -164,7 +160,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\category_model.xml" />
+    <AndroidResource Include="Resources\layout\mdl_category.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\login.xml" />
@@ -206,18 +202,27 @@
     <AndroidResource Include="Resources\drawable\ic_addActionPlans.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\indicator_model.xml">
+    <AndroidResource Include="Resources\layout\mdl_indicator.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\IndicatorAnsweredMark.png" />
+    <AndroidResource Include="Resources\drawable\IndicatorYesMark.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\IndicatorUnansweredMark.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\new_question_prompt.xml" />
+    <AndroidResource Include="Resources\layout\prompt_indicator.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\mdl_subind_details.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\mdl_subind_options.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\IndicatorNoMark.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
