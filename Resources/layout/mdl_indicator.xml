@@ -25,6 +25,22 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="2.5dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/indicatorunansweredmark"
+                    android:id="@+id/img_indicatorAnswerStatus"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +55,7 @@
                         android:textSize="14dp"
                         android:id="@+id/txt_indicatorTitle"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true"/>
+                        android:layout_alignParentRight="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,27 +63,11 @@
                 android:text="*X Sub-Indicators"
                 android:layout_below="@id/txt_indicatorTitle"
                 android:textSize="10dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="9dp"
                 android:id="@+id/txt_subIndicatorAmount"/>
 
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/indicatorunansweredmark"
-                    android:id="@+id/img_indicatorAnswerStatus"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"/>
-
-            </RelativeLayout>
 
         </LinearLayout>
 
