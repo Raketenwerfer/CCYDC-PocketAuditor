@@ -7,6 +7,9 @@ using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
+using MySql.Data.MySqlClient;
+using Pocket_Auditor_Admin_Panel.Auxiliaries;
+using Pocket_Auditor_Admin_Panel.Classes;
 using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Database;
@@ -27,8 +30,26 @@ namespace PocketAuditor
         public List<ItemModel> itemsList = new List<ItemModel>();
         public List<EntryAnswersModel> answersList = new List<EntryAnswersModel>();
 
-        public DB_Initiator handler;
-        public SQLiteDatabase SQLDB;
+
+
+
+        #region New Code Block
+
+
+        public List<mdl_Categories> mdl_Categories = new List<mdl_Categories>();
+
+
+        #endregion
+
+
+
+
+
+
+        //public DB_Initiator handler;
+        //public SQLiteDatabase SQLDB;
+
+        DatabaseInitiator dbInit = new DatabaseInitiator("sql207.infinityfree.com", "if0_35394751_testrun", "if0_35394751", "aTbs7LJAy0B2");
 
         Button next;
         public ImageView returnMenu;
@@ -56,8 +77,11 @@ namespace PocketAuditor
             audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);
 
             // Initialize the database and establishes a connection string
-            handler = new DB_Initiator(this);
-            SQLDB = handler.WritableDatabase;
+            //handler = new DB_Initiator(this); OLD DB
+            //SQLDB = handler.WritableDatabase; OLD DB
+
+
+            dbInit.GetConnection();
 
             DisplayData();
 
@@ -82,6 +106,8 @@ namespace PocketAuditor
             StartActivity(typeof(MenuActivity));
             Finish();
         }
+
+
 
         private void DisplayData()
         {
@@ -124,6 +150,9 @@ namespace PocketAuditor
                 showItems.Close();
             }
         }
+
+
+
 
         private void Next_Click(object sender, EventArgs e)
         {

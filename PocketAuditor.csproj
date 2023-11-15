@@ -60,6 +60,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapter\adpt_Categories.cs" />
     <Compile Include="Adapter\ResultsRemarksAdapter.cs" />
     <Compile Include="Class\ActionPlanModel.cs" />
     <Compile Include="Class\CategoryModel.cs" />
