@@ -25,9 +25,9 @@ namespace PocketAuditor
     public class AuditActivity : AppCompatActivity
     {
         private RecyclerView recycler;
-        private ItemAdapter adapter;
+        private adpt_Categories adapter;
 
-        public List<ItemModel> itemsList = new List<ItemModel>();
+        public List<mdl_Categories> itemsList = new List<mdl_Categories>();
         public List<EntryAnswersModel> answersList = new List<EntryAnswersModel>();
 
 
@@ -36,8 +36,9 @@ namespace PocketAuditor
         #region New Code Block
 
 
-        public List<mdl_Categories> mdl_Categories = new List<mdl_Categories>();
+        public List<mdl_Categories> _Categories = new List<mdl_Categories>();
 
+        DatabaseInitiator dbInit = new DatabaseInitiator("sql207.infinityfree.com", "if0_35394751_testrun", "if0_35394751", "aTbs7LJAy0B2");
 
         #endregion
 
@@ -48,8 +49,6 @@ namespace PocketAuditor
 
         //public DB_Initiator handler;
         //public SQLiteDatabase SQLDB;
-
-        DatabaseInitiator dbInit = new DatabaseInitiator("sql207.infinityfree.com", "if0_35394751_testrun", "if0_35394751", "aTbs7LJAy0B2");
 
         Button next;
         public ImageView returnMenu;
@@ -72,7 +71,7 @@ namespace PocketAuditor
             recycler.SetLayoutManager(new LinearLayoutManager(this));
 
             next = FindViewById<Button>(Resource.Id.next);
-            next.Click += Next_Click;
+            //next.Click += Next_Click;
 
             audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);
 
@@ -86,7 +85,7 @@ namespace PocketAuditor
             DisplayData();
 
             // Create adapter and set it to RecyclerView
-            adapter = new ItemAdapter(itemsList);
+            adapter = new adpt_Categories(itemsList);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table
@@ -111,102 +110,41 @@ namespace PocketAuditor
 
         private void DisplayData()
         {
+            int _catID;
+            string _catTitle, _catStatus;
+
             // Queries the questions to display as cardviews. Cell values are stored in ItemModel
-
-            string q_EntryID = null, q_CatID = null, q_Question = null, q_Remarks, qC_Title = null;
-            string query = "SELECT E.Indicator, E.IndicatorID, E.IndicatorStatus, " +
-                                  "C.Category_ID, C.CategoryTitle " +
-                            "FROM Indicators E INNER JOIN Category_tbl C " +
-                            "ON E.CategoryID = C.Category_ID " +
-                            "WHERE IndicatorStatus = 'ACTIVE' " +
-                            "ORDER BY QuesNo ASC";
-
-            ICursor showItems = SQLDB.RawQuery(query, new string[] { });
-
-            if (showItems.Count > 0)
+            using (MySqlConnection conn = new MySqlConnection(dbInit.connectionString))
             {
-                showItems.MoveToFirst();
+                conn.Open();
 
-                do 
+                string getCatQuery = "SELECT * FROM CATEGORIES";
+
+                using (MySqlCommand cmd = new MySqlCommand(getCatQuery, conn))
                 {
-                    q_CatID = showItems.GetString(showItems.GetColumnIndex("Category_ID"));
-                    qC_Title = showItems.GetString(showItems.GetColumnIndex("CategoryTitle"));
-                    q_EntryID = showItems.GetString(showItems.GetColumnIndex("IndicatorID"));
-                    q_Question = showItems.GetString(showItems.GetColumnIndex("Indicator"));
-                    q_Remarks = null;
-
-                    ItemModel a = new ItemModel(q_CatID, qC_Title, q_EntryID, q_Question, null, "no", "empty")
+                    using (MySqlDataReader read = cmd.ExecuteReader())
                     {
-                        IndicatorID = q_EntryID,
-                        CategoryTitle = qC_Title,
-                        EntryQuestion = q_Question,
-                        Remark = q_Remarks
-                    };
+                        while (read.Read())
+                        {
+                            _catID = read.GetInt32(read.GetOrdinal("CategoryID"));
+                            _catTitle = read.GetString(read.GetOrdinal("CategoryTitle"));
+                            _catStatus = read.GetString(read.GetOrdinal("CategoryStatus"));
 
-                    itemsList.Add(a);
+                            mdl_Categories a = new mdl_Categories(_catID, _catTitle, _catStatus);
+                            {
+                                a.CategoryID = _catID;
+                                a.CategoryTitle = _catTitle;
+                                a.CategoryStatus = _catStatus;
+                            }
+
+                            _Categories.Add(a);
+                        }
+                    }
                 }
-                while (showItems.MoveToNext());
 
-                showItems.Close();
             }
         }
 
-
-
-
-        private void Next_Click(object sender, EventArgs e)
-        {
-            _totalInteractions = itemsList.Where(a => a.btnIsInteracted.Equals("yes")).Count();
-            _totalTrueSelections = itemsList.Where(a => a.isTrue.Equals("true")).Count();
-            _totalItems = itemsList.Count();
-
-
-            if (_totalInteractions == _totalItems)
-            {
-
-                Toast.MakeText
-                (Application.Context,
-                "Interacted Items: " + itemsList.Where(a => a.btnIsInteracted.Equals("yes")).Count().ToString() + "\n" +
-                "YesIsSelected Items: " + itemsList.Where(a => a.isTrue.Equals("true")).Count().ToString(),
-                ToastLength.Short).Show();
-
-                // Testing passing data. Will be replaced with SQL queries soon
-                Intent FinishView = new Intent(this, typeof(AuditResults));
-
-                FinishView.PutExtra("p1", Convert.ToDouble(_totalItems));
-                FinishView.PutExtra("p2", Convert.ToDouble(_totalTrueSelections));
-
-                ClearTable();
-                InsertData();
-                StartActivity(FinishView);
-            }
-            else
-            {
-                Toast.MakeText(Application.Context, "There are still " + (_totalItems - _totalInteractions).ToString() +
-                    " indicators left unanswered!", ToastLength.Long).Show();
-            }
-        }
-
-        private void ClearTable()
-        {
-            var _db = new SQLiteConnection(handler._ConnPath);
-            string delQuery = $"DELETE FROM EntryAnswers_tbl";
-
-            _db.Execute(delQuery);
-        }
-
-        private void InsertData()
-        {
-            var _db = new SQLiteConnection(handler._ConnPath);
-
-            foreach (ItemModel model in itemsList)
-            {
-                _db.Execute("INSERT INTO EntryAnswers_tbl(fk_CatID, fk_EntryID, EntryAnswer, EntryRemark)" +
-                                "VALUES (?, ?, ?, ?)", model.CatID, model.IndicatorID, model.isTrue, model.Remark);
-            }
-
-            _db.Close();
-        }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

@@ -6,20 +6,22 @@ using AndroidX.RecyclerView.Widget;
 using PocketAuditor.Database;
 using System.Collections.Generic;
 using PocketAuditor.Class;
+using Pocket_Auditor_Admin_Panel.Classes;
+using System;
 
 namespace PocketAuditor.Adapter
 {
-    public class ItemAdapter : RecyclerView.Adapter
+    public class xadpt_Indicators : RecyclerView.Adapter
     {
-        private readonly List<ItemModel> itemList;
+        private readonly List<mdl_Indicators> itemList;
 
         private readonly Context context;
 
-        private readonly DataSharingService dss = DataSharingService.GetInstance();
+        //private readonly DataSharingService dss = DataSharingService.GetInstance();
 
         public int c01;
 
-        public ItemAdapter(List<ItemModel> itemList)
+        public xadpt_Indicators(List<mdl_Indicators> itemList)
         {
             this.itemList = itemList;
             this.context = Application.Context;
@@ -29,7 +31,7 @@ namespace PocketAuditor.Adapter
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
             ItemViewHolder view = holder as ItemViewHolder;
 
             // Bind Data from the ItemModel to the Views inside the ViewHolder
@@ -55,7 +57,7 @@ namespace PocketAuditor.Adapter
         {
 
             ItemViewHolder x = holder as ItemViewHolder;
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
 
             itemModel.checkValue = false;
             itemModel.isTrue = "false";
@@ -81,7 +83,7 @@ namespace PocketAuditor.Adapter
         private void OnYesButtonClick(RecyclerView.ViewHolder holder, int position)
         {
             ItemViewHolder x = holder as ItemViewHolder;
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
 
             itemModel.checkValue = true;
             itemModel.isTrue = "true";
@@ -113,13 +115,13 @@ namespace PocketAuditor.Adapter
 
         private void OnRemarkTextChanged(int position, string v)
         {
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
             itemModel.Remark = v;
         }
 
         private void ResetListeners(RecyclerView.ViewHolder holder, int position)
         {
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
             ItemViewHolder view = holder as ItemViewHolder;
 
             // Set Click listeners for the radiobuttons 

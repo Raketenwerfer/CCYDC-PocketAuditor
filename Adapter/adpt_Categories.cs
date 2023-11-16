@@ -1,4 +1,4 @@
-﻿using Android.Support.V7.Widget;
+﻿using AndroidX.RecyclerView.Widget;
 using Android.Views;
 using Android.Widget;
 using Pocket_Auditor_Admin_Panel.Classes;
@@ -9,8 +9,6 @@ namespace PocketAuditor.Adapter
 {
     internal class adpt_Categories : RecyclerView.Adapter
     {
-        public event EventHandler<adpt_CategoriesClickEventArgs> ItemClick;
-        public event EventHandler<adpt_CategoriesClickEventArgs> ItemLongClick;
         List<mdl_Categories> categories;
 
         public adpt_Categories(List<mdl_Categories> adpt_bucket)
@@ -29,7 +27,8 @@ namespace PocketAuditor.Adapter
                    Inflate(id, parent, false);
 
 
-            var vh = new adpt_CategoriesViewHolder(itemView, OnClick, OnLongClick);
+            var vh = new adpt_CategoriesViewHolder(itemView);
+
             return vh;
         }
 
@@ -41,32 +40,22 @@ namespace PocketAuditor.Adapter
             // Replace the contents of the view with that element
             var holder = viewHolder as adpt_CategoriesViewHolder;
             //holder.TextView.Text = items[position];
+
+            holder.CategoryTitle.Text = item.CategoryTitle;
         }
 
         public override int ItemCount => categories.Count;
-
-        void OnClick(adpt_CategoriesClickEventArgs args) => ItemClick?.Invoke(this, args);
-        void OnLongClick(adpt_CategoriesClickEventArgs args) => ItemLongClick?.Invoke(this, args);
-
     }
 
     public class adpt_CategoriesViewHolder : RecyclerView.ViewHolder
     {
-        //public TextView TextView { get; set; }
+        public TextView CategoryTitle;
 
 
-        public adpt_CategoriesViewHolder(View itemView, Action<adpt_CategoriesClickEventArgs> clickListener,
-                            Action<adpt_CategoriesClickEventArgs> longClickListener) : base(itemView)
+        public adpt_CategoriesViewHolder(View itemView) : base(itemView)
         {
-            //TextView = v;
-            itemView.Click += (sender, e) => clickListener(new adpt_CategoriesClickEventArgs { View = itemView, Position = AdapterPosition });
-            itemView.LongClick += (sender, e) => longClickListener(new adpt_CategoriesClickEventArgs { View = itemView, Position = AdapterPosition });
-        }
-    }
+            CategoryTitle = itemView.FindViewById<TextView>(Resource.Id.CategoryTitle);
 
-    public class adpt_CategoriesClickEventArgs : EventArgs
-    {
-        public View View { get; set; }
-        public int Position { get; set; }
+        }
     }
 }

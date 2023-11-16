@@ -22,11 +22,6 @@ namespace PocketAuditor.Fragment
             beginAudit = FindViewById<CardView>(Resource.Id.BeginAuditButton);
 
             beginAudit.Click += BeginAudit_Click;
-        } 
-
-        private void ManageAudit_Click(object sender, EventArgs e)
-        {
-            StartActivity(typeof(ManageMenu));
         }
 
         private void BeginAudit_Click(object sender, EventArgs e)
