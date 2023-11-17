@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +11,20 @@ namespace Pocket_Auditor_Admin_Panel.Auxiliaries
     {
 
         public string connectionString;
-        private string server, database, username, password;
+        private string server, port, database, username, password;
 
-        public DatabaseInitiator(string _server, string _db, string _username, string _password)
+        public DatabaseInitiator(string _server, string _port, string _db, string _username, string _password)
         {
             // Database details will be supplied upon application start-up
             // If no database connection is established, a prompt must be
             // displayed to input database details
             server = _server;
+            port = _port;
             database = _db;
             username = _username;
             password = _password;
 
-            connectionString = $"Server={server};Database={database};User ID={username};Password={password};";
+            connectionString = $"Server={server};Port={port};Database={database};User ID={username};Password={password};";
         }
 
         public MySqlConnection GetConnection()

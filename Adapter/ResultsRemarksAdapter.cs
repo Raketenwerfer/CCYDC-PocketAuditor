@@ -23,7 +23,7 @@ namespace PocketAuditor.Adapter
         // Create new views (invoked by the layout manager)
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.display_results_model, parent, false);
+            View view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.mdl, parent, false);
             return new ResultsRemarksAdapterViewHolder(view);
         }
 
@@ -48,8 +48,8 @@ namespace PocketAuditor.Adapter
         
         public ResultsRemarksAdapterViewHolder(View itemView) : base(itemView)
         {
-            IndicatorNumber = itemView.FindViewById<TextView>(Resource.Id.indiNumber);
-            CategoryRemarks = itemView.FindViewById<TextView>(Resource.Id.cateRemarks);
+            //IndicatorNumber = itemView.FindViewById<TextView>(Resource.Id.indiNumber);
+            //CategoryRemarks = itemView.FindViewById<TextView>(Resource.Id.cateRemarks);
         }
     }
 

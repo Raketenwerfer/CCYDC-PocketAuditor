@@ -10,8 +10,7 @@ namespace PocketAuditor.Fragment
     [Activity(Label = "MenuActivity")]
     public class MenuActivity : AppCompatActivity
     {
-        CardView beginAudit;
-
+        ImageButton beginAudit;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -19,7 +18,7 @@ namespace PocketAuditor.Fragment
             // Create your application here
             SetContentView(Resource.Layout.menu);
 
-            beginAudit = FindViewById<CardView>(Resource.Id.BeginAuditButton);
+            beginAudit = FindViewById<ImageButton>(Resource.Id.BeginAuditButton);
 
             beginAudit.Click += BeginAudit_Click;
         }

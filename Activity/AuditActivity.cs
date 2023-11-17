@@ -1,20 +1,15 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.Database;
-using Android.Database.Sqlite;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Pocket_Auditor_Admin_Panel.Auxiliaries;
 using Pocket_Auditor_Admin_Panel.Classes;
 using PocketAuditor.Adapter;
 using PocketAuditor.Class;
-using PocketAuditor.Database;
 using PocketAuditor.Fragment;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,34 +22,18 @@ namespace PocketAuditor
         private RecyclerView recycler;
         private adpt_Categories adapter;
 
-        public List<mdl_Categories> itemsList = new List<mdl_Categories>();
-        public List<EntryAnswersModel> answersList = new List<EntryAnswersModel>();
-
-
-
-
         #region New Code Block
 
 
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
 
-        DatabaseInitiator dbInit = new DatabaseInitiator("sql207.infinityfree.com", "if0_35394751_testrun", "if0_35394751", "aTbs7LJAy0B2");
+        DatabaseInitiator dbInit = new DatabaseInitiator("sql.freedb.tech", "3306", "freedb_ccydc_test_db", "freedb_ccydc", "r*kmjEa6N#KUsDN");
 
         #endregion
-
-
-
-
-
-
-        //public DB_Initiator handler;
-        //public SQLiteDatabase SQLDB;
 
         Button next;
         public ImageView returnMenu;
         public TextView audit_progress;
-
-        private int selectedItemsCount = 0;
 
         public int _totalInteractions { get; set; }
         public int _totalItems { get; set; }
@@ -79,13 +58,10 @@ namespace PocketAuditor
             //handler = new DB_Initiator(this); OLD DB
             //SQLDB = handler.WritableDatabase; OLD DB
 
-
-            dbInit.GetConnection();
-
             DisplayData();
-
+            
             // Create adapter and set it to RecyclerView
-            adapter = new adpt_Categories(itemsList);
+            adapter = new adpt_Categories(_Categories);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table
@@ -113,12 +89,13 @@ namespace PocketAuditor
             int _catID;
             string _catTitle, _catStatus;
 
-            // Queries the questions to display as cardviews. Cell values are stored in ItemModel
-            using (MySqlConnection conn = new MySqlConnection(dbInit.connectionString))
+            string getCatQuery = "SELECT * FROM Categories WHERE CategoryStatus = 'ACTIVE'";
+
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
             {
                 conn.Open();
-
-                string getCatQuery = "SELECT * FROM CATEGORIES";
 
                 using (MySqlCommand cmd = new MySqlCommand(getCatQuery, conn))
                 {
@@ -141,7 +118,14 @@ namespace PocketAuditor
                         }
                     }
                 }
-
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 

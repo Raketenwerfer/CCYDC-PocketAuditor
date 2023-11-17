@@ -28,18 +28,20 @@
             android:layout_width="170sp"
             android:layout_height="170sp"
             android:padding="10sp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="50dp"
             android:elevation="10dp"
             app:cardBackgroundColor="#E3E3E3"
-            android:id="@+id/BeginAuditButton"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:id="@+id/cardStart">
 
         <ImageButton
             android:layout_gravity="center"
             android:text="@string/btn_begin_audit"
             android:textSize="15sp"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/BeginAuditButton"
             android:textColor="@android:color/white"
             android:backgroundTint="#333333"
             android:background="@drawable/ic_editplan"/>
@@ -52,7 +54,7 @@
             android:text="BEGIN AUDIT"
             android:textColor="#FFFFFF"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/BeginAuditButton"
+            android:layout_below="@+id/cardStart"
             android:textAlignment="center"
             android:textSize="20sp"/>
 
