@@ -84,7 +84,6 @@
     <Compile Include="Class\UpdatedClasses\rmdl_IndicatorAnswers.cs" />
     <Compile Include="Class\UpdatedClasses\rmdl_SubIndicatorAnswers.cs" />
     <Compile Include="Database\DatabaseInitiator.cs" />
-    <Compile Include="Database\DB_Initiator.cs" />
     <Compile Include="Activity\AuditResults.cs" />
     <Compile Include="Activity\LoginActivity.cs" />
     <Compile Include="Activity\AuditActivity.cs" />

@@ -10,12 +10,13 @@ namespace PocketAuditor.Adapter
     internal class adpt_Indicators : RecyclerView.Adapter
     {
         public event EventHandler<adpt_IndicatorsClickEventArgs> ItemClick;
-        public event EventHandler<adpt_IndicatorsClickEventArgs> ItemLongClick;
-        List<mdl_Indicators> items;
 
-        public adpt_Indicators(List<mdl_Indicators> data)
+
+        List<mdl_Indicators> indicators;
+
+        public adpt_Indicators(List<mdl_Indicators> adpt_bucket)
         {
-            items = data;
+            indicators = adpt_bucket;
         }
 
         // Create new views (invoked by the layout manager)
@@ -28,38 +29,52 @@ namespace PocketAuditor.Adapter
             itemView = LayoutInflater.From(parent.Context).
                    Inflate(id, parent, false);
 
-            var vh = new adpt_IndicatorsViewHolder(itemView, OnClick, OnLongClick);
+            var vh = new adpt_IndicatorsViewHolder(itemView, OnClick);
             return vh;
         }
 
         // Replace the contents of a view (invoked by the layout manager)
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
-            var item = items[position];
+            var item = indicators[position];
 
             // Replace the contents of the view with that element
             var holder = viewHolder as adpt_IndicatorsViewHolder;
             //holder.TextView.Text = items[position];
+
+
+            holder.IndicatorTitle.Text = item.Indicator;
+            
+            if (item.IndicatorType == "COMPOSITE")
+            {
+                holder.SubIndicatorAmount.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                holder.SubIndicatorAmount.Visibility = ViewStates.Gone;
+            }
         }
 
-        public override int ItemCount => items.Count;
+        public override int ItemCount => indicators.Count;
 
         void OnClick(adpt_IndicatorsClickEventArgs args) => ItemClick?.Invoke(this, args);
-        void OnLongClick(adpt_IndicatorsClickEventArgs args) => ItemLongClick?.Invoke(this, args);
 
     }
 
     public class adpt_IndicatorsViewHolder : RecyclerView.ViewHolder
     {
-        //public TextView TextView { get; set; }
+        public TextView IndicatorTitle;
+        public TextView SubIndicatorAmount;
+        public ImageView IndicatorAnswerStatus;
 
 
-        public adpt_IndicatorsViewHolder(View itemView, Action<adpt_IndicatorsClickEventArgs> clickListener,
-                            Action<adpt_IndicatorsClickEventArgs> longClickListener) : base(itemView)
+        public adpt_IndicatorsViewHolder(View itemView, Action<adpt_IndicatorsClickEventArgs> clickListener) : base(itemView)
         {
-            //TextView = v;
+            IndicatorTitle = itemView.FindViewById<TextView>(Resource.Id.txt_indicatorTitle);
+            SubIndicatorAmount = itemView.FindViewById<TextView>(Resource.Id.txt_subIndicatorAmount);
+            IndicatorAnswerStatus = itemView.FindViewById<ImageView>(Resource.Id.img_indicatorAnswerStatus);
+
             itemView.Click += (sender, e) => clickListener(new adpt_IndicatorsClickEventArgs { View = itemView, Position = AdapterPosition });
-            itemView.LongClick += (sender, e) => longClickListener(new adpt_IndicatorsClickEventArgs { View = itemView, Position = AdapterPosition });
         }
     }
 

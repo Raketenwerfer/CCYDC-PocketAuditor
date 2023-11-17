@@ -22,12 +22,13 @@ namespace PocketAuditor
         private RecyclerView recycler;
         private adpt_Categories adapter;
 
-        #region New Code Block
-
-
-        public List<mdl_Categories> _Categories = new List<mdl_Categories>();
+        #region Database and Models
 
         DatabaseInitiator dbInit = new DatabaseInitiator("sql.freedb.tech", "3306", "freedb_ccydc_test_db", "freedb_ccydc", "r*kmjEa6N#KUsDN");
+        public List<mdl_Categories> _Categories = new List<mdl_Categories>();
+        public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
+        public List<mdl_SubIndicators> _SubIndicators = new List<mdl_SubIndicators>();
+
 
         #endregion
 
@@ -56,10 +57,12 @@ namespace PocketAuditor
 
             // Initialize the database and establishes a connection string
             //handler = new DB_Initiator(this); OLD DB
-            //SQLDB = handler.WritableDatabase; OLD DB
+            //SQLDB = handler.WritableDatabase; OLD 
 
-            DisplayData();
-            
+            PullCategories();
+            PullIndicators();
+            PullSubIndicators();
+
             // Create adapter and set it to RecyclerView
             adapter = new adpt_Categories(_Categories);
             recycler.SetAdapter(adapter);
@@ -82,9 +85,18 @@ namespace PocketAuditor
             Finish();
         }
 
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
 
 
-        private void DisplayData()
+
+        #region Database Queries
+
+        public void PullCategories()
         {
             int _catID;
             string _catTitle, _catStatus;
@@ -129,12 +141,110 @@ namespace PocketAuditor
             }
         }
 
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        public void PullIndicators()
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            int _indID, _indNo;
+            double _indScoreValue;
+            string _indTitle, _indStatus, _indType;
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            string getIndQuery = "SELECT * From Indicators WHERE IndicatorStatus = 'ACTIVE'";
+
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(getIndQuery, conn))
+                {
+                    using (MySqlDataReader read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            _indID = read.GetInt32(read.GetOrdinal("IndicatorID"));
+                            _indNo = read.GetInt32(read.GetOrdinal("IndicatorNumber"));
+                            _indScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
+                            _indTitle = read.GetString(read.GetOrdinal("Indicator"));
+                            _indStatus = read.GetString(read.GetOrdinal("IndicatorStatus"));
+                            _indType = read.GetString(read.GetOrdinal("IndicatorType"));
+
+                            mdl_Indicators a = new mdl_Indicators(_indID, _indNo, _indScoreValue, _indTitle, _indStatus, _indType);
+                            {
+                                a.IndicatorID = _indID;
+                                a.IndicatorNumber = _indNo;
+                                a.ScoreValue = _indScoreValue;
+                                a.Indicator = _indTitle;
+                                a.IndicatorStatus = _indStatus;
+                                a.IndicatorType = _indType;
+                            }
+
+                            _Indicators.Add(a);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
+
+        public void PullSubIndicators()
+        {
+            int _subIndID;
+            string _subIndTitle, _subIndType, _subIndStatus;
+            double _subIndScoreValue;
+
+            string getSubIndQuery = "SELECT * FROM SubIndicators WHERE SubIndicatorStatus = 'ACTIVE'";
+
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(getSubIndQuery, conn))
+                {
+                    using (MySqlDataReader read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            _subIndID = read.GetInt32(read.GetOrdinal("SubIndicatorID"));
+                            _subIndTitle = read.GetString(read.GetOrdinal("SubIndicator"));
+                            _subIndType = read.GetString(read.GetOrdinal("SubIndicatorType"));
+                            _subIndStatus = read.GetString(read.GetOrdinal("SubIndicatorStatus"));
+                            _subIndScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
+
+                            mdl_SubIndicators a = new mdl_SubIndicators(_subIndID, _subIndTitle, _subIndType, _subIndStatus, _subIndScoreValue);
+                            {
+                                a.SubIndicatorID = _subIndID;
+                                a.SubIndicator = _subIndTitle;
+                                a.SubIndicatorType = _subIndType;
+                                a.SubIndicatorStatus = _subIndStatus;
+                                a.ScoreValue = _subIndScoreValue;
+                            }
+
+                            _SubIndicators.Add(a);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+        #endregion
+
     }
 }

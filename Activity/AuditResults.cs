@@ -30,7 +30,7 @@ namespace PocketAuditor.Fragment
         //private ResultsRemarksAdapter resultsAdapter;
 
         SQLiteDatabase SQLDB;
-        DB_Initiator handler;
+        //DB_Initiator handler;
 
         double totalItems, totalScore;
         double percentage;
@@ -56,8 +56,8 @@ namespace PocketAuditor.Fragment
             //resultsView.SetLayoutManager(new LinearLayoutManager(this));
            
             // Initialize the database and establishes a connection string
-            handler = new DB_Initiator(this);
-            SQLDB = handler.WritableDatabase;
+            //handler = new DB_Initiator(this);
+            //SQLDB = handler.WritableDatabase;
 
             cateDisplay.ItemSelected += (sender, args) =>
             {
