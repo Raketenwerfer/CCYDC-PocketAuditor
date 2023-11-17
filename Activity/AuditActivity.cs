@@ -28,6 +28,7 @@ namespace PocketAuditor
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
         public List<mdl_SubIndicators> _SubIndicators = new List<mdl_SubIndicators>();
+        public List<jmdl_IndicatorsSubInd> _jmISI = new List<jmdl_IndicatorsSubInd>();
 
 
         #endregion
@@ -62,9 +63,10 @@ namespace PocketAuditor
             PullCategories();
             PullIndicators();
             PullSubIndicators();
+            PullAssociate_ISI();
 
             // Create adapter and set it to RecyclerView
-            adapter = new adpt_Categories(_Categories);
+            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table
@@ -243,6 +245,47 @@ namespace PocketAuditor
             }
         }
 
+        public void PullAssociate_ISI()
+        {
+            int indicatorFK, subindicatorFK;
+
+            string query = "SELECT * FROM `Associate_Indicator_to_SubIndicator`";
+
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            indicatorFK = read.GetInt32(read.GetOrdinal("IndicatorID_fk"));
+                            subindicatorFK = read.GetInt32(read.GetOrdinal("SubIndicatorID_fk"));
+
+                            jmdl_IndicatorsSubInd a = new jmdl_IndicatorsSubInd(subindicatorFK, indicatorFK);
+                            {
+                                a.SubIndicatorID_fk = subindicatorFK;
+                                a.IndicatorID_fk = indicatorFK;
+                            }
+
+                            _jmISI.Add(a);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         #endregion
 

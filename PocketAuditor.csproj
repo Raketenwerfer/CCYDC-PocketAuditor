@@ -72,6 +72,9 @@
     <Compile Include="Class\DataSharingService.cs" />
     <Compile Include="Class\EntryAnswersModel.cs" />
     <Compile Include="Class\ItemModel.cs" />
+    <Compile Include="Class\UpdatedClasses\jmdl_ActionPlanCategories.cs" />
+    <Compile Include="Class\UpdatedClasses\jmdl_CategoriesIndicators.cs" />
+    <Compile Include="Class\UpdatedClasses\jmdl_IndicatorsSubInd.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_ActionPlans.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_APExternalResources.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_Categories.cs" />

@@ -4,6 +4,7 @@ using Android.Widget;
 using System;
 using Pocket_Auditor_Admin_Panel.Classes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PocketAuditor.Adapter
 {
@@ -13,10 +14,12 @@ namespace PocketAuditor.Adapter
 
 
         List<mdl_Indicators> indicators;
+        List<jmdl_IndicatorsSubInd> jmISI;
 
-        public adpt_Indicators(List<mdl_Indicators> adpt_bucket)
+        public adpt_Indicators(List<mdl_Indicators> adpt_bucket_1, List<jmdl_IndicatorsSubInd> adpt_bucket_2)
         {
-            indicators = adpt_bucket;
+            indicators = adpt_bucket_1;
+            jmISI = adpt_bucket_2;
         }
 
         // Create new views (invoked by the layout manager)
@@ -47,7 +50,12 @@ namespace PocketAuditor.Adapter
             
             if (item.IndicatorType == "COMPOSITE")
             {
+                int count = 0;
+
+                count = jmISI.Where(a => a.IndicatorID_fk.Equals(item.IndicatorID)).Count();
+
                 holder.SubIndicatorAmount.Visibility = ViewStates.Visible;
+                holder.SubIndicatorAmount.Text = count.ToString();
             }
             else
             {

@@ -8,7 +8,6 @@ using AndroidX.RecyclerView.Widget;
 using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Fragment;
-using PocketAuditor.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;

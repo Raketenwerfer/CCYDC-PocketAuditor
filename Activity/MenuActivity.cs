@@ -3,7 +3,6 @@ using Android.OS;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.CardView.Widget;
-using PocketAuditor.Database;
 using System;
 using System.Runtime.Remoting.Contexts;
 
