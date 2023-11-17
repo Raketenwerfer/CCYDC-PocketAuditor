@@ -4,21 +4,23 @@ using Android.Widget;
 using Pocket_Auditor_Admin_Panel.Classes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PocketAuditor.Adapter
 {
     internal class adpt_Categories : RecyclerView.Adapter
     {
         List<mdl_Categories> categories;
-        List<jmdl_IndicatorsSubInd> isi;
         adpt_Indicators adapter;
+        public int categoryid;
 
-        public adpt_Categories(List<mdl_Categories> adpt_bucket_1, List<mdl_Indicators> adpt_bucket_2, 
-            List<jmdl_IndicatorsSubInd> adpt_bucket_3)
+        public adpt_Categories(List<mdl_Categories> adpt_categories, List<mdl_Indicators> adpt_indicators, 
+            List<jmdl_IndicatorsSubInd> associate_isi, List<jmdl_CategoriesIndicators> associate_ci)
         {
-            categories = adpt_bucket_1;
-            isi = adpt_bucket_3;
-            adapter = new adpt_Indicators(adpt_bucket_2, adpt_bucket_3);
+            categories = adpt_categories;
+
+            adapter = new adpt_Indicators(adpt_indicators, associate_isi);
+
         }
 
         // Create new views (invoked by the layout manager)
@@ -41,6 +43,7 @@ namespace PocketAuditor.Adapter
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
             var item = categories[position];
+            categoryid = categories[position].CategoryID;
 
             // Replace the contents of the view with that element
             var holder = viewHolder as adpt_CategoriesViewHolder;
@@ -63,7 +66,7 @@ namespace PocketAuditor.Adapter
         {
             CategoryTitle = itemView.FindViewById<TextView>(Resource.Id.CategoryTitle);
             IndicatorRecycler = itemView.FindViewById<RecyclerView>(Resource.Id.IndicatorRecycler);
-            IndicatorRecycler.SetLayoutManager(new LinearLayoutManager(itemView.Context)); // I don't know what context to put here
+            IndicatorRecycler.SetLayoutManager(new LinearLayoutManager(itemView.Context));
         }
     }
 }

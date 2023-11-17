@@ -29,7 +29,7 @@ namespace PocketAuditor
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
         public List<mdl_SubIndicators> _SubIndicators = new List<mdl_SubIndicators>();
         public List<jmdl_IndicatorsSubInd> _jmISI = new List<jmdl_IndicatorsSubInd>();
-
+        public List<jmdl_CategoriesIndicators> _jmCI = new List<jmdl_CategoriesIndicators>();
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace PocketAuditor
             PullAssociate_ISI();
 
             // Create adapter and set it to RecyclerView
-            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI);
+            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table
@@ -249,7 +249,7 @@ namespace PocketAuditor
         {
             int indicatorFK, subindicatorFK;
 
-            string query = "SELECT * FROM `Associate_Indicator_to_SubIndicator`";
+            string query = "SELECT * FROM Associate_Indicator_to_SubIndicator";
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -273,6 +273,48 @@ namespace PocketAuditor
                             }
 
                             _jmISI.Add(a);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void PullAssociate_CI()
+        {
+            int indicatorFK, categoryFK;
+
+            string query = "SELECT * FROM Associate_Category_to_Indicator";
+
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            indicatorFK = read.GetInt32(read.GetOrdinal("IndicatorID_fk"));
+                            categoryFK = read.GetInt32(read.GetOrdinal("CategoryID_fk"));
+
+                            jmdl_CategoriesIndicators a = new jmdl_CategoriesIndicators(categoryFK, indicatorFK);
+                            {
+                                a.CategoryID_fk = categoryFK;
+                                a.IndicatorID_fk = indicatorFK;
+                            }
+
+                            _jmCI.Add(a);
                         }
                     }
                 }
