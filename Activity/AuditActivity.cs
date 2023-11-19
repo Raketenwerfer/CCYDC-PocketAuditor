@@ -64,6 +64,7 @@ namespace PocketAuditor
             PullIndicators();
             PullSubIndicators();
             PullAssociate_ISI();
+            PullAssociate_CI();
 
             // Create adapter and set it to RecyclerView
             adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI);
@@ -289,9 +290,14 @@ namespace PocketAuditor
 
         public void PullAssociate_CI()
         {
-            int indicatorFK, categoryFK;
+            int indicatorID, indNO, categoryID;
+            string catTitle, indicator, indType;
+            double indScoreValue;
 
-            string query = "SELECT * FROM Associate_Category_to_Indicator";
+            string query = "SELECT C.CategoryID, C.CategoryTitle, I.IndicatorID, I.Indicator, I.IndicatorNumber, I.IndicatorType, I.ScoreValue\r\nFROM Associate_Category_to_Indicator AtC " +
+                "INNER JOIN Categories C on AtC.CategoryID_fk = C.CategoryID " +
+                "INNER JOIN Indicators I on AtC.IndicatorID_fk = I.IndicatorID " +
+                "WHERE (C.CategoryStatus = 'ACTIVE' AND I.IndicatorStatus = 'ACTIVE')";
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -305,13 +311,24 @@ namespace PocketAuditor
                     {
                         while (read.Read())
                         {
-                            indicatorFK = read.GetInt32(read.GetOrdinal("IndicatorID_fk"));
-                            categoryFK = read.GetInt32(read.GetOrdinal("CategoryID_fk"));
+                            indicatorID = read.GetInt32(read.GetOrdinal("IndicatorID"));
+                            indicator = read.GetString(read.GetOrdinal("Indicator"));
+                            categoryID = read.GetInt32(read.GetOrdinal("CategoryID"));
+                            catTitle = read.GetString(read.GetOrdinal("CategoryTitle"));
+                            indNO = read.GetInt32(read.GetOrdinal("IndicatorNumber"));
+                            indType = read.GetString(read.GetOrdinal("IndicatorType"));
+                            indScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
 
-                            jmdl_CategoriesIndicators a = new jmdl_CategoriesIndicators(categoryFK, indicatorFK);
+                            jmdl_CategoriesIndicators a = new jmdl_CategoriesIndicators(categoryID, catTitle, indicatorID, 
+                                indicator, indNO, indType, indScoreValue);
                             {
-                                a.CategoryID_fk = categoryFK;
-                                a.IndicatorID_fk = indicatorFK;
+                                a.CategoryID = categoryID;
+                                a.CategoryTitle = catTitle;
+                                a.IndicatorID = indicatorID;
+                                a.Indicator = indicator;
+                                a.IndicatorNumber = indNO;
+                                a.IndicatorType = indType;
+                                a.ScoreValue = indScoreValue;
                             }
 
                             _jmCI.Add(a);

@@ -13,10 +13,10 @@ namespace PocketAuditor.Adapter
         public event EventHandler<adpt_IndicatorsClickEventArgs> ItemClick;
 
 
-        List<mdl_Indicators> indicators;
+        List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
 
-        public adpt_Indicators(List<mdl_Indicators> adpt_bucket_1, List<jmdl_IndicatorsSubInd> adpt_bucket_2)
+        public adpt_Indicators(List<jmdl_CategoriesIndicators> adpt_bucket_1, List<jmdl_IndicatorsSubInd> adpt_bucket_2)
         {
             indicators = adpt_bucket_1;
             jmISI = adpt_bucket_2;
