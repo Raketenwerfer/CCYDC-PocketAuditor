@@ -9,17 +9,19 @@
 
    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="70dp"
+            android:background="@color/colorToolbar">
              
             <ImageView
                 android:src="@drawable/ic_menu"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_width="26dp"
+                android:layout_height="24dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
@@ -27,109 +29,120 @@
                 android:clickable="true"/>
 
             <ImageView
-                android:id="@+id/returnMenu"
-                android:src="@drawable/ic_return"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="21dp"
-                android:layout_marginRight="25dp"
-                android:layout_alignParentRight="true"
-                android:clickable="true"/>
-
-            <ImageView
                 android:id="@+id/addCategory"
-                android:src="@drawable/ic_black_add"
-                android:layout_width="20dp"
-                android:layout_height="33dp"
+                android:src="@drawable/ic_addcate"
+                android:layout_width="26dp"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="70dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="30dp"
                 android:clickable="true"/>
             
         </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@android:color/white"
+            tools:ignore="UselessParentWithBackground">
+
+
+            <RelativeLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editCat_Controls">
+
+
+                <TextView
+                    android:text="Category:  "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtv_catname"/>
+
+                <TextView
+                    android:text="Display Text Here"
+                    android:layout_width="207dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/txtv_catname"
+                    android:id="@+id/txtDC" />
+
+                <ImageView
+                    android:id="@+id/editCat"
+                    android:src="@drawable/ic_editcat"
+                    android:layout_width="26dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="35dp"
+                    android:layout_alignParentRight="true"/>
+
+                 <ImageView
+                    android:id="@+id/deleteCat"
+                    android:src="@drawable/ic_deletecat"
+                    android:layout_width="26dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"/>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@id/txtDC">
+                
+
+                    <TextView
+                        android:id="@+id/txtv_addcatq"
+                        android:text="Add Question"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:src="@drawable/ic_addques"
+                        android:id="@+id/newQuestion"
+                        android:layout_width="26dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/txtv_addcatq"/>
+                
+                
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="90dp"
-            android:orientation="vertical">
+        <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="250dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginBottom="20dp">
+                
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/questionRecycler"
+                 android:scrollbars="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+             </androidx.recyclerview.widget.RecyclerView>
 
-                <TextView
-                    android:text="Category Number: "
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:text="Category Name: "
-                    android:layout_marginTop="35dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:text="Display Text Here"
-                    android:layout_width="204dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginLeft="101dp"
-                    android:id="@+id/txtDC" />
-
-                <ImageView
-                    android:id="@+id/editCat"
-                    android:src="@drawable/ic_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_alignParentRight="true"/>
-
-                <TextView
-                    android:text="Category Questions"
-                    android:layout_marginTop="85dp"
-                    android:textSize="20sp" 
-                    android:layout_marginLeft="60dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
-                    android:id="@+id/newQuestion"
-                    android:src="@drawable/ic_addques"
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="240dp"
-                    android:layout_marginTop="88dp"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="120dp">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/Questionrecycler"
-                        android:scrollbars="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/next">
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/linearNav"

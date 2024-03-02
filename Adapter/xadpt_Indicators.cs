@@ -6,24 +6,24 @@ using AndroidX.RecyclerView.Widget;
 using PocketAuditor.Database;
 using System.Collections.Generic;
 using PocketAuditor.Class;
+using Pocket_Auditor_Admin_Panel.Classes;
+using System;
 
 namespace PocketAuditor.Adapter
 {
-    public class ItemAdapter : RecyclerView.Adapter
+    public class xadpt_Indicators : RecyclerView.Adapter
     {
-        private readonly List<ItemModel> itemList;
+        private readonly List<mdl_Indicators> itemList;
 
-        private readonly DB_Initiator dbInitiator;
         private readonly Context context;
 
-        private readonly DataSharingService dss = DataSharingService.GetInstance();
+        //private readonly DataSharingService dss = DataSharingService.GetInstance();
 
         public int c01;
 
-        public ItemAdapter(List<ItemModel> itemList, DB_Initiator dbInitiator)
+        public xadpt_Indicators(List<mdl_Indicators> itemList)
         {
             this.itemList = itemList;
-            this.dbInitiator = dbInitiator;
             this.context = Application.Context;
         }
 
@@ -31,7 +31,7 @@ namespace PocketAuditor.Adapter
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
             ItemViewHolder view = holder as ItemViewHolder;
 
             // Bind Data from the ItemModel to the Views inside the ViewHolder
@@ -43,7 +43,9 @@ namespace PocketAuditor.Adapter
             view.rbnYes.Checked = itemModel.IsYesBtnSelected;
             view.rbnNo.Checked = itemModel.IsNoBtnSelected;
 
-             // Set Click listeners for the radiobuttons 
+            ResetListeners(holder, position);
+
+            // Set Click listeners for the radiobuttons 
             view.rbnYes.Click += (sender, e) => OnYesButtonClick(holder, position);
             view.rbnNo.Click += (sender, e) => OnNoButtonClick(holder, position);
 
@@ -55,7 +57,7 @@ namespace PocketAuditor.Adapter
         {
 
             ItemViewHolder x = holder as ItemViewHolder;
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
 
             itemModel.checkValue = false;
             itemModel.isTrue = "false";
@@ -73,7 +75,6 @@ namespace PocketAuditor.Adapter
                 itemModel.btnIsInteracted = "yes";
             }
 
-
             NotifyItemChanged(position);
 
             UpdateTracker();
@@ -81,9 +82,8 @@ namespace PocketAuditor.Adapter
 
         private void OnYesButtonClick(RecyclerView.ViewHolder holder, int position)
         {
-
             ItemViewHolder x = holder as ItemViewHolder;
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
 
             itemModel.checkValue = true;
             itemModel.isTrue = "true";
@@ -101,7 +101,6 @@ namespace PocketAuditor.Adapter
                 itemModel.btnIsInteracted = "yes";
             }
 
-
             NotifyItemChanged(position);
 
             UpdateTracker();
@@ -109,7 +108,6 @@ namespace PocketAuditor.Adapter
 
         private void UpdateTracker()
         {
-
             dss.SetInteractions(c01);
             dss.SetItemCount(itemList.Count);
             dss.UpdateProgress();
@@ -117,12 +115,20 @@ namespace PocketAuditor.Adapter
 
         private void OnRemarkTextChanged(int position, string v)
         {
-            ItemModel itemModel = itemList[position];
+            mdl_Indicators itemModel = itemList[position];
             itemModel.Remark = v;
         }
 
+        private void ResetListeners(RecyclerView.ViewHolder holder, int position)
+        {
+            mdl_Indicators itemModel = itemList[position];
+            ItemViewHolder view = holder as ItemViewHolder;
 
-       
+            // Set Click listeners for the radiobuttons 
+            view.rbnYes.Click -= (sender, e) => { }; // Remove previous listeners
+            view.rbnNo.Click -= (sender, e) => { }; // Remove previous listeners
+        }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             // Inflate the item_model layout and create ViewHolder instance

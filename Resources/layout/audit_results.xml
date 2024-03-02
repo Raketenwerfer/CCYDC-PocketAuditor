@@ -16,7 +16,6 @@
          android:layout_marginBottom="10dp"
          android:gravity="center"
          android:textSize="30sp"
-         android:textStyle="bold"
          android:textColor="@android:color/white"/>
 
     <LinearLayout
@@ -210,14 +209,28 @@
 
                        </RelativeLayout>
 
+                    <!--
+                       <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/resultsRecycler"
+                            android:scrollbars="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp">
+                       </androidx.recyclerview.widget.RecyclerView>
+                    -->
+                    
+                       
+                        
                        <TextView
                             android:text="- Insert Question"
                             android:layout_marginTop="20dp"
                             android:layout_marginLeft="20dp"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/QI_Display"
                             android:textColor="@android:color/black"/>
+                        
 
                   </LinearLayout>
 

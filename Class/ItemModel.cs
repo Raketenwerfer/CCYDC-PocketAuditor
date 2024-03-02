@@ -13,10 +13,10 @@ namespace PocketAuditor.Class
 {
     public class ItemModel
     {
-       //*** IDs (EntryID, CategoryID, AnswerID)
+       //*** IDs (IndicatorID, CategoryID, AnswerID)
 
         public string CatID { get; set; }
-        public string EntryID { get; set; }
+        public string IndicatorID { get; set; }
         public string EntryQuestion { get; set; }
         public string CategoryTitle { get; set; }
         public bool checkValue { get; set; }
@@ -27,11 +27,11 @@ namespace PocketAuditor.Class
         public bool IsYesBtnSelected {  get; set; }
 
 
-        public ItemModel(string cat_id, string cat_title, string entry_id, string question, string remark, string isInteracted, string istrue)
+        public ItemModel(string cat_id, string cat_title, string indicatorID, string question, string remark, string isInteracted, string istrue)
         {
             CatID = cat_id;
             CategoryTitle = cat_title;
-            EntryID = entry_id;
+            IndicatorID = indicatorID;
             EntryQuestion = question;
             Remark = remark;
             btnIsInteracted = isInteracted;

@@ -99,34 +99,7 @@ namespace PocketAuditor.Database
             return isSuccess;
         }
 
-        //public void InsertCategory(string categoryTitle)
-        //{
-        //    SQLiteDatabase db = null;
-
-        //    try
-        //    {
-        //        db = WritableDatabase;
-
-        //        ContentValues values = new ContentValues();
-        //        //values.Put("Category_ID", Category_ID); // Ensure column name matches the actual column name
-        //        values.Put("CategoryTitle", categoryTitle); // Ensure column name matches the actual column name
-
-        //        db.Insert("Category_tbl", null, values);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        // Handle the exception appropriately, e.g., log it or show an error message.
-        //        Log.Error("InsertCategory", "Error inserting data: " + e.Message);
-        //    }
-        //    finally
-        //    {
-        //        if (db != null)
-        //        {
-        //            db.Close();
-        //        }
-        //    }
-        //}
-
+        
         public override void OnCreate(SQLiteDatabase db)
         {
             throw new NotImplementedException();
