@@ -46,6 +46,7 @@ namespace PocketAuditor.Adapter
                         bucket.CategoryTitle = a.CategoryTitle;
                         bucket.Indicator = a.Indicator;
                         bucket.IndicatorID = a.IndicatorID;
+                        bucket.IndicatorNumber = a.IndicatorNumber;
                         bucket.IndicatorType = a.IndicatorType;
                         bucket.ScoreValue = a.ScoreValue;
                     }

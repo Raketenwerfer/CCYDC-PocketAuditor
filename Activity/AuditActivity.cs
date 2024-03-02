@@ -207,6 +207,10 @@ namespace PocketAuditor
             double _subIndScoreValue;
 
             string getSubIndQuery = "SELECT * FROM subindicators WHERE SubIndicatorStatus = 'ACTIVE'";
+                (Application.Context,
+                "Interacted Items: " + itemsList.Where(a => a.btnIsInteracted.Equals("yes")).Count().ToString() + "\n" +
+                "YesIsSelected Items: " + itemsList.Where(a => a.isTrue.Equals("true")).Count().ToString(),
+                ToastLength.Short).Show();
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -250,11 +254,12 @@ namespace PocketAuditor
             }
         }
 
-        public void PullAssociate_ISI()
+            string query = "SELECT * FROM associate_indicator_to_subindicator";
         {
             int indicatorFK, subindicatorFK;
 
-            string query = "SELECT * FROM associate_indicator_to_subindicator";
+            _db.Execute(delQuery);
+        }
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -287,11 +292,6 @@ namespace PocketAuditor
                 Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
             }
             finally
-            {
-                conn.Close();
-            }
-        }
-
         public void PullAssociate_CI()
         {
             int indicatorID, indNO, categoryID;
@@ -333,6 +333,11 @@ namespace PocketAuditor
                                 a.IndicatorType = indType;
                                 a.ScoreValue = indScoreValue;
                             }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
                             _jmCI.Add(a);
                         }

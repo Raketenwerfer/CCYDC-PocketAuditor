@@ -11226,6 +11226,9 @@ namespace PocketAuditor
 			// aapt resource value: 0x7F080220
 			public const int withText = 2131231264;
 			
+			// aapt resource value: 0x7F080223
+			public const int withinBounds = 2131231267;
+			
 			// aapt resource value: 0x7F080221
 			public const int with_icon = 2131231265;
 			
