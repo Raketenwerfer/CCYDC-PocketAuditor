@@ -24,11 +24,7 @@ namespace PocketAuditor
 
         #region Database and Models
 
-        // Online Database Credentials
-        // DatabaseInitiator dbInit = new DatabaseInitiator("sql.freedb.tech", "3306", "freedb_ccydc_test_db", "freedb_ccydc", "r*kmjEa6N#KUsDN");
-
-        readonly DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
-
+        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "freedb_ccydc_test_db", "root", ";");
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
         public List<mdl_SubIndicators> _SubIndicators = new List<mdl_SubIndicators>();
@@ -207,10 +203,6 @@ namespace PocketAuditor
             double _subIndScoreValue;
 
             string getSubIndQuery = "SELECT * FROM subindicators WHERE SubIndicatorStatus = 'ACTIVE'";
-                (Application.Context,
-                "Interacted Items: " + itemsList.Where(a => a.btnIsInteracted.Equals("yes")).Count().ToString() + "\n" +
-                "YesIsSelected Items: " + itemsList.Where(a => a.isTrue.Equals("true")).Count().ToString(),
-                ToastLength.Short).Show();
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -254,12 +246,11 @@ namespace PocketAuditor
             }
         }
 
-            string query = "SELECT * FROM associate_indicator_to_subindicator";
+        public void PullAssociate_ISI()
         {
             int indicatorFK, subindicatorFK;
 
-            _db.Execute(delQuery);
-        }
+            string query = "SELECT * FROM associate_indicator_to_subIndicator";
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -292,6 +283,11 @@ namespace PocketAuditor
                 Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
             }
             finally
+            {
+                conn.Close();
+            }
+        }
+
         public void PullAssociate_CI()
         {
             int indicatorID, indNO, categoryID;
@@ -320,10 +316,11 @@ namespace PocketAuditor
                             indicator = read.GetString(read.GetOrdinal("Indicator"));
                             categoryID = read.GetInt32(read.GetOrdinal("CategoryID"));
                             catTitle = read.GetString(read.GetOrdinal("CategoryTitle"));
+                            indNO = read.GetInt32(read.GetOrdinal("IndicatorNumber"));
                             indType = read.GetString(read.GetOrdinal("IndicatorType"));
                             indScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
 
-                            jmdl_CategoriesIndicators a = new jmdl_CategoriesIndicators(categoryID, catTitle, indicatorID, 
+                            jmdl_CategoriesIndicators a = new jmdl_CategoriesIndicators(categoryID, catTitle, indicatorID,
                                 indicator, indType, indScoreValue);
                             {
                                 a.CategoryID = categoryID;
@@ -333,11 +330,6 @@ namespace PocketAuditor
                                 a.IndicatorType = indType;
                                 a.ScoreValue = indScoreValue;
                             }
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
                             _jmCI.Add(a);
                         }
