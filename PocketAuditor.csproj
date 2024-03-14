@@ -65,8 +65,10 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\SubCategoryActivity.cs" />
     <Compile Include="Adapter\adpt_Categories.cs" />
     <Compile Include="Adapter\adpt_Indicators.cs" />
+    <Compile Include="Adapter\adpt_SubCategories.cs" />
     <Compile Include="Adapter\adpt_SubIndDetails.cs" />
     <Compile Include="Adapter\adpt_SubIndOptions.cs" />
     <Compile Include="Class\ActionPlanModel.cs" />
@@ -78,7 +80,9 @@
     <Compile Include="Class\ItemModel.cs" />
     <Compile Include="Class\UpdatedClasses\jmdl_ActionPlanCategories.cs" />
     <Compile Include="Class\UpdatedClasses\jmdl_CategoriesIndicators.cs" />
+    <Compile Include="Class\UpdatedClasses\jmdl_CategoriesSubCategories.cs" />
     <Compile Include="Class\UpdatedClasses\jmdl_IndicatorsSubInd.cs" />
+    <Compile Include="Class\UpdatedClasses\jmdl_IndicatorSubCat.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_ActionPlans.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_APExternalResources.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_Categories.cs" />
@@ -86,6 +90,7 @@
     <Compile Include="Class\UpdatedClasses\mdl_Indicators.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_ScoreTable.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_SKChapters.cs" />
+    <Compile Include="Class\UpdatedClasses\mdl_SubCategories.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_SubIndicators.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_Users.cs" />
     <Compile Include="Class\UpdatedClasses\rmdl_IndicatorAnswers.cs" />
@@ -95,6 +100,7 @@
     <Compile Include="Activity\LoginActivity.cs" />
     <Compile Include="Activity\AuditActivity.cs" />
     <Compile Include="Activity\MenuActivity.cs" />
+    <Compile Include="FragmentViews\frg_AuditDisplay.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -232,6 +238,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\prompt_subindicator_options.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\mdl_subcategory.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

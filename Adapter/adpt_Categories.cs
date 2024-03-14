@@ -5,6 +5,8 @@ using Pocket_Auditor_Admin_Panel.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AndroidX.CardView.Widget;
+using PocketAuditor.Activity;
 
 namespace PocketAuditor.Adapter
 {
@@ -12,18 +14,25 @@ namespace PocketAuditor.Adapter
     {
         List<mdl_Indicators> indicators;
         List<mdl_Categories> categories;
+        List<jmdl_CategoriesSubCategories> jm_CSC;
+        List<jmdl_IndicatorSubCat> _jm_ISC;
+        List<mdl_SubCategories> _subcategories;
         adpt_Indicators adapter;
         List<jmdl_CategoriesIndicators> joined_CI, sort_jCI;
         List<jmdl_IndicatorsSubInd> assoc_ISI;
         public int categoryid;
 
+        SubCategoryActivity display_SCA;
+
         public adpt_Categories(List<mdl_Categories> adpt_categories, List<mdl_Indicators> adpt_indicators, 
-            List<jmdl_IndicatorsSubInd> associate_isi, List<jmdl_CategoriesIndicators> associate_ci)
+            List<jmdl_IndicatorsSubInd> associate_isi, List<jmdl_CategoriesIndicators> associate_ci,
+            List<jmdl_CategoriesSubCategories> associate_csc)
         {
             indicators = adpt_indicators;
             categories = adpt_categories;
             joined_CI = associate_ci;
             assoc_ISI = associate_isi;
+            jm_CSC = associate_csc;
 
             sort_jCI = new List<jmdl_CategoriesIndicators>();
 
@@ -46,7 +55,6 @@ namespace PocketAuditor.Adapter
                         bucket.CategoryTitle = a.CategoryTitle;
                         bucket.Indicator = a.Indicator;
                         bucket.IndicatorID = a.IndicatorID;
-                        bucket.IndicatorNumber = a.IndicatorNumber;
                         bucket.IndicatorType = a.IndicatorType;
                         bucket.ScoreValue = a.ScoreValue;
                     }
@@ -87,22 +95,33 @@ namespace PocketAuditor.Adapter
             _SortQuery(categoryid);
 
             holder.IndicatorRecycler.SetAdapter(adapter);
+
+            holder.cv_categoryItem.Click += (sender, e) => { SelectCategory(item.CategoryID, jm_CSC); };
         }
 
         public override int ItemCount => categories.Count;
+
+        public void SelectCategory(int selID, List<jmdl_CategoriesSubCategories> pass_jmCSC)
+        {
+            display_SCA = new SubCategoryActivity(pass_jmCSC, selID);
+            display_SCA.StartActivity(typeof(SubCategoryActivity));
+        }
     }
+
 
     public class adpt_CategoriesViewHolder : RecyclerView.ViewHolder
     {
         public TextView CategoryTitle;
         public RecyclerView IndicatorRecycler;
+        public CardView cv_categoryItem;
 
 
         public adpt_CategoriesViewHolder(View itemView) : base(itemView)
         {
             CategoryTitle = itemView.FindViewById<TextView>(Resource.Id.CategoryTitle);
-            IndicatorRecycler = itemView.FindViewById<RecyclerView>(Resource.Id.IndicatorRecycler);
-            IndicatorRecycler.SetLayoutManager(new LinearLayoutManager(itemView.Context));
+            //IndicatorRecycler.SetLayoutManager(new LinearLayoutManager(itemView.Context));
+
+            cv_categoryItem = itemView.FindViewById<CardView>(Resource.Id.cv_CategoryCard);
         }
     }
 }

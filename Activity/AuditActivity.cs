@@ -26,10 +26,13 @@ namespace PocketAuditor
 
         DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "freedb_ccydc_test_db", "root", ";");
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
+        public List<mdl_SubCategories> _SubCategories = new List<mdl_SubCategories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
         public List<mdl_SubIndicators> _SubIndicators = new List<mdl_SubIndicators>();
         public List<jmdl_IndicatorsSubInd> _jmISI = new List<jmdl_IndicatorsSubInd>();
         public List<jmdl_CategoriesIndicators> _jmCI = new List<jmdl_CategoriesIndicators>();
+        public List<jmdl_CategoriesSubCategories> _jmCSC = new List<jmdl_CategoriesSubCategories>();
+        public List<jmdl_IndicatorSubCat> _jmISC = new List<jmdl_IndicatorSubCat>();
 
         #endregion
 
@@ -65,9 +68,12 @@ namespace PocketAuditor
             PullSubIndicators();
             PullAssociate_ISI();
             PullAssociate_CI();
+            PullSubCategories();
+            PullAssociate_CSC();
+            PullAssociate_ISC();
 
             // Create adapter and set it to RecyclerView
-            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI);
+            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI, _jmCSC);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table
@@ -137,6 +143,46 @@ namespace PocketAuditor
             catch (Exception ex)
             {
                 Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void PullSubCategories()
+        {
+            _SubCategories.Clear();
+
+            string query = "SELECT * FROM SubCategory";
+
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Extract data from the reader and create an instance of mdl_SubCategories
+                            int id = reader.GetInt32(reader.GetOrdinal("SubCategoryID"));
+                            string title = reader.GetString(reader.GetOrdinal("SubCategoryTitle"));
+                            string status = reader.GetString(reader.GetOrdinal("SubCategoryStatus"));
+
+                            // Create an instance of mdl_SubCategories and add it to the list
+                            mdl_SubCategories subCategory = new mdl_SubCategories(id, title, status);
+                            _SubCategories.Add(subCategory);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -344,6 +390,101 @@ namespace PocketAuditor
             {
                 conn.Close();
             }
+        }
+
+        public void PullAssociate_CSC()
+        {
+            _jmCSC.Clear();
+
+            string query = "SELECT SC.SubCategoryID, SC.SubCategoryTitle, SC.SubCategoryStatus, " +
+                           "C.CategoryID, C.CategoryTitle, C.CategoryStatus " +
+                           "FROM SubCategory SC " +
+                           "JOIN Associate_Category_to_SubCategory ACSC ON SC.SubCategoryID = ACSC.SubCategoryID_fk " +
+                           "JOIN Categories C ON ACSC.CategoryID_fk = C.CategoryID";
+
+            using MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Extract data from the reader and create an instance of jmdl_CategoriesSubCategories
+                            int categoryId = reader.GetInt32(reader.GetOrdinal("CategoryID"));
+                            int subcategoryId = reader.GetInt32(reader.GetOrdinal("SubCategoryID"));
+                            string categoryTitle = reader.GetString(reader.GetOrdinal("CategoryTitle"));
+                            string subCategoryTitle = reader.GetString(reader.GetOrdinal("SubCategoryTitle"));
+                            string subCategoryStatus = reader.GetString(reader.GetOrdinal("SubCategoryStatus"));
+
+                            // Create an instance of jmdl_CategoriesSubCategories and add it to the list
+                            jmdl_CategoriesSubCategories association = new jmdl_CategoriesSubCategories(categoryId,
+                                subcategoryId, categoryTitle, subCategoryTitle, subCategoryStatus);
+                            _jmCSC.Add(association);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void PullAssociate_ISC()
+        {
+            _jmISC.Clear();
+
+            string query = "SELECT " +
+               "AIS.IndicatorID_fk, I.Indicator, ACSC.CategoryID_fk, AIS.SubCategoryID_fk, " +
+               "SC.SubCategoryTitle, SC.SubCategoryStatus " +
+               "FROM Associate_Indicator_to_SubCategory AIS " +
+               "JOIN Indicators I ON AIS.IndicatorID_fk = I.IndicatorID " +
+               "JOIN Associate_Category_to_SubCategory ACSC ON AIS.SubCategoryID_fk = ACSC.SubCategoryID_fk " +
+               "JOIN SubCategory SC ON ACSC.SubCategoryID_fk = SC.SubCategoryID";
+
+            using MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Extract data from the reader and create an instance of jmdl_IndicatorSubCat
+                            int indicatorIDfk = reader.GetInt32(reader.GetOrdinal("IndicatorID_fk"));
+                            string indicator = reader.GetString(reader.GetOrdinal("Indicator"));
+                            int categoryIDfk = reader.GetInt32(reader.GetOrdinal("CategoryID_fk"));
+                            int subCategoryIDfk = reader.GetInt32(reader.GetOrdinal("SubCategoryID_fk"));
+                            string subCategoryTitle = reader.GetString(reader.GetOrdinal("SubCategoryTitle"));
+                            string subCategoryStatus = reader.GetString(reader.GetOrdinal("SubCategoryStatus"));
+
+                            // Create an instance of jmdl_IndicatorSubCat and add it to the list
+                            jmdl_IndicatorSubCat indicatorSubCat = new jmdl_IndicatorSubCat(
+                                indicatorIDfk, indicator, categoryIDfk, subCategoryIDfk, subCategoryTitle, subCategoryStatus);
+
+                            _jmISC.Add(indicatorSubCat);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
         #endregion
