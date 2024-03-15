@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Pocket_Auditor_Admin_Panel.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,15 @@ namespace PocketAuditor.Class
     {
         private static DataSharingService instance;
         private int _interactions, _itemcount;
+        public int CSC_SelectedID;
         private TextView _progress;
+        public List<jmdl_CategoriesSubCategories> CSC_ListHolder;
 
 
         private DataSharingService()
         {
             _interactions = 0;
             _itemcount = 0;
-
         }
 
         public static DataSharingService GetInstance()
@@ -64,6 +66,12 @@ namespace PocketAuditor.Class
         {
             _progress.Enabled = true;
             _progress.Text = "Indicators Answered:  " + _interactions + "/" + _itemcount;
+        }
+
+        public void CSC_SetList(List<jmdl_CategoriesSubCategories> list, int id)
+        {
+            CSC_ListHolder = list;
+            CSC_SelectedID = id;
         }
     }
 }

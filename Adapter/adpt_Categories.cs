@@ -6,12 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AndroidX.CardView.Widget;
-using PocketAuditor.Activity;
+using PocketAuditor.Class;
+using Android.Content;
 
 namespace PocketAuditor.Adapter
 {
     internal class adpt_Categories : RecyclerView.Adapter
     {
+        DataSharingService DSS;
+
         List<mdl_Indicators> indicators;
         List<mdl_Categories> categories;
         List<jmdl_CategoriesSubCategories> jm_CSC;
@@ -21,12 +24,12 @@ namespace PocketAuditor.Adapter
         List<jmdl_CategoriesIndicators> joined_CI, sort_jCI;
         List<jmdl_IndicatorsSubInd> assoc_ISI;
         public int categoryid;
-
+        Context context;
         SubCategoryActivity display_SCA;
 
         public adpt_Categories(List<mdl_Categories> adpt_categories, List<mdl_Indicators> adpt_indicators, 
             List<jmdl_IndicatorsSubInd> associate_isi, List<jmdl_CategoriesIndicators> associate_ci,
-            List<jmdl_CategoriesSubCategories> associate_csc)
+            List<jmdl_CategoriesSubCategories> associate_csc, Context pass)
         {
             indicators = adpt_indicators;
             categories = adpt_categories;
@@ -34,9 +37,13 @@ namespace PocketAuditor.Adapter
             assoc_ISI = associate_isi;
             jm_CSC = associate_csc;
 
+            context = pass;
+
             sort_jCI = new List<jmdl_CategoriesIndicators>();
 
             adapter = new adpt_Indicators(sort_jCI, associate_isi);
+
+            DSS = DataSharingService.GetInstance();
         }
 
         public void _SortQuery(int _catID)
@@ -94,7 +101,7 @@ namespace PocketAuditor.Adapter
 
             _SortQuery(categoryid);
 
-            holder.IndicatorRecycler.SetAdapter(adapter);
+            //holder.IndicatorRecycler.SetAdapter(adapter);
 
             holder.cv_categoryItem.Click += (sender, e) => { SelectCategory(item.CategoryID, jm_CSC); };
         }
@@ -103,8 +110,9 @@ namespace PocketAuditor.Adapter
 
         public void SelectCategory(int selID, List<jmdl_CategoriesSubCategories> pass_jmCSC)
         {
-            display_SCA = new SubCategoryActivity(pass_jmCSC, selID);
-            display_SCA.StartActivity(typeof(SubCategoryActivity));
+            Intent intent = new Intent(context, typeof(SubCategoryActivity));
+            context.StartActivity(intent);
+            DSS.CSC_SetList(pass_jmCSC, selID);
         }
     }
 
@@ -112,7 +120,7 @@ namespace PocketAuditor.Adapter
     public class adpt_CategoriesViewHolder : RecyclerView.ViewHolder
     {
         public TextView CategoryTitle;
-        public RecyclerView IndicatorRecycler;
+        //public RecyclerView IndicatorRecycler;
         public CardView cv_categoryItem;
 
 

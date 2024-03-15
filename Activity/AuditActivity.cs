@@ -24,7 +24,7 @@ namespace PocketAuditor
 
         #region Database and Models
 
-        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "freedb_ccydc_test_db", "root", ";");
+        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
         public List<mdl_SubCategories> _SubCategories = new List<mdl_SubCategories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
@@ -73,7 +73,7 @@ namespace PocketAuditor
             PullAssociate_ISC();
 
             // Create adapter and set it to RecyclerView
-            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI, _jmCSC);
+            adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI, _jmCSC, this);
             recycler.SetAdapter(adapter);
 
             // This line of code will erase all entries in the EntryAnswers_tbl table
