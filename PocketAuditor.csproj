@@ -65,6 +65,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity\IndicatorActivity.cs" />
     <Compile Include="Activity\SubCategoryActivity.cs" />
     <Compile Include="Adapter\adpt_Categories.cs" />
     <Compile Include="Adapter\adpt_Indicators.cs" />
@@ -250,6 +251,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_select_subcategory.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_select_indicator.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

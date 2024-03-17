@@ -41,7 +41,7 @@ namespace PocketAuditor.Adapter
 
             sort_jCI = new List<jmdl_CategoriesIndicators>();
 
-            adapter = new adpt_Indicators(sort_jCI, associate_isi);
+            //adapter = new adpt_Indicators(sort_jCI, associate_isi);
 
             DSS = DataSharingService.GetInstance();
         }

@@ -16,9 +16,10 @@ namespace PocketAuditor.Class
     {
         private static DataSharingService instance;
         private int _interactions, _itemcount;
-        public int CSC_SelectedID;
+        public int CSC_SelectedID, ISC_SelectedID;
         private TextView _progress;
         public List<jmdl_CategoriesSubCategories> CSC_ListHolder;
+        public List<jmdl_IndicatorSubCat> ISC_ListHolder;
 
 
         private DataSharingService()
@@ -72,6 +73,20 @@ namespace PocketAuditor.Class
         {
             CSC_ListHolder = list;
             CSC_SelectedID = id;
+        }
+
+        public void ISC_SetList(List<jmdl_IndicatorSubCat> list)
+        {
+            ISC_ListHolder = list;
+        }
+
+        public int Get_ISC_ID()
+        {
+            return ISC_SelectedID;
+        }
+        public void SET_ISC_ID(int id)
+        {
+            ISC_SelectedID = id;
         }
     }
 }

@@ -34,6 +34,8 @@ namespace PocketAuditor
         public List<jmdl_CategoriesSubCategories> _jmCSC = new List<jmdl_CategoriesSubCategories>();
         public List<jmdl_IndicatorSubCat> _jmISC = new List<jmdl_IndicatorSubCat>();
 
+        public DataSharingService DSS;
+
         #endregion
 
         Button next;
@@ -50,6 +52,10 @@ namespace PocketAuditor
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+
+
+            DSS = DataSharingService.GetInstance();
+            DSS.SetProgress(audit_progress);
 
             recycler = FindViewById<RecyclerView>(Resource.Id.recycler);
             recycler.SetLayoutManager(new LinearLayoutManager(this));
@@ -83,9 +89,6 @@ namespace PocketAuditor
             //SQLDB.RawQuery("DELETE FROM EntryAnswers_tbl", null);
 
             audit_progress.Enabled = false;
-
-            DataSharingService dss = DataSharingService.GetInstance();
-            dss.SetProgress(audit_progress);
         }
 
         public override void OnBackPressed()
@@ -483,6 +486,10 @@ namespace PocketAuditor
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DSS.ISC_SetList(_jmISC);
             }
 
         }

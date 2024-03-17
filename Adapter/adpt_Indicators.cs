@@ -5,21 +5,28 @@ using System;
 using Pocket_Auditor_Admin_Panel.Classes;
 using System.Collections.Generic;
 using System.Linq;
+using PocketAuditor.Class;
 
 namespace PocketAuditor.Adapter
 {
     internal class adpt_Indicators : RecyclerView.Adapter
     {
         public event EventHandler<adpt_IndicatorsClickEventArgs> ItemClick;
-
+        DataSharingService DSS;
 
         List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
+        List<jmdl_IndicatorSubCat> jmISC;
 
-        public adpt_Indicators(List<jmdl_CategoriesIndicators> adpt_bucket_1, List<jmdl_IndicatorsSubInd> adpt_bucket_2)
+        public int SelectedSubCatID;
+
+        public adpt_Indicators(int selSCatID)
         {
-            indicators = adpt_bucket_1;
-            jmISI = adpt_bucket_2;
+
+            DSS = DataSharingService.GetInstance();
+            SelectedSubCatID = selSCatID;
+
+            jmISC = DSS.ISC_ListHolder;
         }
 
         // Create new views (invoked by the layout manager)
@@ -39,7 +46,7 @@ namespace PocketAuditor.Adapter
         // Replace the contents of a view (invoked by the layout manager)
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
-            var item = indicators[position];
+            var item = jmISC[position];
 
             // Replace the contents of the view with that element
             var holder = viewHolder as adpt_IndicatorsViewHolder;
@@ -48,22 +55,22 @@ namespace PocketAuditor.Adapter
 
             holder.IndicatorTitle.Text = item.Indicator;
             
-            if (item.IndicatorType == "COMPOSITE")
-            {
-                int count = 0;
+            //if (item.IndicatorType == "COMPOSITE")
+            //{
+            //    int count = 0;
 
-                count = jmISI.Where(a => a.IndicatorID_fk.Equals(item.IndicatorID)).Count();
+            //    count = jmISI.Where(a => a.IndicatorID_fk.Equals(item.IndicatorID)).Count();
 
-                holder.SubIndicatorAmount.Visibility = ViewStates.Visible;
-                holder.SubIndicatorAmount.Text = count.ToString();
-            }
-            else
-            {
-                holder.SubIndicatorAmount.Visibility = ViewStates.Gone;
-            }
+            //    holder.SubIndicatorAmount.Visibility = ViewStates.Visible;
+            //    holder.SubIndicatorAmount.Text = count.ToString();
+            //}
+            //else
+            //{
+            //    holder.SubIndicatorAmount.Visibility = ViewStates.Gone;
+            //}
         }
 
-        public override int ItemCount => indicators.Count;
+        public override int ItemCount => jmISC.Where(x => x.SubCategoryID_fk.Equals(SelectedSubCatID)).Count();
 
         void OnClick(adpt_IndicatorsClickEventArgs args) => ItemClick?.Invoke(this, args);
 

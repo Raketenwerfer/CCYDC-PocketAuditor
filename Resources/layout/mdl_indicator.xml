@@ -18,7 +18,7 @@
         app:cardBackgroundColor="#FFFFFF"
         app:cardUseCompatPadding="true"
         tools:ignore="UselessParentWithBackground"
-        android:id="@+id/cv_indicatorCard">
+        android:id="@+id/cv_IndicatorCard">
 
         <LinearLayout
             android:layout_width="match_parent"

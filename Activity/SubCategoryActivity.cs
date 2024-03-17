@@ -41,7 +41,7 @@ namespace PocketAuditor
             SC_Recycler = FindViewById<RecyclerView>(Resource.Id.recView_SubCategories);
             SC_Recycler.SetLayoutManager(new LinearLayoutManager(this));
 
-            sc_adapter = new adpt_SubCategories(_jmCSC, SelectedCatID);
+            sc_adapter = new adpt_SubCategories(_jmCSC, SelectedCatID, this);
             SC_Recycler.SetAdapter(sc_adapter);
         }
     }
