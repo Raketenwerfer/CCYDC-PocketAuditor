@@ -20,13 +20,13 @@ namespace PocketAuditor.Adapter
 
         public int SelectedSubCatID;
 
-        public adpt_Indicators(int selSCatID)
+        public adpt_Indicators(int selSCatID, List<jmdl_IndicatorSubCat> pass_ISC)
         {
 
             DSS = DataSharingService.GetInstance();
             SelectedSubCatID = selSCatID;
 
-            jmISC = DSS.ISC_ListHolder;
+            jmISC = pass_ISC;
         }
 
         // Create new views (invoked by the layout manager)

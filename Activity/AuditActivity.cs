@@ -487,11 +487,8 @@ namespace PocketAuditor
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                DSS.ISC_SetList(_jmISC);
-            }
 
+            DSS.ISC_SetList(_jmISC);
         }
 
         #endregion
