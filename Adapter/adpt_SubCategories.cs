@@ -19,7 +19,7 @@ namespace PocketAuditor.Adapter
     internal class adpt_SubCategories : RecyclerView.Adapter
     {
 
-        public List<jmdl_CategoriesSubCategories> _jmCSC;
+        public List<jmdl_CategoriesSubCategories> _jmCSC, list;
         public List<jmdl_IndicatorSubCat> _jmISC;
         public int SelectedCatID, SelectedSubCatID;
         DataSharingService DSS;
@@ -34,6 +34,16 @@ namespace PocketAuditor.Adapter
             DSS = DataSharingService.GetInstance();
 
             _jmISC = DSS.ISC_ListHolder;
+
+
+            list = new List<jmdl_CategoriesSubCategories>();
+            foreach (jmdl_CategoriesSubCategories x in _jmCSC)
+            {
+                if (x.CategoryID_fk == SelectedCatID)
+                {
+                    list.Add(x);
+                }
+            }
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -50,7 +60,7 @@ namespace PocketAuditor.Adapter
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
-            var item = _jmCSC[position];
+            var item = list[position];
 
             var holder = viewHolder as adpt_SubCategoriesViewHolder;
 
@@ -70,7 +80,7 @@ namespace PocketAuditor.Adapter
             Toast.MakeText(context, id.ToString() + " " + name, ToastLength.Short).Show();
         }
 
-        public override int ItemCount => _jmCSC.Where(x => x.CategoryID_fk.Equals(SelectedCatID)).Count();
+        public override int ItemCount => list.Count;
 
     }
 

@@ -11185,7 +11185,7 @@ namespace PocketAuditor
 			public const int txt_subIndicatorAmount = 2131231251;
 			
 			// aapt resource value: 0x7F080214
-			public const int txt_subIndicatorOptionName = 2131231252;
+			public const int txt_subIndicatorName = 2131231252;
 			
 			// aapt resource value: 0x7F080215
 			public const int @unchecked = 2131231253;

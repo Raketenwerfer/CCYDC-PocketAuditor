@@ -35,7 +35,7 @@ namespace PocketAuditor
             SI_Recycler = FindViewById<RecyclerView>(Resource.Id.recView_SubIndicators);
             SI_Recycler.SetLayoutManager(new LinearLayoutManager(this));
 
-            si_adapter = new adpt_SubIndicators(DSS.Get_ISI_ID(), DSS.ISI_GetList());
+            si_adapter = new adpt_SubIndicators(DSS.Get_ISI_ID(), DSS.ISI_GetList(), DSS.SI_GetList());
             SI_Recycler.SetAdapter(si_adapter);
         }
     }

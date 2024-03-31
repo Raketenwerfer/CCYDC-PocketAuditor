@@ -292,6 +292,7 @@ namespace PocketAuditor
             finally
             {
                 conn.Close();
+                DSS.SI_SetList(_SubIndicators);
             }
         }
 

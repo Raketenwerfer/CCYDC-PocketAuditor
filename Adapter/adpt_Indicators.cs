@@ -18,7 +18,7 @@ namespace PocketAuditor.Adapter
 
         List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
-        List<jmdl_IndicatorSubCat> jmISC;
+        List<jmdl_IndicatorSubCat> jmISC, list;
         Context context;
 
         public int SelectedSubCatID;
@@ -32,6 +32,17 @@ namespace PocketAuditor.Adapter
             context = pcon;
             jmISC = pass_ISC;
             jmISI = pass_ISI;
+
+
+
+            list = new List<jmdl_IndicatorSubCat>();
+            foreach (jmdl_IndicatorSubCat x in jmISC)
+            {
+                if (x.SubCategoryID_fk == SelectedSubCatID)
+                {
+                    list.Add(x);
+                }
+            }
         }
 
         // Create new views (invoked by the layout manager)
@@ -51,7 +62,7 @@ namespace PocketAuditor.Adapter
         // Replace the contents of a view (invoked by the layout manager)
         public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
-            var item = jmISC[position];
+            var item = list[position];
 
             // Replace the contents of the view with that element
             var holder = viewHolder as adpt_IndicatorsViewHolder;
@@ -75,9 +86,11 @@ namespace PocketAuditor.Adapter
             //}
 
             holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk); };
+
+
         }
 
-        public override int ItemCount => jmISC.Where(x => x.SubCategoryID_fk.Equals(SelectedSubCatID)).Count();
+        public override int ItemCount => list.Count;
 
         public void SelectIndicator(int id)
         {

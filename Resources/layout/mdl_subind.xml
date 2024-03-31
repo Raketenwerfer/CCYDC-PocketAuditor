@@ -40,7 +40,7 @@
                     android:textSize="15dp"
                     android:maxWidth="320dp"
                     android:layout_toRightOf="@+id/img_subind_answerStatus"
-                    android:id="@+id/txt_subIndicatorOptionName"/>
+                    android:id="@+id/txt_subIndicatorName"/>
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
