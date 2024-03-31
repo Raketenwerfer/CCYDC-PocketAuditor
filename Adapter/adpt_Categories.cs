@@ -103,16 +103,19 @@ namespace PocketAuditor.Adapter
 
             //holder.IndicatorRecycler.SetAdapter(adapter);
 
-            holder.cv_categoryItem.Click += (sender, e) => { SelectCategory(item.CategoryID, jm_CSC); };
+            holder.cv_categoryItem.Click += (sender, e) => { SelectCategory(item.CategoryID, jm_CSC,
+                item.CategoryTitle); };
         }
 
         public override int ItemCount => categories.Count;
 
-        public void SelectCategory(int selID, List<jmdl_CategoriesSubCategories> pass_jmCSC)
+        public void SelectCategory(int selID, List<jmdl_CategoriesSubCategories> pass_jmCSC, string name)
         {
+            DSS.CSC_SetList(pass_jmCSC, selID);
             Intent intent = new Intent(context, typeof(SubCategoryActivity));
             context.StartActivity(intent);
-            DSS.CSC_SetList(pass_jmCSC, selID);
+
+            Toast.MakeText(context, selID.ToString() + " " + name, ToastLength.Short).Show();
         }
     }
 

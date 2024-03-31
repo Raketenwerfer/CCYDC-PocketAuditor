@@ -24,7 +24,7 @@ namespace PocketAuditor
 
         #region Database and Models
 
-        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
+        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "user", ";");
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
         public List<mdl_SubCategories> _SubCategories = new List<mdl_SubCategories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
@@ -157,7 +157,7 @@ namespace PocketAuditor
         {
             _SubCategories.Clear();
 
-            string query = "SELECT * FROM SubCategory";
+            string query = "SELECT * FROM subcategory";
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -299,7 +299,7 @@ namespace PocketAuditor
         {
             int indicatorFK, subindicatorFK;
 
-            string query = "SELECT * FROM associate_indicator_to_subIndicator";
+            string query = "SELECT * FROM associate_indicator_to_subindicator";
 
             MySqlConnection conn = dbInit.GetConnection();
 
@@ -334,6 +334,7 @@ namespace PocketAuditor
             finally
             {
                 conn.Close();
+                DSS.ISI_SetList(_jmISI);
             }
         }
 
@@ -401,9 +402,9 @@ namespace PocketAuditor
 
             string query = "SELECT SC.SubCategoryID, SC.SubCategoryTitle, SC.SubCategoryStatus, " +
                            "C.CategoryID, C.CategoryTitle, C.CategoryStatus " +
-                           "FROM SubCategory SC " +
-                           "JOIN Associate_Category_to_SubCategory ACSC ON SC.SubCategoryID = ACSC.SubCategoryID_fk " +
-                           "JOIN Categories C ON ACSC.CategoryID_fk = C.CategoryID";
+                           "FROM subcategory SC " +
+                           "JOIN associate_category_to_subcategory ACSC ON SC.SubCategoryID = ACSC.SubCategoryID_fk " +
+                           "JOIN categories C ON ACSC.CategoryID_fk = C.CategoryID";
 
             using MySqlConnection conn = dbInit.GetConnection();
 
@@ -449,10 +450,10 @@ namespace PocketAuditor
             string query = "SELECT " +
                "AIS.IndicatorID_fk, I.Indicator, ACSC.CategoryID_fk, AIS.SubCategoryID_fk, " +
                "SC.SubCategoryTitle, SC.SubCategoryStatus " +
-               "FROM Associate_Indicator_to_SubCategory AIS " +
-               "JOIN Indicators I ON AIS.IndicatorID_fk = I.IndicatorID " +
-               "JOIN Associate_Category_to_SubCategory ACSC ON AIS.SubCategoryID_fk = ACSC.SubCategoryID_fk " +
-               "JOIN SubCategory SC ON ACSC.SubCategoryID_fk = SC.SubCategoryID";
+               "FROM associate_indicator_to_subcategory AIS " +
+               "JOIN indicators I ON AIS.IndicatorID_fk = I.IndicatorID " +
+               "JOIN associate_category_to_subcategory ACSC ON AIS.SubCategoryID_fk = ACSC.SubCategoryID_fk " +
+               "JOIN subcategory SC ON ACSC.SubCategoryID_fk = SC.SubCategoryID";
 
             using MySqlConnection conn = dbInit.GetConnection();
 

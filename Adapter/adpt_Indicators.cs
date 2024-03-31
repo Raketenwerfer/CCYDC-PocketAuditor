@@ -6,27 +6,32 @@ using Pocket_Auditor_Admin_Panel.Classes;
 using System.Collections.Generic;
 using System.Linq;
 using PocketAuditor.Class;
+using AndroidX.CardView.Widget;
+using Android.Content;
+using PocketAuditor.Activity;
 
 namespace PocketAuditor.Adapter
 {
     internal class adpt_Indicators : RecyclerView.Adapter
     {
-        public event EventHandler<adpt_IndicatorsClickEventArgs> ItemClick;
         DataSharingService DSS;
 
         List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
         List<jmdl_IndicatorSubCat> jmISC;
+        Context context;
 
         public int SelectedSubCatID;
 
-        public adpt_Indicators(int selSCatID, List<jmdl_IndicatorSubCat> pass_ISC)
+        public adpt_Indicators(int selSCatID, Context pcon,
+            List<jmdl_IndicatorsSubInd> pass_ISI, List<jmdl_IndicatorSubCat> pass_ISC)
         {
 
             DSS = DataSharingService.GetInstance();
             SelectedSubCatID = selSCatID;
-
+            context = pcon;
             jmISC = pass_ISC;
+            jmISI = pass_ISI;
         }
 
         // Create new views (invoked by the layout manager)
@@ -39,7 +44,7 @@ namespace PocketAuditor.Adapter
             itemView = LayoutInflater.From(parent.Context).
                    Inflate(id, parent, false);
 
-            var vh = new adpt_IndicatorsViewHolder(itemView, OnClick);
+            var vh = new adpt_IndicatorsViewHolder(itemView);
             return vh;
         }
 
@@ -54,7 +59,7 @@ namespace PocketAuditor.Adapter
 
 
             holder.IndicatorTitle.Text = item.Indicator;
-            
+
             //if (item.IndicatorType == "COMPOSITE")
             //{
             //    int count = 0;
@@ -68,12 +73,20 @@ namespace PocketAuditor.Adapter
             //{
             //    holder.SubIndicatorAmount.Visibility = ViewStates.Gone;
             //}
+
+            holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk); };
         }
 
         public override int ItemCount => jmISC.Where(x => x.SubCategoryID_fk.Equals(SelectedSubCatID)).Count();
 
-        void OnClick(adpt_IndicatorsClickEventArgs args) => ItemClick?.Invoke(this, args);
+        public void SelectIndicator(int id)
+        {
+            DSS.SET_ISI_ID(id);
+            Intent intent = new Intent(context, typeof(SubIndicatorActivity));
+            context.StartActivity(intent);
 
+            Toast.MakeText(context, id.ToString(), ToastLength.Short).Show();
+        }
     }
 
     public class adpt_IndicatorsViewHolder : RecyclerView.ViewHolder
@@ -81,21 +94,14 @@ namespace PocketAuditor.Adapter
         public TextView IndicatorTitle;
         public TextView SubIndicatorAmount;
         public ImageView IndicatorAnswerStatus;
+        public CardView Card;
 
 
-        public adpt_IndicatorsViewHolder(View itemView, Action<adpt_IndicatorsClickEventArgs> clickListener) : base(itemView)
+        public adpt_IndicatorsViewHolder(View itemView) : base(itemView)
         {
             IndicatorTitle = itemView.FindViewById<TextView>(Resource.Id.txt_indicatorTitle);
             SubIndicatorAmount = itemView.FindViewById<TextView>(Resource.Id.txt_subIndicatorAmount);
-            IndicatorAnswerStatus = itemView.FindViewById<ImageView>(Resource.Id.img_indicatorAnswerStatus);
-
-            itemView.Click += (sender, e) => clickListener(new adpt_IndicatorsClickEventArgs { View = itemView, Position = AdapterPosition });
+            Card = itemView.FindViewById<CardView>(Resource.Id.cv_IndicatorCard);
         }
-    }
-
-    public class adpt_IndicatorsClickEventArgs : EventArgs
-    {
-        public View View { get; set; }
-        public int Position { get; set; }
     }
 }

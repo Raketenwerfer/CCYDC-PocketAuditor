@@ -18,6 +18,8 @@ namespace PocketAuditor.Activity
         public DataSharingService DSS;
 
 
+
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -26,12 +28,13 @@ namespace PocketAuditor.Activity
             // Create your application here
 
             DSS = DataSharingService.GetInstance();
-            
+
 
             Ind_Recycler = FindViewById<RecyclerView>(Resource.Id.recView_Indicators);
             Ind_Recycler.SetLayoutManager(new LinearLayoutManager(this));
 
-            isc_adapter = new adpt_Indicators(DSS.ISC_SelectedID, DSS.ISC_ListHolder);
+            isc_adapter = new adpt_Indicators(DSS.Get_ISC_ID(), this, DSS.ISI_GetList(),
+                DSS.ISC_GetList());
             Ind_Recycler.SetAdapter(isc_adapter);
         }
     }

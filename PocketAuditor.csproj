@@ -67,11 +67,11 @@
   <ItemGroup>
     <Compile Include="Activity\IndicatorActivity.cs" />
     <Compile Include="Activity\SubCategoryActivity.cs" />
+    <Compile Include="Activity\SubIndicatorActivity.cs" />
     <Compile Include="Adapter\adpt_Categories.cs" />
     <Compile Include="Adapter\adpt_Indicators.cs" />
     <Compile Include="Adapter\adpt_SubCategories.cs" />
-    <Compile Include="Adapter\adpt_SubIndDetails.cs" />
-    <Compile Include="Adapter\adpt_SubIndOptions.cs" />
+    <Compile Include="Adapter\adpt_SubIndicators.cs" />
     <Compile Include="Class\ActionPlanModel.cs" />
     <Compile Include="Class\CategoryModel.cs" />
     <Compile Include="Class\CategoryRemarksModel.cs" />
@@ -229,10 +229,7 @@
     <AndroidResource Include="Resources\layout\prompt_indicator.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\mdl_subind_details.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\mdl_subind_options.xml" />
+    <AndroidResource Include="Resources\layout\mdl_subind.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\IndicatorNoMark.png" />
@@ -256,6 +253,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_select_indicator.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_select_subindicator.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

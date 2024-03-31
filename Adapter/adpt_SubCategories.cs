@@ -57,15 +57,17 @@ namespace PocketAuditor.Adapter
             SelectedSubCatID = item.SubCategoryID_fk;
 
             holder.SubCatTitle.Text = item.SubCategoryTitle;
-            holder.SubCatCard.Click += (sender, e) => { SelectSubCategory(item.SubCategoryID_fk); };
+            holder.SubCatCard.Click += (sender, e) => { SelectSubCategory(item.SubCategoryID_fk, item.SubCategoryTitle); };
         }
 
-        public void SelectSubCategory(int id)
+        public void SelectSubCategory(int id, string name)
         {
-            Intent intent = new Intent(context, typeof(IndicatorActivity));
-            context.StartActivity(intent);
             DSS.SET_ISC_ID(id);
             DSS.ISC_SetList(_jmISC);
+            Intent intent = new Intent(context, typeof(IndicatorActivity));
+            context.StartActivity(intent);
+
+            Toast.MakeText(context, id.ToString() + " " + name, ToastLength.Short).Show();
         }
 
         public override int ItemCount => _jmCSC.Where(x => x.CategoryID_fk.Equals(SelectedCatID)).Count();

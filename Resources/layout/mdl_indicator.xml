@@ -17,35 +17,29 @@
         app:cardCornerRadius="5dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardUseCompatPadding="true"
-        tools:ignore="UselessParentWithBackground"
-        android:id="@+id/cv_IndicatorCard">
+        tools:ignore="UselessParentWithBackground">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <CheckBox
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/cbox_Indicator"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="2.5dp">
+                android:id="@+id/cv_IndicatorCard"
+                android:clickable="true">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/indicatorunansweredmark"
-                    android:id="@+id/img_indicatorAnswerStatus"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center|left">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -57,17 +51,19 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*X Sub-Indicators"
-                android:layout_below="@id/txt_indicatorTitle"
-                android:textSize="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="9dp"
-                android:id="@+id/txt_subIndicatorAmount"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*X Sub-Indicators"
+                        android:layout_below="@id/txt_indicatorTitle"
+                        android:textSize="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="9dp"
+                        android:id="@+id/txt_subIndicatorAmount"/>
 
-            </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
