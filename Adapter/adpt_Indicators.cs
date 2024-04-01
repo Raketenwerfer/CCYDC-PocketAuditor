@@ -68,9 +68,22 @@ namespace PocketAuditor.Adapter
             var holder = viewHolder as adpt_IndicatorsViewHolder;
             //holder.TextView.Text = items[position];
 
+            int amount = jmISI.Where(x => x.IndicatorID_fk.Equals(item.IndicatorID_fk)).Count();
 
             holder.IndicatorTitle.Text = item.Indicator;
 
+            if (amount > 0)
+            {
+                holder.SubIndicatorAmount.Text = ">> " + amount.ToString() + "Sub-Indicators Available";
+                holder.IndicatorCBox.Enabled = false;
+                holder.IndicatorCBox.Visibility = ViewStates.Invisible;
+            }
+            else
+            {
+                holder.SubIndicatorAmount.Text = ">> No Sub-Indicators Available";
+                holder.IndicatorCBox.Enabled = true;
+            }
+            
             //if (item.IndicatorType == "COMPOSITE")
             //{
             //    int count = 0;
@@ -106,7 +119,7 @@ namespace PocketAuditor.Adapter
     {
         public TextView IndicatorTitle;
         public TextView SubIndicatorAmount;
-        public ImageView IndicatorAnswerStatus;
+        public CheckBox IndicatorCBox;
         public CardView Card;
 
 
@@ -115,6 +128,7 @@ namespace PocketAuditor.Adapter
             IndicatorTitle = itemView.FindViewById<TextView>(Resource.Id.txt_indicatorTitle);
             SubIndicatorAmount = itemView.FindViewById<TextView>(Resource.Id.txt_subIndicatorAmount);
             Card = itemView.FindViewById<CardView>(Resource.Id.cv_IndicatorCard);
+            IndicatorCBox = itemView.FindViewById<CheckBox>(Resource.Id.cbox_Indicator);
         }
     }
 }

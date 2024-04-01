@@ -61,6 +61,19 @@ namespace PocketAuditor.Adapter
                 if (x.SubIndicatorID == item.SubIndicatorID_fk)
                 {
                     name = x.SubIndicator;
+
+                    if (x.SubIndicatorType == "DETAILS")
+                    {
+                        holder.ETxtDetails.Enabled = true;
+                        holder.CBoxSubIndicators.Enabled = false;
+                        holder.CBoxSubIndicators.Visibility = ViewStates.Gone;
+                    }
+                    else if (x.SubIndicatorType == "OPTIONS")
+                    {
+                        holder.ETxtDetails.Enabled = false;
+                        holder.CBoxSubIndicators.Enabled = true;
+                        holder.ETxtDetails.Visibility = ViewStates.Invisible;
+                    }
                 }
             }
 
@@ -76,10 +89,14 @@ namespace PocketAuditor.Adapter
     {
         //public TextView TextView { get; set; }
         public TextView SubIndicator;
+        public EditText ETxtDetails;
+        public CheckBox CBoxSubIndicators;
 
         public adpt_SubIndDetailsViewHolder(View itemView) : base(itemView)
         {
             SubIndicator = itemView.FindViewById<TextView>(Resource.Id.txt_subIndicatorName);
+            ETxtDetails = itemView.FindViewById<EditText>(Resource.Id.etxt_si_subIndicatorInput);
+            CBoxSubIndicators = itemView.FindViewById<CheckBox>(Resource.Id.cbox_SubIndicator);
         }
     }
 }

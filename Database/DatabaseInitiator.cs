@@ -19,6 +19,7 @@ namespace Pocket_Auditor_Admin_Panel.Auxiliaries
             // If no database connection is established, a prompt must be
             // displayed to input database details
             server = _server;
+            // 3306 for network connections, 3000 for none
             port = "3306";
             database = _db;
             username = _username;
