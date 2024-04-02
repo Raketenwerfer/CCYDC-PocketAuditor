@@ -74,6 +74,7 @@ namespace PocketAuditor.Adapter
                         holder.CBoxSubIndicators.Enabled = true;
                         holder.ETxtDetails.Visibility = ViewStates.Invisible;
                     }
+
                 }
             }
 

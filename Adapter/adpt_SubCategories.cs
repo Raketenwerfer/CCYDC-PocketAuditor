@@ -72,7 +72,7 @@ namespace PocketAuditor.Adapter
 
         public void SelectSubCategory(int id, string name)
         {
-            DSS.SET_ISC_ID(id);
+            DSS.SET_ISC_ID(id, name);
             DSS.ISC_SetList(_jmISC);
             Intent intent = new Intent(context, typeof(IndicatorActivity));
             context.StartActivity(intent);

@@ -111,7 +111,7 @@ namespace PocketAuditor.Adapter
 
         public void SelectCategory(int selID, List<jmdl_CategoriesSubCategories> pass_jmCSC, string name)
         {
-            DSS.CSC_SetList(pass_jmCSC, selID);
+            DSS.CSC_SetList(pass_jmCSC, selID, name);
             Intent intent = new Intent(context, typeof(SubCategoryActivity));
             context.StartActivity(intent);
 

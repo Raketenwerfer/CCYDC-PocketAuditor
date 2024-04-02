@@ -17,6 +17,7 @@ namespace PocketAuditor.Class
         private static DataSharingService instance;
         private int _interactions, _itemcount;
         public int CSC_SelectedID, ISC_SelectedID, ISI_SelectedID;
+        public string CSC_SelectedName, ISC_SelectedName, ISI_SelectedName;
         private TextView _progress;
         public List<jmdl_CategoriesSubCategories> CSC_ListHolder;
         public List<jmdl_IndicatorSubCat> ISC_ListHolder;
@@ -40,26 +41,6 @@ namespace PocketAuditor.Class
             return instance;
         }
 
-        public int GetInteractions()
-        {
-            return _interactions;
-        }
-
-        public void SetInteractions(int count)
-        {
-            _interactions = count;
-        }
-
-        public int GetItemCount()
-        {
-            return _itemcount;
-        }
-
-        public void SetItemCount(int count)
-        {
-            _itemcount = count;
-        }
-
         public void SetProgress(TextView progress)
         {
             _progress = progress;
@@ -71,11 +52,15 @@ namespace PocketAuditor.Class
             _progress.Text = "Indicators Answered:  " + _interactions + "/" + _itemcount;
         }
 
-        public void CSC_SetList(List<jmdl_CategoriesSubCategories> list, int id)
+
+        #region List Setters
+        public void CSC_SetList(List<jmdl_CategoriesSubCategories> list, int id, string name)
         {
             CSC_ListHolder = list;
             CSC_SelectedID = id;
+            CSC_SelectedName = name;
         }
+
 
         public void SI_SetList(List<mdl_SubIndicators> list)
         {
@@ -87,6 +72,7 @@ namespace PocketAuditor.Class
             return SI_ListHolder;
         }
 
+        /// Indicator-SubCategory
         public void ISC_SetList(List<jmdl_IndicatorSubCat> list)
         {
             ISC_ListHolder = list;
@@ -96,6 +82,21 @@ namespace PocketAuditor.Class
             return ISC_ListHolder;
         }
 
+        public void SET_ISC_ID(int id, string name)
+        {
+            ISC_SelectedID = id;
+            ISC_SelectedName = name;
+        }
+        public int Get_ISC_ID()
+        {
+            return ISC_SelectedID;
+        }
+        public string Get_ISC_Name()
+        {
+            return ISC_SelectedName;
+        }
+
+        /// Indicator-SubIndicator
         public void ISI_SetList(List<jmdl_IndicatorsSubInd> list)
         {
             ISI_ListHolder = list;
@@ -106,22 +107,19 @@ namespace PocketAuditor.Class
             return ISI_ListHolder;
         }
 
-        public int Get_ISC_ID()
+        public void SET_ISI_ID(int id, string name)
         {
-            return ISC_SelectedID;
+            ISI_SelectedID = id;
+            ISI_SelectedName = name;
         }
-        public void SET_ISC_ID(int id)
-        {
-            ISC_SelectedID = id;
-        }
-
         public int Get_ISI_ID()
         {
             return ISI_SelectedID;
         }
-        public void SET_ISI_ID(int id)
+        public string Get_ISI_Name()
         {
-            ISI_SelectedID = id;
+            return ISI_SelectedName;
         }
+        #endregion
     }
 }

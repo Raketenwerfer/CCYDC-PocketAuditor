@@ -98,16 +98,16 @@ namespace PocketAuditor.Adapter
             //    holder.SubIndicatorAmount.Visibility = ViewStates.Gone;
             //}
 
-            holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk); };
+            holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk, item.Indicator); };
 
 
         }
 
         public override int ItemCount => list.Count;
 
-        public void SelectIndicator(int id)
+        public void SelectIndicator(int id, string name)
         {
-            DSS.SET_ISI_ID(id);
+            DSS.SET_ISI_ID(id, name);
             Intent intent = new Intent(context, typeof(SubIndicatorActivity));
             context.StartActivity(intent);
 

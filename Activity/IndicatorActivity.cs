@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Database.Sqlite;
 using Android.OS;
+using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.RecyclerView.Widget;
 using Pocket_Auditor_Admin_Panel.Classes;
@@ -16,7 +17,7 @@ namespace PocketAuditor.Activity
         public RecyclerView Ind_Recycler;
         private adpt_Indicators isc_adapter;
         public DataSharingService DSS;
-
+        TextView SubCategoryTitle;
 
 
 
@@ -27,9 +28,10 @@ namespace PocketAuditor.Activity
             SetContentView(Resource.Layout.activity_select_indicator);
             // Create your application here
 
+            SubCategoryTitle = FindViewById<TextView>(Resource.Id.SubCategoryTitle);
             DSS = DataSharingService.GetInstance();
 
-
+            SubCategoryTitle.Text = DSS.Get_ISC_Name();
             Ind_Recycler = FindViewById<RecyclerView>(Resource.Id.recView_Indicators);
             Ind_Recycler.SetLayoutManager(new LinearLayoutManager(this));
 

@@ -21,6 +21,7 @@ namespace PocketAuditor
     {
         public RecyclerView SI_Recycler;
         private adpt_SubIndicators si_adapter;
+        TextView IndicatorTitle;
 
         DataSharingService DSS;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -30,7 +31,10 @@ namespace PocketAuditor
 
             // Create your application here
 
+            IndicatorTitle = FindViewById<TextView>(Resource.Id.displayIndicatorName);
             DSS = DataSharingService.GetInstance();
+
+            IndicatorTitle.Text = DSS.Get_ISI_Name();
             
             SI_Recycler = FindViewById<RecyclerView>(Resource.Id.recView_SubIndicators);
             SI_Recycler.SetLayoutManager(new LinearLayoutManager(this));
