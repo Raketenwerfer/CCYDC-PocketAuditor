@@ -12,33 +12,34 @@ using PocketAuditor.Activity;
 
 namespace PocketAuditor.Adapter
 {
-    internal class adpt_Indicators : RecyclerView.Adapter
+    internal class adpt_UnsortedIndicators : RecyclerView.Adapter
     {
         DataSharingService DSS;
 
         List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
-        List<jmdl_IndicatorSubCat> jmISC, list;
+        List<jmdl_IndicatorSubCat> jmISC;
+        List<mdl_UnsortedIndicators> mUSI, list;
         Context context;
 
-        public int SelectedSubCatID;
+        public int SelectedCatID;
 
-        public adpt_Indicators(int selSCatID, Context pcon,
-            List<jmdl_IndicatorsSubInd> pass_ISI, List<jmdl_IndicatorSubCat> pass_ISC)
+        public adpt_UnsortedIndicators(int selSCatID, Context pcon)
         {
 
             DSS = DataSharingService.GetInstance();
-            SelectedSubCatID = selSCatID;
+
+            SelectedCatID = selSCatID;
             context = pcon;
-            jmISC = pass_ISC;
-            jmISI = pass_ISI;
+            jmISI = DSS.ISI_GetList();
+            mUSI = DSS.USI_GetList();
+            jmISC = DSS.ISC_GetList();
 
+            list = new List<mdl_UnsortedIndicators>();
 
-
-            list = new List<jmdl_IndicatorSubCat>();
-            foreach (jmdl_IndicatorSubCat x in jmISC)
+            foreach (mdl_UnsortedIndicators x in mUSI)
             {
-                if (x.SubCategoryID_fk == SelectedSubCatID)
+                if (x.CategoryID == SelectedCatID)
                 {
                     list.Add(x);
                 }
@@ -68,16 +69,16 @@ namespace PocketAuditor.Adapter
             var holder = viewHolder as adpt_IndicatorsViewHolder;
             //holder.TextView.Text = items[position];
 
-            int amount = jmISI.Where(x => x.IndicatorID_fk.Equals(item.IndicatorID_fk)).Count();
+            int amount = jmISI.Where(x => x.IndicatorID_fk.Equals(item.IndicatorID)).Count();
 
             holder.IndicatorTitle.Text = item.Indicator;
 
             if (amount > 0)
             {
-                holder.SubIndicatorAmount.Text = ">> " + amount.ToString() + " Sub-Indicators Available";
+                holder.SubIndicatorAmount.Text = ">> " + amount.ToString() + " Sub-Indicator/s Available";
                 holder.IndicatorCBox.Enabled = false;
                 holder.IndicatorCBox.Visibility = ViewStates.Invisible;
-                holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk, item.Indicator); };
+                holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID, item.Indicator); };
             }
             else
             {
@@ -99,7 +100,7 @@ namespace PocketAuditor.Adapter
         }
     }
 
-    public class adpt_IndicatorsViewHolder : RecyclerView.ViewHolder
+    public class adpt_UnsortedIndicatorsViewHolder : RecyclerView.ViewHolder
     {
         public TextView IndicatorTitle;
         public TextView SubIndicatorAmount;
@@ -107,7 +108,7 @@ namespace PocketAuditor.Adapter
         public CardView Card;
 
 
-        public adpt_IndicatorsViewHolder(View itemView) : base(itemView)
+        public adpt_UnsortedIndicatorsViewHolder(View itemView) : base(itemView)
         {
             IndicatorTitle = itemView.FindViewById<TextView>(Resource.Id.txt_indicatorTitle);
             SubIndicatorAmount = itemView.FindViewById<TextView>(Resource.Id.txt_subIndicatorAmount);

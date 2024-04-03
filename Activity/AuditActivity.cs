@@ -13,6 +13,7 @@ using PocketAuditor.Fragment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Java.Text.Normalizer;
 
 namespace PocketAuditor
 {
@@ -24,10 +25,14 @@ namespace PocketAuditor
 
         #region Database and Models
 
-        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "user", ";");
+
+        /// Home Wifi: 192.168.254.102
+        /// Built-in Route: 127.0.0.1
+        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
         public List<mdl_SubCategories> _SubCategories = new List<mdl_SubCategories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
+        public List<mdl_UnsortedIndicators> _UnsortedIndicators = new List<mdl_UnsortedIndicators>();
         public List<mdl_SubIndicators> _SubIndicators = new List<mdl_SubIndicators>();
         public List<jmdl_IndicatorsSubInd> _jmISI = new List<jmdl_IndicatorsSubInd>();
         public List<jmdl_CategoriesIndicators> _jmCI = new List<jmdl_CategoriesIndicators>();
@@ -41,10 +46,6 @@ namespace PocketAuditor
         Button next;
         public ImageView returnMenu;
         public TextView audit_progress;
-
-        public int _totalInteractions { get; set; }
-        public int _totalItems { get; set; }
-        public int _totalTrueSelections { get; set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -77,6 +78,7 @@ namespace PocketAuditor
             PullSubCategories();
             PullAssociate_CSC();
             PullAssociate_ISC();
+            PullUnsortedIndicators();
 
             // Create adapter and set it to RecyclerView
             adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI, _jmCSC, this);
@@ -91,11 +93,6 @@ namespace PocketAuditor
             audit_progress.Enabled = false;
         }
 
-        public override void OnBackPressed()
-        {
-            StartActivity(typeof(MenuActivity));
-            Finish();
-        }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -195,9 +192,9 @@ namespace PocketAuditor
 
         public void PullIndicators()
         {
-            int _indID, _indNo;
+            int _indID;
             double _indScoreValue;
-            string _indTitle, _indStatus, _indType;
+            string _indTitle, _indStatus;
 
             string getIndQuery = "SELECT * From indicators WHERE IndicatorStatus = 'ACTIVE'";
 
@@ -214,20 +211,16 @@ namespace PocketAuditor
                         while (read.Read())
                         {
                             _indID = read.GetInt32(read.GetOrdinal("IndicatorID"));
-                            _indNo = read.GetInt32(read.GetOrdinal("IndicatorNumber"));
                             _indScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
                             _indTitle = read.GetString(read.GetOrdinal("Indicator"));
                             _indStatus = read.GetString(read.GetOrdinal("IndicatorStatus"));
-                            _indType = read.GetString(read.GetOrdinal("IndicatorType"));
 
-                            mdl_Indicators a = new mdl_Indicators(_indID, _indNo, _indScoreValue, _indTitle, _indStatus, _indType);
+                            mdl_Indicators a = new mdl_Indicators(_indID, _indScoreValue, _indTitle, _indStatus);
                             {
                                 a.IndicatorID = _indID;
-                                a.IndicatorNumber = _indNo;
                                 a.ScoreValue = _indScoreValue;
                                 a.Indicator = _indTitle;
                                 a.IndicatorStatus = _indStatus;
-                                a.IndicatorType = _indType;
                             }
 
                             _Indicators.Add(a);
@@ -341,11 +334,11 @@ namespace PocketAuditor
 
         public void PullAssociate_CI()
         {
-            int indicatorID, indNO, categoryID;
-            string catTitle, indicator, indType;
+            int indicatorID, categoryID;
+            string catTitle, indicator;
             double indScoreValue;
 
-            string query = "SELECT C.CategoryID, C.CategoryTitle, I.IndicatorID, I.Indicator, I.IndicatorNumber, I.IndicatorType, I.ScoreValue\r\n" +
+            string query = "SELECT C.CategoryID, C.CategoryTitle, I.IndicatorID, I.Indicator, I.ScoreValue\r\n" +
                 "FROM associate_category_to_indicator AtC " +
                 "INNER JOIN categories C on AtC.CategoryID_fk = C.CategoryID " +
                 "INNER JOIN indicators I on AtC.IndicatorID_fk = I.IndicatorID " +
@@ -367,18 +360,15 @@ namespace PocketAuditor
                             indicator = read.GetString(read.GetOrdinal("Indicator"));
                             categoryID = read.GetInt32(read.GetOrdinal("CategoryID"));
                             catTitle = read.GetString(read.GetOrdinal("CategoryTitle"));
-                            indNO = read.GetInt32(read.GetOrdinal("IndicatorNumber"));
-                            indType = read.GetString(read.GetOrdinal("IndicatorType"));
                             indScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
 
                             jmdl_CategoriesIndicators a = new jmdl_CategoriesIndicators(categoryID, catTitle, indicatorID,
-                                indicator, indType, indScoreValue);
+                                indicator, indScoreValue);
                             {
                                 a.CategoryID = categoryID;
                                 a.CategoryTitle = catTitle;
                                 a.IndicatorID = indicatorID;
                                 a.Indicator = indicator;
-                                a.IndicatorType = indType;
                                 a.ScoreValue = indScoreValue;
                             }
 
@@ -491,6 +481,59 @@ namespace PocketAuditor
             }
 
             DSS.ISC_SetList(_jmISC);
+        }
+
+
+        public void PullUnsortedIndicators()
+        {
+
+            _UnsortedIndicators.Clear();
+
+            string query = "SELECT I.IndicatorID, I.Indicator, I.ScoreValue, I.IndicatorStatus, C.CategoryID_fk " +
+                "FROM indicators I " +
+                "INNER JOIN associate_category_to_indicator C ON C.IndicatorID_fk = I.IndicatorID " +
+                "LEFT JOIN associate_indicator_to_subcategory AIS ON AIS.IndicatorID_fk = I.IndicatorID " +
+                "LEFT JOIN associate_category_to_subcategory ACSC ON AIS.SubCategoryID_fk = ACSC.SubCategoryID_fk " +
+                "WHERE(AIS.IndicatorID_fk IS NULL AND I.IndicatorStatus = 'ACTIVE') " +
+                "OR ACSC.SubCategoryID_fk IS NULL";
+
+            using MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader read = cmd.ExecuteReader())
+                    {
+                        while (read.Read())
+                        {
+                            int _indID = read.GetInt32(read.GetOrdinal("IndicatorID"));
+                            int _catID = read.GetInt32(read.GetOrdinal("CategoryID_fk"));
+                            double _indScoreValue = read.GetDouble(read.GetOrdinal("ScoreValue"));
+                            string _indTitle = read.GetString(read.GetOrdinal("Indicator"));
+                            string _indStatus = read.GetString(read.GetOrdinal("IndicatorStatus"));
+
+                            mdl_UnsortedIndicators a = new mdl_UnsortedIndicators(_indID, _indScoreValue,
+                                _indTitle, _indStatus, _catID);
+
+
+                            _UnsortedIndicators.Add(a);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            DSS.USI_SetList(_UnsortedIndicators);
         }
 
         #endregion

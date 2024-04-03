@@ -56,13 +56,12 @@ namespace PocketAuditor.Adapter
                 if (a.CategoryID == _catID)
                 {
                     jmdl_CategoriesIndicators bucket = new jmdl_CategoriesIndicators(a.CategoryID, a.CategoryTitle,
-                        a.IndicatorID, a.Indicator, a.IndicatorType, a.ScoreValue);
+                        a.IndicatorID, a.Indicator, a.ScoreValue);
                     {
                         bucket.CategoryID = a.CategoryID;
                         bucket.CategoryTitle = a.CategoryTitle;
                         bucket.Indicator = a.Indicator;
                         bucket.IndicatorID = a.IndicatorID;
-                        bucket.IndicatorType = a.IndicatorType;
                         bucket.ScoreValue = a.ScoreValue;
                     }
                     sort_jCI.Add(bucket);
@@ -112,6 +111,8 @@ namespace PocketAuditor.Adapter
         public void SelectCategory(int selID, List<jmdl_CategoriesSubCategories> pass_jmCSC, string name)
         {
             DSS.CSC_SetList(pass_jmCSC, selID, name);
+
+
             Intent intent = new Intent(context, typeof(SubCategoryActivity));
             context.StartActivity(intent);
 

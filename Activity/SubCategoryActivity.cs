@@ -20,11 +20,13 @@ namespace PocketAuditor
     public class SubCategoryActivity : AppCompatActivity
     {
         public RecyclerView SC_Recycler, UnsortedRecycler;
-        private adpt_SubCategories sc_adapter, uns_adapter;
+        private adpt_SubCategories sc_adapter;
+        private adpt_UnsortedIndicators uns_adapter;
         public int SelectedCatID;
         public List<jmdl_CategoriesSubCategories> _jmCSC;
         public DataSharingService DSS;
         TextView CategoryTitle;
+        ImageButton back;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,8 +34,9 @@ namespace PocketAuditor
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_select_subcategory);
 
-            CategoryTitle = FindViewById<TextView>(Resource.Id.CategoryTitle);
             DSS = DataSharingService.GetInstance();
+            CategoryTitle = FindViewById<TextView>(Resource.Id.displayCategoryName);
+            back = FindViewById<ImageButton>(Resource.Id.imgtbn_SC_Back);
 
             SelectedCatID = DSS.CSC_SelectedID;
             CategoryTitle.Text = DSS.CSC_SelectedName;
@@ -49,6 +52,11 @@ namespace PocketAuditor
 
             sc_adapter = new adpt_SubCategories(_jmCSC, SelectedCatID, this);
             SC_Recycler.SetAdapter(sc_adapter);
+
+            uns_adapter = new adpt_UnsortedIndicators(SelectedCatID, this);
+            UnsortedRecycler.SetAdapter(uns_adapter);
+
+            back.Click += (sender, e) => { Finish(); };
         }
     }
 }

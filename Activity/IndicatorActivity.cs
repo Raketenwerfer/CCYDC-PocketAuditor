@@ -18,6 +18,7 @@ namespace PocketAuditor.Activity
         private adpt_Indicators isc_adapter;
         public DataSharingService DSS;
         TextView SubCategoryTitle;
+        ImageButton back;
 
 
 
@@ -28,8 +29,9 @@ namespace PocketAuditor.Activity
             SetContentView(Resource.Layout.activity_select_indicator);
             // Create your application here
 
-            SubCategoryTitle = FindViewById<TextView>(Resource.Id.SubCategoryTitle);
+            SubCategoryTitle = FindViewById<TextView>(Resource.Id.displaySubCategoryName);
             DSS = DataSharingService.GetInstance();
+            back = FindViewById<ImageButton>(Resource.Id.imgtbn_I_Back);
 
             SubCategoryTitle.Text = DSS.Get_ISC_Name();
             Ind_Recycler = FindViewById<RecyclerView>(Resource.Id.recView_Indicators);
@@ -38,6 +40,8 @@ namespace PocketAuditor.Activity
             isc_adapter = new adpt_Indicators(DSS.Get_ISC_ID(), this, DSS.ISI_GetList(),
                 DSS.ISC_GetList());
             Ind_Recycler.SetAdapter(isc_adapter);
+
+            back.Click += (sender, e) => { Finish(); };
         }
     }
 }

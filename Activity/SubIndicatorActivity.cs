@@ -22,6 +22,7 @@ namespace PocketAuditor
         public RecyclerView SI_Recycler;
         private adpt_SubIndicators si_adapter;
         TextView IndicatorTitle;
+        ImageButton back;
 
         DataSharingService DSS;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -33,6 +34,7 @@ namespace PocketAuditor
 
             IndicatorTitle = FindViewById<TextView>(Resource.Id.displayIndicatorName);
             DSS = DataSharingService.GetInstance();
+            back = FindViewById<ImageButton>(Resource.Id.imgtbn_SI_Back);
 
             IndicatorTitle.Text = DSS.Get_ISI_Name();
             
@@ -41,6 +43,8 @@ namespace PocketAuditor
 
             si_adapter = new adpt_SubIndicators(DSS.Get_ISI_ID(), DSS.ISI_GetList(), DSS.SI_GetList());
             SI_Recycler.SetAdapter(si_adapter);
+
+            back.Click += (sender, e) => { Finish(); };
         }
     }
 }

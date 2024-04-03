@@ -69,6 +69,7 @@
     <Compile Include="Activity\SubCategoryActivity.cs" />
     <Compile Include="Activity\SubIndicatorActivity.cs" />
     <Compile Include="Adapter\adpt_Categories.cs" />
+    <Compile Include="Adapter\adpt_UnsortedIndicators.cs" />
     <Compile Include="Adapter\adpt_Indicators.cs" />
     <Compile Include="Adapter\adpt_SubCategories.cs" />
     <Compile Include="Adapter\adpt_SubIndicators.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Class\UpdatedClasses\mdl_APExternalResources.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_Categories.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_ChapterScores.cs" />
+    <Compile Include="Class\UpdatedClasses\mdl_UnsortedIndicators.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_Indicators.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_ScoreTable.cs" />
     <Compile Include="Class\UpdatedClasses\mdl_SKChapters.cs" />

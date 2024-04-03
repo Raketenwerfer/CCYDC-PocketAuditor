@@ -22,7 +22,7 @@
                 android:background="@android:color/transparent"
                 android:foregroundGravity="center_horizontal|left"
                 android:clickable="true"
-                android:id="@+id/imgtbn_I_Back"/>
+                android:id="@+id/imgtbn_SI_Back"/>
 
             <TextView
                 android:layout_width="match_parent"

@@ -23,6 +23,7 @@ namespace PocketAuditor.Class
         public List<jmdl_IndicatorSubCat> ISC_ListHolder;
         public List<jmdl_IndicatorsSubInd> ISI_ListHolder;
         public List<mdl_SubIndicators> SI_ListHolder;
+        public List<mdl_UnsortedIndicators> USI_ListHolder;
 
 
         private DataSharingService()
@@ -54,6 +55,8 @@ namespace PocketAuditor.Class
 
 
         #region List Setters
+
+        /// Category
         public void CSC_SetList(List<jmdl_CategoriesSubCategories> list, int id, string name)
         {
             CSC_ListHolder = list;
@@ -70,6 +73,16 @@ namespace PocketAuditor.Class
         public List<mdl_SubIndicators> SI_GetList()
         {
             return SI_ListHolder;
+        }
+
+        /// Unsorted Indicators
+        public void USI_SetList(List<mdl_UnsortedIndicators> list)
+        {
+            USI_ListHolder = list;
+        }
+        public List<mdl_UnsortedIndicators> USI_GetList()
+        {
+            return USI_ListHolder;
         }
 
         /// Indicator-SubCategory
