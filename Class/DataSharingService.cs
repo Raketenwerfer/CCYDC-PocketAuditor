@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Pocket_Auditor_Admin_Panel.Auxiliaries;
 using Pocket_Auditor_Admin_Panel.Classes;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,17 @@ namespace PocketAuditor.Class
     {
         private static DataSharingService instance;
         private int _interactions, _itemcount;
-        public int CSC_SelectedID, ISC_SelectedID, ISI_SelectedID;
-        public string CSC_SelectedName, ISC_SelectedName, ISI_SelectedName;
+        public int CSC_SelectedID, ISC_SelectedID, ISI_SelectedID, SK_ChapterID;
+        public string CSC_SelectedName, ISC_SelectedName, ISI_SelectedName, SK_ChapterName;
+        private bool SK_IsFinished;
         private TextView _progress;
         public List<jmdl_CategoriesSubCategories> CSC_ListHolder;
         public List<jmdl_IndicatorSubCat> ISC_ListHolder;
         public List<jmdl_IndicatorsSubInd> ISI_ListHolder;
         public List<mdl_SubIndicators> SI_ListHolder;
         public List<mdl_UnsortedIndicators> USI_ListHolder;
+
+        private DatabaseInitiator DBHOlder;
 
 
         private DataSharingService()
@@ -40,6 +44,26 @@ namespace PocketAuditor.Class
             }     
 
             return instance;
+        }
+
+        public void SetSelectedChapter(int id, string name, bool isDone)
+        {
+            SK_ChapterID = id;
+            SK_ChapterName = name;
+            SK_IsFinished = isDone;
+        }
+
+        public int GetSelectedChapterID()
+        {
+            return SK_ChapterID;
+        }
+        public string GetSelectedChapterName()
+        {
+            return SK_ChapterName;
+        }
+        public bool GetSelectedChapterStatus()
+        {
+            return SK_IsFinished;
         }
 
         public void SetProgress(TextView progress)
@@ -134,5 +158,16 @@ namespace PocketAuditor.Class
             return ISI_SelectedName;
         }
         #endregion
+    
+    
+        public void SetDatabase(DatabaseInitiator db)
+        {
+            DBHOlder = db;
+        }
+        
+        public DatabaseInitiator GetDatabase()
+        {
+            return DBHOlder;
+        }
     }
 }

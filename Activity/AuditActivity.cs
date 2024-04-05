@@ -28,7 +28,8 @@ namespace PocketAuditor
 
         /// Home Wifi: 192.168.254.102
         /// Built-in Route: 127.0.0.1
-        DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
+        /// CCS AP: 172.176.8.208
+        public DatabaseInitiator dbInit;
         public List<mdl_Categories> _Categories = new List<mdl_Categories>();
         public List<mdl_SubCategories> _SubCategories = new List<mdl_SubCategories>();
         public List<mdl_Indicators> _Indicators = new List<mdl_Indicators>();
@@ -54,9 +55,10 @@ namespace PocketAuditor
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-
             DSS = DataSharingService.GetInstance();
             DSS.SetProgress(audit_progress);
+
+            dbInit = DSS.GetDatabase();
 
             recycler = FindViewById<RecyclerView>(Resource.Id.recycler);
             recycler.SetLayoutManager(new LinearLayoutManager(this));
@@ -182,7 +184,7 @@ namespace PocketAuditor
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
             }
             finally
             {

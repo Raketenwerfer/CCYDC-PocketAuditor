@@ -12,6 +12,7 @@ namespace Pocket_Auditor_Admin_Panel.Auxiliaries
 
         public string connectionString;
         private string server, port, database, username, password;
+        private static DatabaseInitiator instance;
 
         public DatabaseInitiator(string _server, string _db, string _username, string _password)
         {
