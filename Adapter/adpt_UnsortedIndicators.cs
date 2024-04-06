@@ -9,12 +9,15 @@ using PocketAuditor.Class;
 using AndroidX.CardView.Widget;
 using Android.Content;
 using PocketAuditor.Activity;
+using PocketAuditor.Scores;
+using static Android.Content.ClipData;
 
 namespace PocketAuditor.Adapter
 {
     internal class adpt_UnsortedIndicators : RecyclerView.Adapter
     {
         DataSharingService DSS;
+        ResponseReader RR;
 
         List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
@@ -28,7 +31,7 @@ namespace PocketAuditor.Adapter
         {
 
             DSS = DataSharingService.GetInstance();
-
+            RR = ResponseReader.GetInstance();
             SelectedCatID = selSCatID;
             context = pcon;
             jmISI = DSS.ISI_GetList();
@@ -66,10 +69,14 @@ namespace PocketAuditor.Adapter
             var item = list[position];
 
             // Replace the contents of the view with that element
-            var holder = viewHolder as adpt_IndicatorsViewHolder;
+            var holder = viewHolder as adpt_UnsortedIndicatorsViewHolder;
             //holder.TextView.Text = items[position];
 
             int amount = jmISI.Where(x => x.IndicatorID_fk.Equals(item.IndicatorID)).Count();
+
+
+            RecordEntry(item.IndicatorID);
+
 
             holder.IndicatorTitle.Text = item.Indicator;
 
@@ -85,6 +92,40 @@ namespace PocketAuditor.Adapter
                 holder.SubIndicatorAmount.Text = ">> No Sub-Indicators Available";
                 holder.IndicatorCBox.Enabled = true;
                 holder.Card.Clickable = false;
+                CheckboxValueHandler(holder, SelectedCatID, null, item.IndicatorID, null, "GET");
+            }
+
+            holder.IndicatorCBox.CheckedChange += (sender, e) =>
+            {
+                CheckboxValueHandler(holder, SelectedCatID, null, item.IndicatorID, null, "SET");
+            };
+        }
+
+        public void RecordEntry(int id)
+        {
+            RR.AddResponse(DSS.GetSelectedChapterID(), SelectedCatID, null, id, 
+                null, false, "IND", null, null);
+        }
+
+        public void CheckboxValueHandler(adpt_UnsortedIndicatorsViewHolder holder, int catid, string subcatid,
+            int indid, string subindid, string operation)
+        {
+            var match = RR.Scores.FirstOrDefault(x =>
+            x.CategoryID_fk == catid &&
+            x.SubCategoryID_fk == subcatid &&
+            x.IndicatorID_fk == indid &&
+            x.SubIndicatorID_fk == subindid);
+
+            if (match != null)
+            {
+                if (operation == "SET")
+                {
+                    match.IsChecked = holder.IndicatorCBox.Checked;
+                }
+                else if (operation == "GET")
+                {
+                    holder.IndicatorCBox.Checked = match.IsChecked;
+                }
             }
         }
 

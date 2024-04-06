@@ -8,17 +8,30 @@ namespace Pocket_Auditor_Admin_Panel.Classes
 {
     public class mdl_ScoreTable
     {
-        public string EntryID { get; set; }
         public int ChapterID_fk { get; set; }
-        public double Score { get; set; }
-        public int AuditorID_fk { get; set; }
+        public int CategoryID_fk { get; set; }
+        public string SubCategoryID_fk { get; set; }
+        // Set to string as this is nullable in the database
+        public int IndicatorID_fk { get; set; }
+        public string SubIndicatorID_fk { get; set; }
+        public bool IsChecked { get; set; }
+        public string ItemChecked { get; set; }
+        public string Remarks { get; set; }
+        public string SubIndicatorType { get; set; }
 
-        public mdl_ScoreTable(string entryID, int chapterID_fk, double score, int auditorID_fk)
+        public mdl_ScoreTable(int chapterID_fk, int catID,
+            string subcatID, int indID, string subindID, bool ischekced, string itemchecked, string remarks,
+            string subIndicatorType)
         {
-            EntryID = entryID;
             ChapterID_fk = chapterID_fk;
-            Score = score;
-            AuditorID_fk = auditorID_fk;
+            CategoryID_fk = catID;
+            SubCategoryID_fk = subcatID;
+            IndicatorID_fk = indID;
+            SubIndicatorID_fk = subindID;
+            IsChecked = ischekced;
+            ItemChecked = itemchecked;
+            Remarks = remarks;
+            SubIndicatorType = subIndicatorType;
         }
     }
 }

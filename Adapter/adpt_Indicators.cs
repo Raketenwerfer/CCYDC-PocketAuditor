@@ -9,12 +9,14 @@ using PocketAuditor.Class;
 using AndroidX.CardView.Widget;
 using Android.Content;
 using PocketAuditor.Activity;
+using PocketAuditor.Scores;
 
 namespace PocketAuditor.Adapter
 {
     internal class adpt_Indicators : RecyclerView.Adapter
     {
         DataSharingService DSS;
+        ResponseReader RR;
 
         List<jmdl_CategoriesIndicators> indicators = new List<jmdl_CategoriesIndicators>();
         List<jmdl_IndicatorsSubInd> jmISI;
@@ -28,6 +30,7 @@ namespace PocketAuditor.Adapter
         {
 
             DSS = DataSharingService.GetInstance();
+            RR = ResponseReader.GetInstance();
             SelectedSubCatID = selSCatID;
             context = pcon;
             jmISC = pass_ISC;
@@ -70,6 +73,8 @@ namespace PocketAuditor.Adapter
 
             int amount = jmISI.Where(x => x.IndicatorID_fk.Equals(item.IndicatorID_fk)).Count();
 
+            RecordEntry(item.CategoryID_fk, item.IndicatorID_fk);
+
             holder.IndicatorTitle.Text = item.Indicator;
 
             if (amount > 0)
@@ -84,9 +89,41 @@ namespace PocketAuditor.Adapter
                 holder.SubIndicatorAmount.Text = ">> No Sub-Indicators Available";
                 holder.IndicatorCBox.Enabled = true;
                 holder.Card.Clickable = false;
+                CheckboxValueHandler(holder, item.CategoryID_fk, SelectedSubCatID.ToString(), item.IndicatorID_fk, null, "GET");
             }
+
+            holder.IndicatorCBox.CheckedChange += (sender, e) =>
+            {
+                CheckboxValueHandler(holder, item.CategoryID_fk, SelectedSubCatID.ToString(), item.IndicatorID_fk, null, "SET");
+            };
+        }
+        public void RecordEntry(int catid, int id)
+        {
+            RR.AddResponse(DSS.GetSelectedChapterID(), catid, SelectedSubCatID.ToString(), id,
+                null, false, "IND", null, null);
         }
 
+        public void CheckboxValueHandler(adpt_IndicatorsViewHolder holder, int catid, string subcatid,
+            int indid, string subindid, string operation)
+        {
+            var match = RR.Scores.FirstOrDefault(x =>
+            x.CategoryID_fk == catid &&
+            x.SubCategoryID_fk == subcatid &&
+            x.IndicatorID_fk == indid &&
+            x.SubIndicatorID_fk == subindid);
+
+            if (match != null)
+            {
+                if (operation == "SET")
+                {
+                    match.IsChecked = holder.IndicatorCBox.Checked;
+                }
+                else if (operation == "GET")
+                {
+                    holder.IndicatorCBox.Checked = match.IsChecked;
+                }
+            }
+        }
         public override int ItemCount => list.Count;
 
         public void SelectIndicator(int id, string name)

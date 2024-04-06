@@ -5,6 +5,8 @@ using System;
 using Pocket_Auditor_Admin_Panel.Classes;
 using System.Collections.Generic;
 using System.Linq;
+using PocketAuditor.Class;
+using PocketAuditor.Scores;
 
 namespace PocketAuditor.Adapter
 {
@@ -14,12 +16,18 @@ namespace PocketAuditor.Adapter
         List<jmdl_IndicatorsSubInd> jmISI, list;
         int SelectedIndID;
 
+        DataSharingService DSS;
+        ResponseReader RR;
+
         public adpt_SubIndicators(int SelID,  List<jmdl_IndicatorsSubInd> pass_ISI,
             List<mdl_SubIndicators> pass_SI)
         {
             jmISI = pass_ISI;
             SelectedIndID = SelID;
             SI = pass_SI;
+
+            DSS = DataSharingService.GetInstance();
+            RR = ResponseReader.GetInstance();
 
             list = new List<jmdl_IndicatorsSubInd>();
             foreach (jmdl_IndicatorsSubInd x in jmISI)
@@ -55,6 +63,7 @@ namespace PocketAuditor.Adapter
             //holder.TextView.Text = items[position];
 
             string name = null;
+            string type = null;
 
             foreach (mdl_SubIndicators x in SI)
             {
@@ -67,20 +76,33 @@ namespace PocketAuditor.Adapter
                         holder.ETxtDetails.Enabled = true;
                         holder.CBoxSubIndicators.Enabled = false;
                         holder.CBoxSubIndicators.Visibility = ViewStates.Gone;
+
+                        RecordEntry(DSS.Get_ISC_ID().ToString(), item.IndicatorID_fk,
+                            item.SubIndicatorID_fk.ToString(), x.SubIndicatorType);
+
+                        type = x.SubIndicatorType;
                     }
                     else if (x.SubIndicatorType == "OPTIONS")
                     {
                         holder.ETxtDetails.Enabled = false;
                         holder.CBoxSubIndicators.Enabled = true;
                         holder.ETxtDetails.Visibility = ViewStates.Gone;
-                    }
 
+                        RecordEntry(DSS.Get_ISC_ID().ToString(), item.IndicatorID_fk,
+                            item.SubIndicatorID_fk.ToString(), x.SubIndicatorType);
+
+                        type = x.SubIndicatorType;
+                    }
                 }
             }
 
             holder.SubIndicator.Text = name;
         }
-
+        public void RecordEntry(string subcatid, int indid, string id, string type)
+        {
+            RR.AddResponse(DSS.GetSelectedChapterID(), DSS.CSC_SelectedID, subcatid, indid,
+                id, false, "SUBIND", null, type);
+        }
         public override int ItemCount => list.Count;
 
 

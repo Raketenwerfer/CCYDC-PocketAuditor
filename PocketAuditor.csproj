@@ -107,7 +107,7 @@
     <Compile Include="FragmentViews\frg_AuditDisplay.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scores\ScoreHandlerService.cs" />
+    <Compile Include="Scores\ResponseReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\CCYDC.db" />
