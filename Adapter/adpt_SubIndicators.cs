@@ -77,8 +77,11 @@ namespace PocketAuditor.Adapter
                         holder.CBoxSubIndicators.Enabled = false;
                         holder.CBoxSubIndicators.Visibility = ViewStates.Gone;
 
-                        RecordEntry(DSS.Get_ISC_ID().ToString(), item.IndicatorID_fk,
-                            item.SubIndicatorID_fk.ToString(), x.SubIndicatorType);
+                        RecordEntry(DSS.ISC_SelectedID.ToString(), SelectedIndID,
+                            item.SubIndicatorID_fk.ToString(), "DETAILS");
+
+                        InputValuesHandler(holder, DSS.ISC_SelectedID.ToString(), SelectedIndID,
+                            item.SubIndicatorID_fk.ToString(), "GET_REMARKS_VALUE");
 
                         type = x.SubIndicatorType;
                     }
@@ -88,8 +91,11 @@ namespace PocketAuditor.Adapter
                         holder.CBoxSubIndicators.Enabled = true;
                         holder.ETxtDetails.Visibility = ViewStates.Gone;
 
-                        RecordEntry(DSS.Get_ISC_ID().ToString(), item.IndicatorID_fk,
-                            item.SubIndicatorID_fk.ToString(), x.SubIndicatorType);
+                        RecordEntry(DSS.ISC_SelectedID.ToString(), SelectedIndID,
+                            item.SubIndicatorID_fk.ToString(), "OPTIONS");
+
+                        InputValuesHandler(holder, DSS.ISC_SelectedID.ToString(), SelectedIndID,
+                            item.SubIndicatorID_fk.ToString(), "GET_ISCHECKED_VALUE");
 
                         type = x.SubIndicatorType;
                     }
@@ -97,12 +103,70 @@ namespace PocketAuditor.Adapter
             }
 
             holder.SubIndicator.Text = name;
+
+
+            holder.ETxtDetails.TextChanged += (sender, e) =>
+            {
+                InputValuesHandler(holder, DSS.ISC_SelectedID.ToString(), SelectedIndID,
+                    item.SubIndicatorID_fk.ToString(), "SET_REMARKS_VALUE");
+            };
+            holder.CBoxSubIndicators.CheckedChange += (sender, e) =>
+            {
+                InputValuesHandler(holder, DSS.ISC_SelectedID.ToString(), SelectedIndID,
+                    item.SubIndicatorID_fk.ToString(), "SET_ISCHECKED_VALUE");
+            };
         }
+
+
         public void RecordEntry(string subcatid, int indid, string id, string type)
         {
-            RR.AddResponse(DSS.GetSelectedChapterID(), DSS.CSC_SelectedID, subcatid, indid,
-                id, false, "SUBIND", null, type);
+            var match = RR.Scores.FirstOrDefault(x =>
+            x.ChapterID_fk == DSS.GetSelectedChapterID() &&
+            x.CategoryID_fk == DSS.CSC_SelectedID &&
+            x.SubCategoryID_fk == subcatid &&
+            x.IndicatorID_fk == indid &&
+            x.SubIndicatorID_fk == id &&
+            x.SubIndicatorType == type);
+
+            if (match == null)
+            {
+                RR.AddResponse(DSS.GetSelectedChapterID(), DSS.CSC_SelectedID, subcatid, indid,
+                    id, false, "SUBIND", null, type);
+            }
         }
+
+        public void InputValuesHandler(adpt_SubIndDetailsViewHolder holder, string subcatid,
+            int indid, string subindid, string operation)
+        {
+            var match = RR.Scores.FirstOrDefault(x =>
+            x.CategoryID_fk == DSS.CSC_SelectedID &&
+            x.SubCategoryID_fk == subcatid &&
+            x.IndicatorID_fk == indid &&
+            x.SubIndicatorID_fk == subindid);
+
+            if (match != null)
+            {
+                switch (operation)
+                {
+                    case "SET_ISCHECKED_VALUE":
+                        match.IsChecked = holder.CBoxSubIndicators.Checked;
+                        break;
+
+                    case "GET_ISCHECKED_VALUE":
+                        holder.CBoxSubIndicators.Checked = match.IsChecked;
+                        break;
+
+                    case "SET_REMARKS_VALUE":
+                        match.Remarks = holder.ETxtDetails.Text;
+                        break;
+
+                    case "GET_REMARKS_VALUE":
+                        holder.ETxtDetails.Text = match.Remarks;
+                        break;
+                }
+            }
+        }
+
         public override int ItemCount => list.Count;
 
 

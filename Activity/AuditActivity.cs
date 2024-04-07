@@ -10,6 +10,7 @@ using Pocket_Auditor_Admin_Panel.Classes;
 using PocketAuditor.Adapter;
 using PocketAuditor.Class;
 using PocketAuditor.Fragment;
+using PocketAuditor.Scores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace PocketAuditor
         public List<jmdl_IndicatorSubCat> _jmISC = new List<jmdl_IndicatorSubCat>();
 
         public DataSharingService DSS;
+        public ResponseReader RR;
 
         #endregion
 
@@ -55,6 +57,7 @@ namespace PocketAuditor
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
+            RR = ResponseReader.GetInstance();
             DSS = DataSharingService.GetInstance();
             DSS.SetProgress(audit_progress);
 

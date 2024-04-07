@@ -59,7 +59,7 @@ namespace PocketAuditor.Adapter
             itemView = LayoutInflater.From(parent.Context).
                    Inflate(id, parent, false);
 
-            var vh = new adpt_IndicatorsViewHolder(itemView);
+            var vh = new adpt_UnsortedIndicatorsViewHolder(itemView);
             return vh;
         }
 
@@ -103,8 +103,17 @@ namespace PocketAuditor.Adapter
 
         public void RecordEntry(int id)
         {
-            RR.AddResponse(DSS.GetSelectedChapterID(), SelectedCatID, null, id, 
-                null, false, "IND", null, null);
+            var match = RR.Scores.FirstOrDefault(x =>
+            x.CategoryID_fk == SelectedCatID &&
+            x.SubCategoryID_fk == null &&
+            x.IndicatorID_fk == id &&
+            x.SubIndicatorID_fk == null);
+
+            if (match == null)
+            {
+                RR.AddResponse(DSS.GetSelectedChapterID(), SelectedCatID, null, id,
+                    null, false, "IND", null, null);
+            }
         }
 
         public void CheckboxValueHandler(adpt_UnsortedIndicatorsViewHolder holder, int catid, string subcatid,

@@ -99,8 +99,17 @@ namespace PocketAuditor.Adapter
         }
         public void RecordEntry(int catid, int id)
         {
-            RR.AddResponse(DSS.GetSelectedChapterID(), catid, SelectedSubCatID.ToString(), id,
-                null, false, "IND", null, null);
+            var match = RR.Scores.FirstOrDefault(x =>
+            x.CategoryID_fk == catid &&
+            x.SubCategoryID_fk == SelectedSubCatID.ToString() &&
+            x.IndicatorID_fk == id &&
+            x.SubIndicatorID_fk == null);
+
+            if (match == null)
+            {
+                RR.AddResponse(DSS.GetSelectedChapterID(), catid, SelectedSubCatID.ToString(), id,
+                    null, false, "IND", null, null);
+            }
         }
 
         public void CheckboxValueHandler(adpt_IndicatorsViewHolder holder, int catid, string subcatid,
