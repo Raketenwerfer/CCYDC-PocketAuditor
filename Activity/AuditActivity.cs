@@ -67,7 +67,10 @@ namespace PocketAuditor
             recycler.SetLayoutManager(new LinearLayoutManager(this));
 
             next = FindViewById<Button>(Resource.Id.next);
-            //next.Click += Next_Click;
+            next.Click += (sender, e) =>
+                {
+                    RR.SubmitToDatabase();
+                };
 
             audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);
 
@@ -542,6 +545,5 @@ namespace PocketAuditor
         }
 
         #endregion
-
     }
 }

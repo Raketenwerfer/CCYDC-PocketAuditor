@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MySqlConnector;
 using Pocket_Auditor_Admin_Panel.Auxiliaries;
 using Pocket_Auditor_Admin_Panel.Classes;
 using PocketAuditor.Class;
@@ -46,6 +47,50 @@ namespace PocketAuditor.Scores
         {
             Scores.Add(new mdl_ScoreTable(chapter, category, subcategory, indicator, subindicator,
                 ischecked, itemchecked, remarks, subindtype));
+        }
+
+
+        public void SubmitToDatabase()
+        {
+            MySqlConnection conn = dbInit.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                string query = "INSERT INTO scoretable (ChapterID_fk, CategoryID_fk, SubCategoryID_fk, " +
+                    "IndicatorID_fk, SubIndicatorID_fk, IsChecked, ItemChecked, Remarks, SubIndicatorType, " +
+                    "AuditorID_fk) " +
+                    "VALUES (@CHP_ID, @CAT_ID, @SCAT_ID, @IND_ID, @SIND_ID, @CHK, @ITEMCHK, @RMRKS, @SI_TYPE, " +
+                    "@AUDITOR_ID)";
+
+                using (MySqlCommand cmd =  new MySqlCommand(query, conn))
+                {
+                    foreach (mdl_ScoreTable item in Scores)
+                    {
+                        cmd.Parameters.Clear();
+
+                        cmd.Parameters.AddWithValue("@CHP_ID", item.ChapterID_fk);
+                        cmd.Parameters.AddWithValue("@CAT_ID", item.CategoryID_fk);
+                        cmd.Parameters.AddWithValue("@SCAT_ID", Convert.ToInt32(item.SubCategoryID_fk));
+                        cmd.Parameters.AddWithValue("@IND_ID", item.IndicatorID_fk);
+                        cmd.Parameters.AddWithValue("@SIND_ID", Convert.ToInt32(item.SubIndicatorID_fk));
+                        cmd.Parameters.AddWithValue("@CHK", item.IsChecked);
+                        cmd.Parameters.AddWithValue("@ITEMCHK", item.ItemChecked);
+                        cmd.Parameters.AddWithValue("@RMRKS", item.Remarks);
+                        cmd.Parameters.AddWithValue("@SI_TYPE", item.SubIndicatorType);
+                        cmd.Parameters.AddWithValue("@AUDITOR_ID", null);
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    Toast.MakeText(Application.Context, "New data submitted successfully!", ToastLength.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.Message, ToastLength.Short).Show();
+            }
         }
     }
 }
