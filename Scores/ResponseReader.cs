@@ -60,9 +60,9 @@ namespace PocketAuditor.Scores
 
                 string query = "INSERT INTO scoretable (ChapterID_fk, CategoryID_fk, SubCategoryID_fk, " +
                     "IndicatorID_fk, SubIndicatorID_fk, IsChecked, ItemChecked, Remarks, SubIndicatorType, " +
-                    "AuditorID_fk) " +
+                    "AuditorID_fk, DateSubmitted) " +
                     "VALUES (@CHP_ID, @CAT_ID, @SCAT_ID, @IND_ID, @SIND_ID, @CHK, @ITEMCHK, @RMRKS, @SI_TYPE, " +
-                    "@AUDITOR_ID)";
+                    "@AUDITOR_ID, @DATE)";
 
                 using (MySqlCommand cmd =  new MySqlCommand(query, conn))
                 {
@@ -72,14 +72,15 @@ namespace PocketAuditor.Scores
 
                         cmd.Parameters.AddWithValue("@CHP_ID", item.ChapterID_fk);
                         cmd.Parameters.AddWithValue("@CAT_ID", item.CategoryID_fk);
-                        cmd.Parameters.AddWithValue("@SCAT_ID", Convert.ToInt32(item.SubCategoryID_fk));
+                        cmd.Parameters.AddWithValue("@SCAT_ID", item.SubCategoryID_fk);
                         cmd.Parameters.AddWithValue("@IND_ID", item.IndicatorID_fk);
-                        cmd.Parameters.AddWithValue("@SIND_ID", Convert.ToInt32(item.SubIndicatorID_fk));
+                        cmd.Parameters.AddWithValue("@SIND_ID", item.SubIndicatorID_fk);
                         cmd.Parameters.AddWithValue("@CHK", item.IsChecked);
                         cmd.Parameters.AddWithValue("@ITEMCHK", item.ItemChecked);
                         cmd.Parameters.AddWithValue("@RMRKS", item.Remarks);
                         cmd.Parameters.AddWithValue("@SI_TYPE", item.SubIndicatorType);
                         cmd.Parameters.AddWithValue("@AUDITOR_ID", null);
+                        cmd.Parameters.AddWithValue("@DATE", DateTime.Now.ToShortDateString());
 
                         cmd.ExecuteNonQuery();
                     }
