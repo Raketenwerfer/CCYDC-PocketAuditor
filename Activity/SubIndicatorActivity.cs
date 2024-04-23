@@ -16,7 +16,7 @@ using System.Text;
 
 namespace PocketAuditor
 {
-    [Activity(Label = "SubIndicatorActivity")]
+    [Activity(Label = "SubIndicatorActivity", NoHistory = true)]
     public class SubIndicatorActivity : AppCompatActivity
     {
         public RecyclerView SI_Recycler;

@@ -70,6 +70,7 @@ namespace PocketAuditor
             next.Click += (sender, e) =>
                 {
                     RR.SubmitToDatabase();
+                    this.Finish();
                 };
 
             audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);

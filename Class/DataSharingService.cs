@@ -26,11 +26,12 @@ namespace PocketAuditor.Class
         public List<jmdl_IndicatorsSubInd> ISI_ListHolder;
         public List<mdl_SubIndicators> SI_ListHolder;
         public List<mdl_UnsortedIndicators> USI_ListHolder;
+        public List<mdl_Users> U_HOLDER;
 
         private DatabaseInitiator DBHOlder;
 
 
-        private DataSharingService()
+        public DataSharingService()
         {
             _interactions = 0;
             _itemcount = 0;
@@ -157,9 +158,21 @@ namespace PocketAuditor.Class
         {
             return ISI_SelectedName;
         }
+
+
+        /// Users
+        public void SET_U(List<mdl_Users> list)
+        {
+            U_HOLDER = list;
+        }
+
+        public List<mdl_Users> GET_U()
+        {
+            return U_HOLDER;
+        }
         #endregion
-    
-    
+
+
         public void SetDatabase(DatabaseInitiator db)
         {
             DBHOlder = db;

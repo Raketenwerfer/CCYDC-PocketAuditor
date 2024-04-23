@@ -14,14 +14,14 @@ using System.Runtime.Remoting.Contexts;
 
 namespace PocketAuditor.Fragment
 {
-    [Activity(Label = "MenuActivity")]
+    [Activity(Label = "MenuActivity", NoHistory = true)]
     public class MenuActivity : AppCompatActivity
     {
 
         /// Home Wifi: 192.168.254.102
         /// Built-in Route: 127.0.0.1
         /// CCS AP: 172.176.8.208
-        public DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
+        public DatabaseInitiator dbInit;
         public DataSharingService DSS;
         public Spinner list;
         public adpt_Barangay adapter;
@@ -38,7 +38,7 @@ namespace PocketAuditor.Fragment
             SetContentView(Resource.Layout.menu);
 
             DSS = DataSharingService.GetInstance();
-            DSS.SetDatabase(dbInit);
+            dbInit = DSS.GetDatabase();
 
             PullChapters();
 
