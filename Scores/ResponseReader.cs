@@ -87,6 +87,25 @@ namespace PocketAuditor.Scores
 
                     Toast.MakeText(Application.Context, "New data submitted successfully!", ToastLength.Short).Show();
                 }
+
+
+                string updateChpStats = "UPDATE skchapters SET hasFinishedAudit = @AUD_ST " +
+                    "WHERE ChapterID = @CHP_ID";
+
+                using (MySqlCommand cmd = new MySqlCommand(updateChpStats, conn))
+                {
+                    foreach (mdl_ScoreTable item in Scores)
+                    {
+                        cmd.Parameters.Clear();
+
+                        cmd.Parameters.AddWithValue("@CHP_ID", item.ChapterID_fk);
+                        cmd.Parameters.AddWithValue("@AUD_ST", 1);
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    Toast.MakeText(Application.Context, "New data submitted successfully!", ToastLength.Short).Show();
+                }
             }
             catch (Exception ex)
             {
