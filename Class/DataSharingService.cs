@@ -27,6 +27,8 @@ namespace PocketAuditor.Class
         public List<mdl_SubIndicators> SI_ListHolder;
         public List<mdl_UnsortedIndicators> USI_ListHolder;
         public List<mdl_Users> U_HOLDER;
+        private string LoggedInAuditor;
+        private int? AuditorID;
 
         private DatabaseInitiator DBHOlder;
 
@@ -181,6 +183,20 @@ namespace PocketAuditor.Class
         public DatabaseInitiator GetDatabase()
         {
             return DBHOlder;
+        }
+
+        public void SetAuditor(string name, int? id)
+        {
+            LoggedInAuditor = name;
+            AuditorID = id;
+        }
+        public string GetAuditor()
+        {
+            return LoggedInAuditor;
+        }
+        public int? GetAuditorID()
+        {
+            return AuditorID;
         }
     }
 }

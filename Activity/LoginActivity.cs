@@ -19,6 +19,9 @@ namespace PocketAuditor.Fragment
         Button login;
         EditText username;
         EditText password;
+
+        // CCS AP: 172.176.8.101
+        // Home: 192.168.254.102
         public DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
         public DataSharingService DSS = new DataSharingService();
         List<mdl_Users> _Users = new List<mdl_Users>();
@@ -44,12 +47,14 @@ namespace PocketAuditor.Fragment
 
         private void Login_Click(object sender, EventArgs e)
         {
+            DSS.SetAuditor(null, null);
             string encpass = EncryptionService(password.Text);
 
             foreach (mdl_Users x in _Users)
             {
                 if (x.Username == username.Text && x.Password == encpass)
                 {
+                    DSS.SetAuditor(x.Username, x.UserID);
                     StartActivity(typeof(MenuActivity));
                     Toast.MakeText(this, "Logged in successfully!", ToastLength.Short).Show();
                     break;
