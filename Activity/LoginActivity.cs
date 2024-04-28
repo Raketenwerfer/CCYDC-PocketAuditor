@@ -22,7 +22,7 @@ namespace PocketAuditor.Fragment
 
         // CCS AP: 172.176.8.101
         // Home: 192.168.254.102
-        public DatabaseInitiator dbInit = new DatabaseInitiator("192.168.254.102", "ccydc_database", "root", ";");
+        public DatabaseInitiator dbInit = new DatabaseInitiator("sql.freedb.tech", "freedb_ccydc_db", "freedb_ccydc", "uFjK7Gr&SGG@!z5");
         public DataSharingService DSS = new DataSharingService();
         List<mdl_Users> _Users = new List<mdl_Users>();
 
