@@ -69,17 +69,6 @@ namespace PocketAuditor.Class
             return SK_IsFinished;
         }
 
-        public void SetProgress(TextView progress)
-        {
-            _progress = progress;
-        }
-
-        public void UpdateProgress()
-        {
-            _progress.Enabled = true;
-            _progress.Text = "Indicators Answered:  " + _interactions + "/" + _itemcount;
-        }
-
 
         #region List Setters
 

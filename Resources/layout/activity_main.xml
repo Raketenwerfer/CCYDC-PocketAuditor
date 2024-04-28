@@ -7,49 +7,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:padding="15dp"
         android:background="@color/colorToolbar">
-         
-        <LinearLayout
-            android:layout_width="230dp"
-            android:layout_height="70dp"
-            android:orientation="vertical">
 
-            <TextView
-                android:text="@string/progress"
-                android:textSize="15sp"
-                android:textColor="@android:color/white"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="6dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView1" />
-
-            <TextView
-                android:text="@string/indi_answered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="@android:color/white"
-                android:id="@+id/audit_progress" />
-
-            
-        </LinearLayout>
-
-        <Button
-            android:text="@string/btn_Next"
+        <TextView
+            android:text="Audit Form"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/next"/>
+            android:id="@+id/textView1"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
 
-    </LinearLayout>
+        <Button
+            android:text="SUBMIT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/next"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

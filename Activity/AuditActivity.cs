@@ -48,7 +48,6 @@ namespace PocketAuditor
 
         Button next;
         public ImageView returnMenu;
-        public TextView audit_progress;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -59,7 +58,6 @@ namespace PocketAuditor
 
             RR = ResponseReader.GetInstance();
             DSS = DataSharingService.GetInstance();
-            DSS.SetProgress(audit_progress);
 
             dbInit = DSS.GetDatabase();
 
@@ -72,8 +70,6 @@ namespace PocketAuditor
                     RR.SubmitToDatabase();
                     this.Finish();
                 };
-
-            audit_progress = FindViewById<TextView>(Resource.Id.audit_progress);
 
             // Initialize the database and establishes a connection string
             //handler = new DB_Initiator(this); OLD DB
@@ -89,17 +85,9 @@ namespace PocketAuditor
             PullAssociate_ISC();
             PullUnsortedIndicators();
 
-            // Create adapter and set it to RecyclerView
             adapter = new adpt_Categories(_Categories, _Indicators, _jmISI, _jmCI, _jmCSC, this);
             recycler.SetAdapter(adapter);
 
-            // This line of code will erase all entries in the EntryAnswers_tbl table
-            // This is done so it can be reused for new audits. Will be moved elsewhere
-            // Once other functionalities are done
-
-            //SQLDB.RawQuery("DELETE FROM EntryAnswers_tbl", null);
-
-            audit_progress.Enabled = false;
         }
 
 
