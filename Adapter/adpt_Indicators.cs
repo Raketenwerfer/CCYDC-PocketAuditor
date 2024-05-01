@@ -76,13 +76,14 @@ namespace PocketAuditor.Adapter
             RecordEntry(item.CategoryID_fk, item.IndicatorID_fk);
 
             holder.IndicatorTitle.Text = item.Indicator;
+            holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk, item.Indicator); };
 
             if (amount > 0)
             {
                 holder.SubIndicatorAmount.Text = ">> " + amount.ToString() + " Sub-Indicators Available";
                 holder.IndicatorCBox.Enabled = false;
                 holder.IndicatorCBox.Visibility = ViewStates.Invisible;
-                holder.Card.Click += (sender, e) => { SelectIndicator(item.IndicatorID_fk, item.Indicator); };
+                holder.Card.Clickable = true;
             }
             else
             {
@@ -141,7 +142,7 @@ namespace PocketAuditor.Adapter
             Intent intent = new Intent(context, typeof(SubIndicatorActivity));
             context.StartActivity(intent);
 
-            Toast.MakeText(context, id.ToString(), ToastLength.Short).Show();
+            //Toast.MakeText(context, id.ToString(), ToastLength.Short).Show();
         }
     }
 

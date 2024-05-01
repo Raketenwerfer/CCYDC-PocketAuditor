@@ -116,7 +116,7 @@ namespace PocketAuditor.Adapter
             Intent intent = new Intent(context, typeof(SubCategoryActivity));
             context.StartActivity(intent);
 
-            Toast.MakeText(context, selID.ToString() + " " + name, ToastLength.Short).Show();
+            //Toast.MakeText(context, selID.ToString() + " " + name, ToastLength.Short).Show();
         }
     }
 

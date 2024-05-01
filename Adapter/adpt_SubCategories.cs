@@ -77,7 +77,7 @@ namespace PocketAuditor.Adapter
             Intent intent = new Intent(context, typeof(IndicatorActivity));
             context.StartActivity(intent);
 
-            Toast.MakeText(context, id.ToString() + " " + name, ToastLength.Short).Show();
+            //Toast.MakeText(context, id.ToString() + " " + name, ToastLength.Short).Show();
         }
 
         public override int ItemCount => list.Count;

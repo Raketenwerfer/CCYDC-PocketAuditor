@@ -23,24 +23,26 @@
                 android:foregroundGravity="center_horizontal|left"
                 android:clickable="true"
                 android:id="@+id/imgtbn_SI_Back"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Indicator Name"
-                android:textSize="26dp"
-                android:id="@+id/displayIndicatorName"
-                android:textColor="@android:color/white"
-                android:gravity="center_horizontal"/>
         
         </RelativeLayout>
 
     </LinearLayout>
 
+                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Indicator Name"
+                android:textSize="20dp"
+                android:padding="5dp"
+                android:id="@+id/displayIndicatorName"
+                android:textColor="@android:color/black"
+                android:gravity="center_horizontal"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recView_SubIndicators">
+        android:id="@+id/recView_SubIndicators"
+        android:scrollbars="vertical" >
 
 
 

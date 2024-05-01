@@ -99,6 +99,8 @@ namespace PocketAuditor.Adapter
 
                         type = x.SubIndicatorType;
                     }
+
+                    break;
                 }
             }
 
@@ -168,7 +170,6 @@ namespace PocketAuditor.Adapter
         }
 
         public override int ItemCount => list.Count;
-
 
     }
 
